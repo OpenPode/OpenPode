@@ -9,6 +9,7 @@
 #define PAW_H_
 
 #include "Paw_math_model.h"
+#include "Servo.h"
 
 enum class Side
 {
@@ -22,16 +23,15 @@ public:
 
 	Paw(Side side);
 
-	void move(Coords coords);
+	void move(double x, double y, double z);
 
 protected:
 
 	Side m_side;
-	/*
-	 Servo m_servo1;
-	 Servo m_servo2;
-	 Servo m_servo3;
-	 */
+
+	Servo m_servo1;
+	Servo m_servo2;
+	Servo m_servo3;
 };
 
 

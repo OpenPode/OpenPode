@@ -23,7 +23,7 @@ int main()
 
 	clock_t begin = clock();
 
-	paw1.move({10.1,25.6,3.2});
+	paw1.move(10.1,25.6,3.2);
 
 	clock_t end = clock();
 
