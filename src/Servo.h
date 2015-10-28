@@ -8,17 +8,26 @@
 #ifndef SERVO_H_
 #define SERVO_H_
 
+#include "enums.h"
+
 class Servo
 {
 public:
 
-	Servo(int id);
+	Servo(Side_enum side, Paw_position_enum paw_position, Servo_position_enum servo_position);
 
-	void move(double degrees);
+	static const int min_ratio = 205;
+	static const int max_ratio = 441;
+
+	int get_offset() const;
 
 protected:
 
-	int m_id;
+	Side_enum m_side;
+	Paw_position_enum m_paw_position;
+	Servo_position_enum m_position;
+
+	int m_offset;
 };
 
 

@@ -8,7 +8,7 @@
 #include "Paw_math_model.h"
 #include <cmath>
 
-Paw_math_model::Paw_math_model() : r4(2.1), a2(7.3), a3(12.8)
+Paw_math_model::Paw_math_model() : r4(44.1), a2(70), a3(100)
 {
 }
 
@@ -16,26 +16,24 @@ Angles Paw_math_model::compute_angles(Coords coords)
 {
 	Angles result;
 
-	double F1 = pow(coords.x,2) + pow(coords.y,2);
-	double s1 = ( coords.x*r4 + coords.y*sqrt( F1-pow(r4,2) ) ) / F1;
-	double c1 = (-coords.y*r4 + coords.x*sqrt( F1-pow(r4,2) ) ) / F1;
+	double eps1 = 1 , eps3 = -1;
+
+	double F1 = coords.x*coords.x + coords.y*coords.y;
+	double s1 = ( coords.x*r4 + eps1*coords.y*sqrt( F1-r4*r4 ) ) / F1;
+	double c1 = (-coords.y*r4 + eps1*coords.x*sqrt( F1-r4*r4 ) ) / F1;
 
 	double F2 = c1*coords.x + s1*coords.y;
-	double c3 = ( pow(F2,2) + pow(coords.z,2) - pow(a2,2) - pow(a3,2) ) / ( 2.0*a2*a3 );
-	double s3 = sqrt( 1 - pow(c3,2) );
+	double c3 = ( F2*F2 + coords.z*coords.z - a2*a2 - a3*a3 ) / ( 2.0*a2*a3 );
+	double s3 = eps3*sqrt( 1 - c3*c3 );
 
 	double F3 = a2 + a3*c3;
 	double F4 =      a3*s3;
-	double c2 = ( F2*F3 + coords.z*F4 ) / ( pow(F2,2) + pow(coords.z,2) );
-	double s2 = (-F2*F4 + coords.z*F3 ) / ( pow(F2,2) + pow(coords.z,2) );
+	double c2 = ( F2*F3 + coords.z*F4 ) / ( F2*F2 + coords.z*coords.z );
+	double s2 = (-F2*F4 + coords.z*F3 ) / ( F2*F2 + coords.z*coords.z );
 
-	result.theta1 = atan(s1/c1);
-	result.theta2 = atan(s2/c2);
-	result.theta3 = atan(s3/c3);
+	result.theta1 = atan2(s1,c1);
+	result.theta2 = atan2(s2,c2);
+	result.theta3 = atan2(s3,c3);
 
 	return result;
 }
-
-
-
-

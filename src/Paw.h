@@ -11,23 +11,20 @@
 #include "Paw_math_model.h"
 #include "Servo.h"
 
-enum class Side
-{
-	left,
-	right
-};
+#include "PCA9685.h"
 
 class Paw : public Paw_math_model
 {
 public:
 
-	Paw(Side side);
+	Paw(Side_enum side, Paw_position_enum paw_position);
 
-	void move(double x, double y, double z);
+	Angles move(double x, double y, double z);
 
 protected:
 
-	Side m_side;
+	Side_enum m_side;
+	Paw_position_enum m_position;
 
 	Servo m_servo1;
 	Servo m_servo2;
