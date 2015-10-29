@@ -8,7 +8,25 @@
 #ifndef SERVO_H_
 #define SERVO_H_
 
-#include "enums.h"
+enum Side_enum
+{
+	side_left,
+	side_right
+};
+
+enum Paw_position_enum
+{
+	position_front,
+	position_middle,
+	position_back
+};
+
+enum Servo_position_enum
+{
+	position_tibia,
+	position_femur,
+	position_coxa
+};
 
 class Servo
 {
@@ -18,10 +36,12 @@ public:
 
 	static const int min_ratio = 205;
 	static const int max_ratio = 441;
+	static constexpr double excursion_deg = 120.0;
+	static constexpr double resolution = double(max_ratio-min_ratio)/excursion_deg;
 
 	int get_offset() const;
 
-protected:
+public:
 
 	Side_enum m_side;
 	Paw_position_enum m_paw_position;

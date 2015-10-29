@@ -56,7 +56,8 @@ protected:
     int m_mode;
 
 public:
-    i2cdev* configure();
+    i2cdev();
+    void configure();
 
     bool write_command(uint8_t address, uint8_t command);
     bool write_byte_reg(uint8_t address, uint8_t reg, uint8_t data);

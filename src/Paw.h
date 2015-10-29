@@ -21,7 +21,9 @@ public:
 
 	Angles move(double x, double y, double z);
 
-protected:
+	Coords get_current_position() const;
+
+public:
 
 	Side_enum m_side;
 	Paw_position_enum m_position;
@@ -29,6 +31,8 @@ protected:
 	Servo m_servo1;
 	Servo m_servo2;
 	Servo m_servo3;
+
+	Coords m_current_coords;
 };
 
 

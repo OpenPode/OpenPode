@@ -28,7 +28,12 @@
  * public functions
  *
  */
-i2cdev* i2cdev::configure()
+i2cdev::i2cdev()
+{
+	configure();
+}
+
+void i2cdev::configure()
 {  
 	m_running = false;
 	m_init_successfull = false;
@@ -38,16 +43,13 @@ i2cdev* i2cdev::configure()
 	if (m_handle < 0)
 	{
 		cerr << "can't open device " << m_device << endl;
-		return this;
 	}
 
-	if (!bcm2835_init()) return 0;
+	if (!bcm2835_init()) return;
 	    bcm2835_i2c_begin();
 	    bcm2835_i2c_set_baudrate(100000);
 
 	m_init_successfull = true;
-
-    return this;
 }
 
 bool i2cdev::set_slave_addr(char addr)

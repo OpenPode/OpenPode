@@ -6,10 +6,18 @@
  */
 
 #include "Paw_math_model.h"
+#include "hexapode_dimensions.h"
 #include <cmath>
 
-Paw_math_model::Paw_math_model() : r4(44.1), a2(70), a3(100)
+Paw_math_model::Paw_math_model(Side_enum side)
 {
+	a2 = FEMUR_LENGTH;
+	a3 = TIBIA_LENGTH;
+
+	if(side==Side_enum::side_left)
+		r4 = -TIBIA_ORIGINE_OFFSET;
+	else
+		r4 = TIBIA_ORIGINE_OFFSET;
 }
 
 Angles Paw_math_model::compute_angles(Coords coords)

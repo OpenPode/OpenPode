@@ -8,6 +8,8 @@
 #ifndef PAW_MATH_MODEL_H_
 #define PAW_MATH_MODEL_H_
 
+#include "Servo.h"
+
 struct Coords
 {
 	double x;
@@ -26,15 +28,15 @@ class Paw_math_model
 {
 public:
 
-	Paw_math_model();
+	Paw_math_model(Side_enum side);
 
 protected:
 
 	Angles compute_angles(Coords coords);
 
-	const double r4;
-	const double a2;
-	const double a3;
+	double r4;
+	double a2;
+	double a3;
 };
 
 

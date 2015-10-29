@@ -14,7 +14,8 @@ PCA9685::PCA9685() : m_i2c(nullptr), m_address(0)
 
 PCA9685::PCA9685(i2cdev *i2c, uint8_t address) : m_i2c(i2c), m_address(address)
 {
-
+	set_prescale(121);
+	set_on_time_all_channel(0);
 }
 
 PCA9685::~PCA9685()
