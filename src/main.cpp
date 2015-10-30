@@ -11,6 +11,7 @@
 
 #include "Hexapode.h"
 #include "bcm2835.h"
+#include "timer_t.hpp"
 
 using namespace std;
 
@@ -20,6 +21,8 @@ int main()
 	cout << "Hello World" << endl;
 
 	Hexapode doris;
+
+	util::timer_t timer;
 
 	/*********************************************************/
 
@@ -35,27 +38,13 @@ int main()
 
 	/*********************************************************/
 
-	/*Angles angles = doris.m_left_side.m_front_paw.move(0, 70, -70);
-	int time3 = static_cast<int>( -(angles.theta3*(180./3.14159)+90)*1.97 + 350.);
-	int time2 = static_cast<int>( angles.theta2*(180./3.14159)*1.97     + 295.);
-	int time1 = static_cast<int>(-(angles.theta1*(180./3.14159)-90)*1.97 + 295.);
-	doris.m_left_side.m_module.set_off_time(channel3, time3);
-	doris.m_left_side.m_module.set_off_time(channel4, time2);
-	doris.m_left_side.m_module.set_off_time(channel5, time1);
-	cout << dec << angles.theta1*(180./3.14159) << endl;
-	cout << angles.theta2*(180./3.14159) << endl;
-	cout << angles.theta3*(180./3.14159) << endl;
-	cout << time1 << endl;
-	cout << time2 << endl;
-	cout << time3 << endl;
-
-	angles = doris.m_right_side.m_front_paw.move(-44.1, -70, -70);
-	time3 = static_cast<int>( (angles.theta3*(180./3.14159)+90)*1.97 + 280.);
-	time2 = static_cast<int>( -angles.theta2*(180./3.14159)*1.97     + 340.);
-	time1 = static_cast<int>(-(angles.theta1*(180./3.14159)+90)*1.97 + 370.);
-	doris.m_right_side.m_module.set_off_time(channel3, time3);
-	doris.m_right_side.m_module.set_off_time(channel4, time2);
-	doris.m_right_side.m_module.set_off_time(channel5, time1);
+	/*Angles angles = doris.m_left_side.m_front_paw.move(-44.1, 70, -100);
+	int time3 = static_cast<int>( -(angles.theta3*(180./3.14159)+90)*1.97 + 340.);
+	int time2 = static_cast<int>( angles.theta2*(180./3.14159)*1.97     + 290.);
+	int time1 = static_cast<int>(-(angles.theta1*(180./3.14159)-90)*1.97 + 360.);
+	doris.m_left_side.m_module.set_off_time(channel6, time3);
+	doris.m_left_side.m_module.set_off_time(channel7, time2);
+	doris.m_left_side.m_module.set_off_time(channel8, time1);
 	cout << dec << angles.theta1*(180./3.14159) << endl;
 	cout << angles.theta2*(180./3.14159) << endl;
 	cout << angles.theta3*(180./3.14159) << endl;
@@ -63,33 +52,55 @@ int main()
 	cout << time2 << endl;
 	cout << time3 << endl;*/
 
+	/*Angles angles = doris.m_right_side.m_front_paw.move(-44.1, -70, -70);
+	int time3 = static_cast<int>( (angles.theta3*(180./3.14159)+90)*1.97 + 280.);
+	int time2 = static_cast<int>( -angles.theta2*(180./3.14159)*1.97     + 340.);
+	int time1 = static_cast<int>(-(angles.theta1*(180./3.14159)+90)*1.97 + 330.);
+	doris.m_right_side.m_module.set_off_time(channel3, time3);
+	doris.m_right_side.m_module.set_off_time(channel4, time2);
+	doris.m_right_side.m_module.set_off_time(channel5, time1);
+	cout << dec << angles.theta1*(180./3.14159) << endl;
+	//cout << angles.theta2*(180./3.14159) << endl;
+	//cout << angles.theta3*(180./3.14159) << endl;
+	cout << time1 << endl;
+	//cout << time2 << endl;
+	//cout << time3 << endl;*/
+
 	/*********************************************************/
 
 	/*int i=0;
 
-	while(i<5)
+	while(i<20)
 	{
 
 		for(int i=-100 ; i<100 ; i+=2)
 		{
-			Angles angles = doris.m_left_side.m_front_paw.move(i, 70, -70);
-			int time3 = static_cast<int>( -(angles.theta3*(180./3.14159)+90)*1.97 + 350.);
-			int time2 = static_cast<int>( angles.theta2*(180./3.14159)*1.97     + 295.);
-			int time1 = static_cast<int>(-(angles.theta1*(180./3.14159)-90)*1.97 + 295.);
-			doris.m_left_side.m_module.set_off_time(channel3, time3);
-			doris.m_left_side.m_module.set_off_time(channel4, time2);
-			doris.m_left_side.m_module.set_off_time(channel5, time1);
+			Angles angles = doris.m_right_side.m_front_paw.move(i, -70, -70);
+			int time3 = static_cast<int>( (angles.theta3*(180./3.14159)+90)*1.97 + 280.);
+			int time2 = static_cast<int>( -angles.theta2*(180./3.14159)*1.97     + 340.);
+			int time1 = static_cast<int>(-(angles.theta1*(180./3.14159)+90)*1.97 + 365.);
+			doris.m_right_side.m_module.set_off_time(channel3, time3);
+			doris.m_right_side.m_module.set_off_time(channel4, time2);
+			doris.m_right_side.m_module.set_off_time(channel5, time1);
+			cout << dec << angles.theta1*(180./3.14159) << endl;
+			//cout << angles.theta2*(180./3.14159) << endl;
+			//cout << angles.theta3*(180./3.14159) << endl;
+			cout << time1 << endl;
 			usleep(5000);
 		}
 		for(int i=100 ; i>-100 ; i-=2)
 		{
-			Angles angles = doris.m_left_side.m_front_paw.move(i, 70, -70);
-			int time3 = static_cast<int>( -(angles.theta3*(180./3.14159)+90)*1.97 + 350.);
-			int time2 = static_cast<int>( angles.theta2*(180./3.14159)*1.97     + 295.);
-			int time1 = static_cast<int>(-(angles.theta1*(180./3.14159)-90)*1.97 + 295.);
-			doris.m_left_side.m_module.set_off_time(channel3, time3);
-			doris.m_left_side.m_module.set_off_time(channel4, time2);
-			doris.m_left_side.m_module.set_off_time(channel5, time1);
+			Angles angles = doris.m_right_side.m_front_paw.move(i, -70, -70);
+			int time3 = static_cast<int>( (angles.theta3*(180./3.14159)+90)*1.97 + 280.);
+			int time2 = static_cast<int>( -angles.theta2*(180./3.14159)*1.97     + 340.);
+			int time1 = static_cast<int>(-(angles.theta1*(180./3.14159)+90)*1.97 + 365.);
+			doris.m_right_side.m_module.set_off_time(channel3, time3);
+			doris.m_right_side.m_module.set_off_time(channel4, time2);
+			doris.m_right_side.m_module.set_off_time(channel5, time1);
+			cout << dec << angles.theta1*(180./3.14159) << endl;
+			//cout << angles.theta2*(180./3.14159) << endl;
+			//cout << angles.theta3*(180./3.14159) << endl;
+			cout << time1 << endl;
 			usleep(5000);
 		}
 		i++;
@@ -97,16 +108,35 @@ int main()
 
 	/*********************************************************/
 
-	doris.move({linear, direction_front, 60, 0, 50});
+	timer.reset();
+	doris.toggle();
+	doris.move({linear, direction_front, 50, 0, 20});
+	while(doris.update()) usleep(2000);
+	doris.toggle();
+
+	doris.move({linear, direction_front, 100, 0, 10});
+
+	while(1)
+	{
+		if(timer.elapsed().millis() >= 20.0)
+		{
+			timer.reset();
+
+			if(!doris.update())
+				doris.toggle();
+				//doris.move({linear, direction_front, 100, 0, 50});
+
+		}
+	}
+
+	/*doris.move({linear, direction_front, 50, 0, 50});
 	int i = 0;
 	while(i < 20)
 	{
 		i++;
-		while(doris.update()) usleep(5000);
-		doris.move({linear, direction_front, -120, 0, 50});
-		while(doris.update()) usleep(5000);
-		doris.move({linear, direction_front, 120, 0, 50});
-	}
+		while(doris.update()) usleep(2000);
+		doris.move({linear, direction_front, 100, 0, 50});
+	}*/
 
 	cout << "bye\n";
 

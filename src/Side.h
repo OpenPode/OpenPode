@@ -52,20 +52,33 @@ public:
 
 	void memorize_movement(Movement mvt);
 
-	int update(int sequence_number, double front_height=50, double back_height=50, double paw_spreading=150);
+	int update(int sequence_number, double a=0, double b=-50, double paw_spreading=100);
 
 	double change_sequence_number(int sequence_number);
 
 public:
 
+	void move_paw(Paw &paw, double tab[3]);
 	void memorize_current_paw_position();
 	double determine_real_distance();
+	void determine_paws_position(int sequence_number, double front_height, double back_height, double paw_spreading);
+	double reproach_position(double present, double futur);
+	void determine_y_paws_position(int sequence_number, double paw_spreading);
+	double get_up_paw(double final_height, Paw &paw);
+	void determine_z_paws_position(int sequence_number, double a, double b);
 
 	Side_enum m_side;
+	Paws_position m_paws_position;
 
 	Paw m_front_paw;
 	Paw m_middle_paw;
 	Paw m_back_paw;
+
+	int m_side_coef;
+
+	double m_paw_position[3][3];
+
+	static const Channel_t channel_table[3][3];
 
 	PCA9685 m_module;
 
@@ -73,7 +86,7 @@ public:
 	double m_step_distance;
 	int m_current_step_number;
 	int m_current_sequence_number;
-	Paws_position m_paws_position;
+
 };
 
 

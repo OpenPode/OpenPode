@@ -22,6 +22,8 @@ public:
 
 	int update();
 
+	void toggle();
+
 public:
 
 	i2cdev *m_i2c;

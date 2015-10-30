@@ -21,23 +21,29 @@ Hexapode::~Hexapode()
 	delete m_i2c;
 }
 
-void Hexapode::move(Movement mvt)
+void Hexapode::toggle()
 {
-	/* TODO :
-	 * 	compute the distance for each side for circular mvt
-	 */
 	if(m_current_sequence_number)
 		m_current_sequence_number = 0;
 	else
 		m_current_sequence_number = 1;
 
+	m_left_side.change_sequence_number(m_current_sequence_number);
 	m_right_side.change_sequence_number(m_current_sequence_number);
+}
+
+void Hexapode::move(Movement mvt)
+{
+	/* TODO :
+	 * 	compute the distance for each side for circular mvt
+	 */
+	//toggle();
 	m_left_side.memorize_movement(mvt);
 	m_right_side.memorize_movement(mvt);
 }
 
 int Hexapode::update()
 {
-	return m_right_side.update(0);
+	return m_right_side.update(m_current_sequence_number);
 }
 

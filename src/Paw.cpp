@@ -21,14 +21,14 @@ Paw::Paw(Side_enum side, Paw_position_enum position) :
 {
 	if(side == Side_enum::side_left)
 		if(position==Paw_position_enum::position_middle)
-			m_current_coords = {0, 40, -50};
+			m_current_coords = {-44.1, 60, -50};
 		else
-			m_current_coords = {0, 50, -50};
+			m_current_coords = {-44.1, 70, -50};
 	else
 		if(position==Paw_position_enum::position_middle)
-			m_current_coords = {0, -40, -50};
+			m_current_coords = {-44.1, -60, -50};
 		else
-			m_current_coords = {0, -50, -50};
+			m_current_coords = {-44.1, -70, -50};
 }
 
 Angles Paw::move(double x, double y, double z)

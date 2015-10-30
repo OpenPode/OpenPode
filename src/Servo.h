@@ -28,6 +28,13 @@ enum Servo_position_enum
 	position_coxa
 };
 
+enum Coord_enum
+{
+	coord_x,
+	coord_y,
+	coord_z
+};
+
 class Servo
 {
 public:
