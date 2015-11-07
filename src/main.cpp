@@ -39,12 +39,12 @@ int main()
 	/*********************************************************/
 
 	/*Angles angles = doris.m_left_side.m_front_paw.move(-44.1, 70, -100);
-	int time3 = static_cast<int>( -(angles.theta3*(180./3.14159)+90)*1.97 + 340.);
-	int time2 = static_cast<int>( angles.theta2*(180./3.14159)*1.97     + 290.);
-	int time1 = static_cast<int>(-(angles.theta1*(180./3.14159)-90)*1.97 + 360.);
-	doris.m_left_side.m_module.set_off_time(channel6, time3);
-	doris.m_left_side.m_module.set_off_time(channel7, time2);
-	doris.m_left_side.m_module.set_off_time(channel8, time1);
+	int time3 = static_cast<int>( -(angles.theta3*(180./3.14159)+90)*1.97 + 370.);
+	int time2 = static_cast<int>( angles.theta2*(180./3.14159)*1.97     + 320.);
+	int time1 = static_cast<int>(-(angles.theta1*(180./3.14159)-90)*1.97 + 295.);
+	doris.m_left_side.m_module.set_off_time(channel3, time3);
+	doris.m_left_side.m_module.set_off_time(channel4, time2);
+	doris.m_left_side.m_module.set_off_time(channel5, time1);
 	cout << dec << angles.theta1*(180./3.14159) << endl;
 	cout << angles.theta2*(180./3.14159) << endl;
 	cout << angles.theta3*(180./3.14159) << endl;
@@ -52,10 +52,10 @@ int main()
 	cout << time2 << endl;
 	cout << time3 << endl;*/
 
-	/*Angles angles = doris.m_right_side.m_front_paw.move(-44.1, -70, -70);
+	/*Angles angles = doris.m_right_side.m_front_paw.move(-44.1, -70, -100);
 	int time3 = static_cast<int>( (angles.theta3*(180./3.14159)+90)*1.97 + 280.);
 	int time2 = static_cast<int>( -angles.theta2*(180./3.14159)*1.97     + 340.);
-	int time1 = static_cast<int>(-(angles.theta1*(180./3.14159)+90)*1.97 + 330.);
+	int time1 = static_cast<int>(-(angles.theta1*(180./3.14159)+90)*1.97 + 365.);
 	doris.m_right_side.m_module.set_off_time(channel3, time3);
 	doris.m_right_side.m_module.set_off_time(channel4, time2);
 	doris.m_right_side.m_module.set_off_time(channel5, time1);
@@ -110,11 +110,11 @@ int main()
 
 	timer.reset();
 	doris.toggle();
-	doris.move({linear, direction_front, 50, 0, 20});
+	doris.move({linear, direction_front, 30, 0, 20});
 	while(doris.update()) usleep(2000);
 	doris.toggle();
 
-	doris.move({linear, direction_front, 100, 0, 10});
+	doris.move({linear, direction_front, 60, 0, 20});
 
 	while(1)
 	{

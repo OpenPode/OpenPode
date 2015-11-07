@@ -16,7 +16,7 @@ static const int offset_table[2][3][3] =
 		},
 		{// right
 				{285, 365, 410}, // front
-				{280, 340, 330}, // middle
+				{280, 340, 365}, // middle
 				{315, 345, 300}  // back
 		}     // tib  fem  cox
 };
