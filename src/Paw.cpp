@@ -20,15 +20,23 @@ Paw::Paw(Side_enum side, Paw_position_enum position) :
 	m_servo3(side, position, position_tibia)
 {
 	if(side == Side_enum::side_left)
-		if(position==Paw_position_enum::position_middle)
-			m_current_coords = {-44.1, 60, -50};
-		else
-			m_current_coords = {-44.1, 70, -50};
+	{
+		if(position == Paw_position_enum::position_front)
+			m_current_coords = {-0, 80, -70};
+		else if(position == Paw_position_enum::position_middle)
+			m_current_coords = {-20, 70, -70};
+		else if(position == Paw_position_enum::position_back)
+			m_current_coords = {-44.1, 80, -70};
+	}
 	else
-		if(position==Paw_position_enum::position_middle)
-			m_current_coords = {-44.1, -60, -50};
-		else
-			m_current_coords = {-44.1, -70, -50};
+	{
+		if(position == Paw_position_enum::position_front)
+			m_current_coords = {-0, -80, -70};
+		else if(position == Paw_position_enum::position_middle)
+			m_current_coords = {-20, -70, -70};
+		else if(position == Paw_position_enum::position_back)
+			m_current_coords = {-44.1, -80, -70};
+	}
 }
 
 Angles Paw::move(double x, double y, double z)
