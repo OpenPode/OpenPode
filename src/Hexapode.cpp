@@ -44,6 +44,9 @@ void Hexapode::move(Movement mvt)
 
 int Hexapode::update()
 {
-	return m_right_side.update(m_current_sequence_number);
+	int result_right, result_left;
+	result_right = m_right_side.update(m_current_sequence_number);
+	result_left  = m_left_side.update(m_current_sequence_number);
+	return result_right & result_left;
 }
 
