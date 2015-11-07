@@ -23,10 +23,12 @@ Hexapode::~Hexapode()
 
 void Hexapode::toggle()
 {
-	if(m_current_sequence_number)
-		m_current_sequence_number = 0;
-	else
+	if(m_current_sequence_number == 0)
 		m_current_sequence_number = 1;
+	else if(m_current_sequence_number == 1)
+		m_current_sequence_number = 2;
+	else
+		m_current_sequence_number = 0;
 
 	m_left_side.change_sequence_number(m_current_sequence_number);
 	m_right_side.change_sequence_number(m_current_sequence_number);
