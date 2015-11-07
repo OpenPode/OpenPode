@@ -33,6 +33,7 @@ public:
 	Servo m_servo3;
 
 	Coords m_current_coords;
+	int m_x_center;
 };
 
 

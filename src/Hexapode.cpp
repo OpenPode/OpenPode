@@ -30,8 +30,19 @@ void Hexapode::toggle()
 	else
 		m_current_sequence_number = 0;
 
-	m_left_side.change_sequence_number(m_current_sequence_number);
-	m_right_side.change_sequence_number(m_current_sequence_number);
+	double real_distance_left  = m_left_side.change_sequence_number(m_current_sequence_number);
+	double real_distance_right = m_right_side.change_sequence_number(m_current_sequence_number);
+	double min_distance = min(real_distance_left, real_distance_right);
+	if(min_distance != (m_mvt.distance / 2))
+	{
+		m_left_side.m_movement.corrected_distance = min_distance;
+		m_right_side.m_movement.corrected_distance = min_distance;
+	}
+	else
+	{
+		m_left_side.m_movement.corrected_distance = m_mvt.distance;
+		m_right_side.m_movement.corrected_distance = m_mvt.distance;
+	}
 }
 
 void Hexapode::move(Movement mvt)
@@ -40,6 +51,7 @@ void Hexapode::move(Movement mvt)
 	 * 	compute the distance for each side for circular mvt
 	 */
 	//toggle();
+	m_mvt = mvt;
 	m_left_side.memorize_movement(mvt);
 	m_right_side.memorize_movement(mvt);
 }
