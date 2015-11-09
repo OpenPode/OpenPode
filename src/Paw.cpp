@@ -28,7 +28,7 @@ Paw::Paw(Side_enum side, Paw_position_enum position) :
 		}
 		else if(position == Paw_position_enum::position_middle)
 		{
-			m_current_coords = {-44, 70, -70};
+			m_current_coords = {-44, 80, -70};
 			m_x_center = -20;
 		}
 		else if(position == Paw_position_enum::position_back)
@@ -46,7 +46,7 @@ Paw::Paw(Side_enum side, Paw_position_enum position) :
 		}
 		else if(position == Paw_position_enum::position_middle)
 		{
-			m_current_coords = {-44, -70, -70};
+			m_current_coords = {-44, -80, -70};
 			m_x_center = -20;
 		}
 		else if(position == Paw_position_enum::position_back)

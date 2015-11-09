@@ -131,11 +131,11 @@ void Side::determine_y_paws_position(int sequence_number, double paw_spreading)
 	{
 		if(m_side == side_left)
 		{
-			m_paw_position[position_middle][coord_y] = reproach_position(m_middle_paw.m_current_coords.y, m_side_coef * (paw_spreading - 10));
+			m_paw_position[position_middle][coord_y] = reproach_position(m_middle_paw.m_current_coords.y, m_side_coef * (paw_spreading - 0));
 		}
 		else
 		{
-			m_paw_position[position_middle][coord_y] = reproach_position(m_middle_paw.m_current_coords.y, m_side_coef * (paw_spreading - 10));
+			m_paw_position[position_middle][coord_y] = reproach_position(m_middle_paw.m_current_coords.y, m_side_coef * (paw_spreading - 0));
 		}
 	}
 	else
@@ -275,12 +275,12 @@ void Side::move_paw(Paw &paw, double coords[3])
 	int time_femur  = static_cast<int>(  m_side_coef *  angles.theta2*(180./M_PI) * Servo::resolution      + paw.m_servo2.get_offset());
 	int time_coxa   = static_cast<int>(-(angles.theta1*(180./M_PI) - m_side_coef*90.) * Servo::resolution  + paw.m_servo1.get_offset());
 
-	/*if(paw.m_position == position_middle)
+	if(paw.m_position == position_middle)
 	{
-		cout << "tib : " << time_tibias << endl;
-		cout << "fem : " << time_femur << endl;
-		cout << "cox : " << time_coxa << endl;
-	}*/
+		cout << "tib : " << - m_side_coef * (angles.theta3*(180./M_PI)+90.) * Servo::resolution + paw.m_servo3.get_offset() << endl;
+		cout << "fem : " << m_side_coef *  angles.theta2*(180./M_PI) * Servo::resolution      + paw.m_servo2.get_offset() << endl;
+		cout << "cox : " << -(angles.theta1*(180./M_PI) - m_side_coef*90.) * Servo::resolution  + paw.m_servo1.get_offset() << endl;
+	}
 
 	m_module.set_off_time(channel_table[paw.m_position][position_tibia], time_tibias);
 	m_module.set_off_time(channel_table[paw.m_position][position_femur], time_femur);

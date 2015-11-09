@@ -53,7 +53,7 @@ public:
 
 	void memorize_movement(Movement mvt);
 
-	int update(int sequence_number, double a=0, double b=-50, double paw_spreading=70);
+	int update(int sequence_number, double a=0, double b=-50, double paw_spreading=100);
 
 	double change_sequence_number(int sequence_number);
 
