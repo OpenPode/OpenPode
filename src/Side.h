@@ -52,22 +52,25 @@ public:
 	Side(Side_enum side, i2cdev *i2c);
 
 	void memorize_movement(Movement mvt);
-
 	int update(int sequence_number, double a= 0, double b=-50, double paw_spreading=70); // a = 0.07
-
 	double change_sequence_number(int sequence_number);
 
 public:
 
 	void move_paw(Paw &paw, double tab[3]);
 	void memorize_current_paw_position();
+
 	double determine_real_distance();
-	void determine_paws_position(int sequence_number, double front_height, double back_height, double paw_spreading);
+
 	double reproach_position(double present, double futur);
-	void determine_y_paws_position(int sequence_number, double paw_spreading);
 	double get_up_paw(double final_height, Paw &paw);
-	void determine_z_paws_position(int sequence_number, double a, double b);
 	double goto_position(double present, double futur, double nb_step);
+
+	void determine_x_paws_position(int sequence_number);
+	void determine_y_paws_position(int sequence_number, double paw_spreading);
+	void determine_z_paws_position(int sequence_number, double a, double b);
+
+	void determine_paws_position(int sequence_number, double front_height, double back_height, double paw_spreading);
 
 	Side_enum m_side;
 	Paws_position m_paws_position;
