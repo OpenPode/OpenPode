@@ -10,6 +10,7 @@
 
 #include "i2cdev.h"
 #include "Side.h"
+#include "timer_t.hpp"
 
 class Hexapode
 {
@@ -17,6 +18,9 @@ public:
 
 	Hexapode();
 	~Hexapode();
+
+	void run();
+	void calibrate_servomotors(double x, double y, double z);
 
 	void move(Movement mvt);
 
@@ -27,6 +31,8 @@ public:
 public:
 
 	i2cdev *m_i2c;
+
+	util::timer_t m_timer;
 
 	Side m_left_side;
 	Side m_right_side;

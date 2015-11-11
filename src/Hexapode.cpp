@@ -21,6 +21,81 @@ Hexapode::~Hexapode()
 	delete m_i2c;
 }
 
+void Hexapode::run()
+{
+	m_timer.reset();
+	toggle();
+
+	move({linear, direction_back, 50, 0, 12});
+
+	while(1)
+	{
+		if(m_timer.elapsed().millis() >= 20.0)
+		{
+			m_timer.reset();
+
+			if(!update())
+				toggle();
+				//doris.move({linear, direction_front, 100, 0, 50});
+
+		}
+	}
+}
+
+void Hexapode::calibrate_servomotors(double x, double y, double z)
+{
+	Angles angles;
+	int time3, time2, time1;
+
+	angles = m_left_side.m_front_paw.move(x, y, z);
+	time3 = static_cast<int>( -(angles.theta3*(180./3.14159)+90)*1.97 + m_left_side.m_front_paw.m_servo3.get_offset());
+	time2 = static_cast<int>( angles.theta2*(180./3.14159)*1.97     + m_left_side.m_front_paw.m_servo2.get_offset());
+	time1 = static_cast<int>(-(angles.theta1*(180./3.14159)-90)*1.97 + m_left_side.m_front_paw.m_servo1.get_offset());
+	m_left_side.m_module.set_off_time(channel0, time3);
+	m_left_side.m_module.set_off_time(channel1, time2);
+	m_left_side.m_module.set_off_time(channel2, time1);
+
+	angles = m_left_side.m_front_paw.move(x, y, z);
+	time3 = static_cast<int>( -(angles.theta3*(180./3.14159)+90)*1.97 + m_left_side.m_middle_paw.m_servo3.get_offset());
+	time2 = static_cast<int>( angles.theta2*(180./3.14159)*1.97     + m_left_side.m_middle_paw.m_servo2.get_offset());
+	time1 = static_cast<int>(-(angles.theta1*(180./3.14159)-90)*1.97 + m_left_side.m_middle_paw.m_servo1.get_offset());
+	m_left_side.m_module.set_off_time(channel3, time3);
+	m_left_side.m_module.set_off_time(channel4, time2);
+	m_left_side.m_module.set_off_time(channel5, time1);
+
+	angles = m_left_side.m_front_paw.move(x, y, z);
+	time3 = static_cast<int>( -(angles.theta3*(180./3.14159)+90)*1.97 + m_left_side.m_back_paw.m_servo3.get_offset());
+	time2 = static_cast<int>( angles.theta2*(180./3.14159)*1.97     + m_left_side.m_back_paw.m_servo2.get_offset());
+	time1 = static_cast<int>(-(angles.theta1*(180./3.14159)-90)*1.97 + m_left_side.m_back_paw.m_servo1.get_offset());
+	m_left_side.m_module.set_off_time(channel6, time3);
+	m_left_side.m_module.set_off_time(channel7, time2);
+	m_left_side.m_module.set_off_time(channel8, time1);
+
+	angles = m_right_side.m_front_paw.move(x, -y, z);
+	time3 = static_cast<int>( (angles.theta3*(180./3.14159)+90)*1.97 + m_right_side.m_front_paw.m_servo3.get_offset());
+	time2 = static_cast<int>( -angles.theta2*(180./3.14159)*1.97     + m_right_side.m_front_paw.m_servo2.get_offset());
+	time1 = static_cast<int>(-(angles.theta1*(180./3.14159)+90)*1.97 + m_right_side.m_front_paw.m_servo1.get_offset());
+	m_right_side.m_module.set_off_time(channel0, time3);
+	m_right_side.m_module.set_off_time(channel1, time2);
+	m_right_side.m_module.set_off_time(channel2, time1);
+
+	angles = m_right_side.m_front_paw.move(x, -y, z);
+	time3 = static_cast<int>( (angles.theta3*(180./3.14159)+90)*1.97 + m_right_side.m_middle_paw.m_servo3.get_offset());
+	time2 = static_cast<int>( -angles.theta2*(180./3.14159)*1.97     + m_right_side.m_middle_paw.m_servo2.get_offset());
+	time1 = static_cast<int>(-(angles.theta1*(180./3.14159)+90)*1.97 + m_right_side.m_middle_paw.m_servo1.get_offset());
+	m_right_side.m_module.set_off_time(channel3, time3);
+	m_right_side.m_module.set_off_time(channel4, time2);
+	m_right_side.m_module.set_off_time(channel5, time1);
+
+	angles = m_right_side.m_front_paw.move(x, -y, z);
+	time3 = static_cast<int>( (angles.theta3*(180./3.14159)+90)*1.97 + m_right_side.m_back_paw.m_servo3.get_offset());
+	time2 = static_cast<int>( -angles.theta2*(180./3.14159)*1.97     + m_right_side.m_back_paw.m_servo2.get_offset());
+	time1 = static_cast<int>(-(angles.theta1*(180./3.14159)+90)*1.97 + m_right_side.m_back_paw.m_servo1.get_offset());
+	m_right_side.m_module.set_off_time(channel6, time3);
+	m_right_side.m_module.set_off_time(channel7, time2);
+	m_right_side.m_module.set_off_time(channel8, time1);
+}
+
 void Hexapode::toggle()
 {
 	if(m_current_sequence_number == 0)

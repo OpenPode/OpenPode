@@ -11,7 +11,6 @@
 
 #include "Hexapode.h"
 #include "bcm2835.h"
-#include "timer_t.hpp"
 
 using namespace std;
 
@@ -21,8 +20,6 @@ int main()
 	cout << "Hello World" << endl;
 
 	Hexapode doris;
-
-	util::timer_t timer;
 
 	/*********************************************************/
 
@@ -108,25 +105,11 @@ int main()
 
 	/*********************************************************/
 
-	timer.reset();
-	doris.toggle();
+	doris.run();
 
-	doris.move({linear, direction_back, 50, 0, 120});
+	//doris.calibrate_servomotors(-44.1, 70, -100);
 
-	while(1)
-	{
-		if(timer.elapsed().millis() >= 20.0)
-		{
-			timer.reset();
-
-			if(!doris.update())
-				doris.toggle();
-				//doris.move({linear, direction_front, 100, 0, 50});
-
-		}
-	}
-
-	/*doris.move({linear, direction_front, 50, 0, 50});
+	/*doris.move({linear, direction_, 50, 0, 50});
 	int i = 0;
 	while(i < 20)
 	{
