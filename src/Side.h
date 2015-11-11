@@ -24,8 +24,8 @@ enum Movement_type
 
 enum Movement_direction
 {
-	direction_front,
-	direction_back
+	direction_front = 1,
+	direction_back  = -1
 };
 
 struct Movement
@@ -53,7 +53,7 @@ public:
 
 	void memorize_movement(Movement mvt);
 
-	int update(int sequence_number, double a=-0.07, double b=-50, double paw_spreading=70);
+	int update(int sequence_number, double a= 0, double b=-50, double paw_spreading=70); // a = 0.07
 
 	double change_sequence_number(int sequence_number);
 

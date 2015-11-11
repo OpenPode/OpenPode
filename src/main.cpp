@@ -111,7 +111,7 @@ int main()
 	timer.reset();
 	doris.toggle();
 
-	doris.move({linear, direction_front, 50, 0, 12});
+	doris.move({linear, direction_back, 50, 0, 120});
 
 	while(1)
 	{
