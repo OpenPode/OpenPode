@@ -27,6 +27,11 @@
 *.out
 *.app
 
+Debug/
+.cproject
+.project
+.settings/
+
 # =========================
 # Operating System Files
 # =========================
