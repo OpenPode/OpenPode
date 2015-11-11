@@ -31,6 +31,7 @@ public:
 	Side m_left_side;
 	Side m_right_side;
 
+	Movement m_mvt;
 	int m_current_sequence_number;
 };
 

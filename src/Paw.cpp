@@ -22,20 +22,38 @@ Paw::Paw(Side_enum side, Paw_position_enum position) :
 	if(side == Side_enum::side_left)
 	{
 		if(position == Paw_position_enum::position_front)
-			m_current_coords = {-0, 80, -70};
+		{
+			m_current_coords = {-20, 80, -70};
+			m_x_center = 0;
+		}
 		else if(position == Paw_position_enum::position_middle)
-			m_current_coords = {-20, 70, -70};
+		{
+			m_current_coords = {-44, 80, -70};
+			m_x_center = -20;
+		}
 		else if(position == Paw_position_enum::position_back)
+		{
 			m_current_coords = {-44.1, 80, -70};
+			m_x_center = -44.1;
+		}
 	}
 	else
 	{
 		if(position == Paw_position_enum::position_front)
-			m_current_coords = {-0, -80, -70};
+		{
+			m_current_coords = {-20, -80, -70};
+			m_x_center = 0;
+		}
 		else if(position == Paw_position_enum::position_middle)
-			m_current_coords = {-20, -70, -70};
+		{
+			m_current_coords = {-44, -80, -70};
+			m_x_center = -20;
+		}
 		else if(position == Paw_position_enum::position_back)
+		{
 			m_current_coords = {-44.1, -80, -70};
+			m_x_center = -44.1;
+		}
 	}
 }
 

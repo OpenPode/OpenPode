@@ -1,5 +1,5 @@
 /*
- * Side.h
+c * Side.h
  *
  *  Created on: 28 oct. 2015
  *      Author: Julien
@@ -24,8 +24,8 @@ enum Movement_type
 
 enum Movement_direction
 {
-	direction_front,
-	direction_back
+	direction_front = 1,
+	direction_back  = -1
 };
 
 struct Movement
@@ -35,6 +35,7 @@ struct Movement
 	double distance;
 	double angle;
 	int step_number;
+	double corrected_distance;
 };
 
 struct Paws_position
@@ -52,7 +53,7 @@ public:
 
 	void memorize_movement(Movement mvt);
 
-	int update(int sequence_number, double a=0, double b=-50, double paw_spreading=70);
+	int update(int sequence_number, double a= 0, double b=-50, double paw_spreading=70); // a = 0.07
 
 	double change_sequence_number(int sequence_number);
 
@@ -66,6 +67,7 @@ public:
 	void determine_y_paws_position(int sequence_number, double paw_spreading);
 	double get_up_paw(double final_height, Paw &paw);
 	void determine_z_paws_position(int sequence_number, double a, double b);
+	double goto_position(double present, double futur, double nb_step);
 
 	Side_enum m_side;
 	Paws_position m_paws_position;
@@ -83,7 +85,8 @@ public:
 	PCA9685 m_module;
 
 	Movement m_movement;
-	double m_step_distance;
+	double m_step_distance_x;
+	double m_step_distance_z;
 	int m_current_step_number;
 	int m_current_sequence_number;
 
