@@ -27,9 +27,15 @@
 *.out
 *.app
 
+# Target
 Debug/
-.cproject
+
+# Eclipse Core
 .project
+
+# CDT-specific
+.cproject
+
 .settings/
 
 # =========================
