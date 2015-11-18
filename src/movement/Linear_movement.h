@@ -18,13 +18,9 @@ public:
 	Linear_movement(Movement_direction direction, double distance, int step_number);
 	virtual ~Linear_movement() {}
 
-	virtual double reproach_position(double present, double futur);
-	virtual double get_up_paw(double final_height, Paw &paw);
-	virtual double goto_position(double present, double futur, double nb_step);
-
-	virtual void determine_x_paws_position(Side &side, int sequence_number);
-	virtual void determine_y_paws_position(Side &side, int sequence_number, double paw_spreading);
-	virtual void determine_z_paws_position(Side &side, int sequence_number, double front_height, double back_height);
+	void determine_x_paws_position(Side &side, int sequence_number);
+	void determine_y_paws_position(Side &side, int sequence_number, double paw_spreading);
+	void determine_z_paws_position(Side &side, int sequence_number, double front_height, double back_height);
 
 	virtual double determine_real_distance(Side &side);
 

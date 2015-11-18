@@ -27,9 +27,9 @@ public:
 
 	Side(Side_enum side, i2cdev *i2c);
 
-	void memorize_movement(Movement *mvt);
-	int update(int sequence_number, double a= 0, double b=-50, double paw_spreading=70); // a = 0.07
-	double change_sequence_number(int sequence_number);
+	void memorize_movement(Movement *mvt, int m_current_step_number);
+	int update(int sequence_number, int m_current_step_number, double a= 0, double b=-50, double paw_spreading=70); // a = 0.07
+	double change_sequence_number(int sequence_number, int p_current_step_number);
 
 	Paws_position get_paws_position() const { return m_paws_position; }
 	Side_enum get_side_id() const { return m_side; }

@@ -41,6 +41,8 @@ public:
 
 	Movement *m_movement;
 	int m_current_sequence_number;
+	int m_current_step_number;
+	int m_step_number;
 };
 
 #endif /* HEXAPODE_H_ */

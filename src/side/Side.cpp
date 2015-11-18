@@ -38,14 +38,15 @@ Side::Side(Side_enum side, i2cdev *i2c) : m_side(side),
 	m_current_sequence_number = -1;
 }
 
-void Side::memorize_movement(Movement *mvt)
+void Side::memorize_movement(Movement *mvt, int p_current_step_number)
 {
 	m_movement = mvt;
+	m_movement->m_current_step_number = p_current_step_number;
 }
 
-int Side::update(int sequence_number, double a, double b, double paw_spreading) //ax+b for height
+int Side::update(int sequence_number, int p_current_step_number, double a, double b, double paw_spreading) //ax+b for height
 {
-	m_movement->m_current_step_number++;
+	m_movement->m_current_step_number = p_current_step_number;
 
 	Paw_position paw_position = m_movement->determine_paws_position(*this, sequence_number, a, b, paw_spreading);
 
@@ -87,10 +88,10 @@ void Side::memorize_current_paw_position()
 	m_paws_position.back_paw = m_back_paw.get_current_position();
 }
 
-double Side::change_sequence_number(int sequence_number)
+double Side::change_sequence_number(int sequence_number, int p_current_step_number)
 {
 	m_current_sequence_number = sequence_number;
-	m_movement->m_current_step_number = 0;
+	m_movement->m_current_step_number = p_current_step_number;
 	memorize_current_paw_position();
 	return m_movement->determine_real_distance(*this);
 }

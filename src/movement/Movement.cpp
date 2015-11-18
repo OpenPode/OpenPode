@@ -16,3 +16,56 @@ Movement::Movement(Movement_type type, Movement_direction direction, double dist
 
 }
 
+double Movement::reproach_position(double present, double futur, double p_step_distance)
+{
+	if((present - futur) <= - p_step_distance)
+	{
+		return(present + p_step_distance);
+	}
+	else if((present - futur) >= p_step_distance)
+	{
+		return(present - p_step_distance);
+	}
+	else
+	{
+		return futur;
+	}
+}
+
+double Movement::get_up_paw(double final_height, Paw &paw, double p_step_distance)
+{
+	double z;
+
+	if(m_current_step_number <= (m_step_number / 2))
+	{
+		if(paw.m_current_coords.z <= -30)
+			z = paw.m_current_coords.z + p_step_distance*2;
+		else
+			z = paw.m_current_coords.z;
+	}
+	else
+	{
+		double step_distance_get_up = abs((final_height - paw.m_current_coords.z) / (m_step_number - m_current_step_number));
+		z = paw.m_current_coords.z - step_distance_get_up;
+	}
+
+	return z;
+}
+
+double Movement::goto_position(double present, double futur, double nb_step)
+{
+	double step_distance = abs(present - futur) / nb_step;
+
+	if(futur > present)
+	{
+		return(present + step_distance);
+	}
+	else if(futur < present)
+	{
+		return(present - step_distance);
+	}
+	else
+	{
+		return futur;
+	}
+}

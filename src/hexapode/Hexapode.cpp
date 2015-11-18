@@ -15,7 +15,8 @@ const int SEQUENCE_NUMBER = 3;
 Hexapode::Hexapode() : m_i2c(new i2cdev),
 					   m_left_side(side_left, m_i2c), m_right_side(side_right, m_i2c),
 					   m_movement(NULL), // initialiser à no_movement
-					   m_current_sequence_number(0) //remettre -1
+					   m_current_sequence_number(0), //remettre -1
+					   m_current_step_number(0)
 
 {
 	bcm2835_gpio_clr(7);
@@ -109,8 +110,10 @@ void Hexapode::toggle()
 	if(m_current_sequence_number >= SEQUENCE_NUMBER)
 		m_current_sequence_number = 0;
 
-	double real_distance_left  = m_left_side.change_sequence_number(m_current_sequence_number);
-	double real_distance_right = m_right_side.change_sequence_number(m_current_sequence_number);
+	m_current_step_number = 0;
+
+	double real_distance_left  = m_left_side.change_sequence_number(m_current_sequence_number, m_current_step_number);
+	double real_distance_right = m_right_side.change_sequence_number(m_current_sequence_number, m_current_step_number);
 	double min_distance = min(real_distance_left, real_distance_right);
 	if(min_distance != (m_movement->m_distance / 2))
 		m_movement->m_corrected_distance = min_distance;
@@ -127,17 +130,25 @@ void Hexapode::move(Movement *mvt)
 
 	if(m_movement != nullptr)
 		delete m_movement;
+	else
+		m_step_number =  m_movement->m_step_number;
 
 	m_movement = mvt;
-	m_left_side.memorize_movement(mvt);
-	m_right_side.memorize_movement(mvt);
+	if(m_step_number != m_movement->m_step_number)
+	{
+		m_current_step_number = (m_movement->m_step_number / m_step_number) * m_current_step_number;
+		m_step_number = m_movement->m_step_number;
+	}
+	m_left_side.memorize_movement(mvt, m_current_step_number);
+	m_right_side.memorize_movement(mvt, m_current_step_number);
 }
 
 int Hexapode::update()
 {
 	int result_right, result_left;
-	result_right = m_right_side.update(m_current_sequence_number);
-	result_left  = m_left_side.update(m_current_sequence_number);
+	result_right = m_right_side.update(m_current_sequence_number, m_current_step_number);
+	result_left  = m_left_side.update(m_current_sequence_number, m_current_step_number);
+	m_current_step_number ++;
 	return result_right & result_left;
 }
 

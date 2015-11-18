@@ -38,13 +38,9 @@ public:
 	Movement(Movement_type type, Movement_direction direction, double distance, double angle, int step_number);
 	virtual ~Movement() {}
 
-	virtual double reproach_position(double present, double futur) = 0;
-	virtual double get_up_paw(double final_height, Paw &paw) = 0;
-	virtual double goto_position(double present, double futur, double nb_step) = 0;
-
-	virtual void determine_x_paws_position(Side &side, int sequence_number) = 0;
-	virtual void determine_y_paws_position(Side &side, int sequence_number, double paw_spreading) = 0;
-	virtual void determine_z_paws_position(Side &side, int sequence_number, double a, double b) = 0;
+	double reproach_position(double present, double futur, double p_step_distance);
+	double get_up_paw(double final_height, Paw &paw, double p_step_distance);
+	double goto_position(double present, double futur, double nb_step);
 
 	virtual double determine_real_distance(Side &side) = 0;
 

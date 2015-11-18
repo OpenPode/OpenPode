@@ -17,60 +17,6 @@ Linear_movement::Linear_movement(Movement_direction direction, double distance, 
 	m_step_distance_x = m_corrected_distance / 2.0 / m_step_number;
 }
 
-double Linear_movement::reproach_position(double present, double futur)
-{
-	if((present - futur) <= - m_step_distance_z)
-	{
-		return(present + m_step_distance_z);
-	}
-	else if((present - futur) >= m_step_distance_z)
-	{
-		return(present - m_step_distance_z);
-	}
-	else
-	{
-		return futur;
-	}
-}
-
-double Linear_movement::get_up_paw(double final_height, Paw &paw)
-{
-	double z;
-
-	if(m_current_step_number <= (m_step_number / 2))
-	{
-		if(paw.m_current_coords.z <= -30)
-			z = paw.m_current_coords.z + m_step_distance_z*2;
-		else
-			z = paw.m_current_coords.z;
-	}
-	else
-	{
-		double step_distance_get_up = abs((final_height - paw.m_current_coords.z) / (m_step_number - m_current_step_number));
-		z = paw.m_current_coords.z - step_distance_get_up;
-	}
-
-	return z;
-}
-
-double Linear_movement::goto_position(double present, double futur, double nb_step)
-{
-	double step_distance = abs(present - futur) / nb_step;
-
-	if(futur > present)
-	{
-		return(present + step_distance);
-	}
-	else if(futur < present)
-	{
-		return(present - step_distance);
-	}
-	else
-	{
-		return futur;
-	}
-}
-
 void Linear_movement::determine_x_paws_position(Side &side, int sequence_number)
 {
 	m_paw_position.front[coord_x]  = side.get_paws_position().front_paw.x  - m_direction * m_step_distance_x * m_current_step_number;
@@ -106,23 +52,23 @@ void Linear_movement::determine_y_paws_position(Side &side, int sequence_number,
 	if(sequence_number == 0)
 	{
 		if(side.get_side_id() == side_left)
-			m_paw_position.front[coord_y]  = reproach_position(side.get_front_paw().m_current_coords.y, side.get_side_coef() * paw_spreading);
+			m_paw_position.front[coord_y]  = reproach_position(side.get_front_paw().m_current_coords.y, side.get_side_coef() * paw_spreading, m_step_distance_z);
 		else
-			m_paw_position.back[coord_y]   = reproach_position(side.get_back_paw().m_current_coords.y, side.get_side_coef() * paw_spreading);
+			m_paw_position.back[coord_y]   = reproach_position(side.get_back_paw().m_current_coords.y, side.get_side_coef() * paw_spreading, m_step_distance_z);
 	}
 	else if(sequence_number == 1)
 	{
 		if(side.get_side_id() == side_left)
-			m_paw_position.middle[coord_y] = reproach_position(side.get_middle_paw().m_current_coords.y, side.get_side_coef() * (paw_spreading - 0));
+			m_paw_position.middle[coord_y] = reproach_position(side.get_middle_paw().m_current_coords.y, side.get_side_coef() * (paw_spreading - 0), m_step_distance_z);
 		else
-			m_paw_position.middle[coord_y] = reproach_position(side.get_middle_paw().m_current_coords.y, side.get_side_coef() * (paw_spreading - 0));
+			m_paw_position.middle[coord_y] = reproach_position(side.get_middle_paw().m_current_coords.y, side.get_side_coef() * (paw_spreading - 0), m_step_distance_z);
 	}
 	else
 	{
 		if(side.get_side_id() == side_left)
-			m_paw_position.back[coord_y]   = reproach_position(side.get_back_paw().m_current_coords.y, side.get_side_coef() * paw_spreading);
+			m_paw_position.back[coord_y]   = reproach_position(side.get_back_paw().m_current_coords.y, side.get_side_coef() * paw_spreading, m_step_distance_z);
 		else
-			m_paw_position.front[coord_y]  = reproach_position(side.get_front_paw().m_current_coords.y, side.get_side_coef() * paw_spreading);
+			m_paw_position.front[coord_y]  = reproach_position(side.get_front_paw().m_current_coords.y, side.get_side_coef() * paw_spreading, m_step_distance_z);
 	}
 }
 
@@ -135,23 +81,23 @@ void Linear_movement::determine_z_paws_position(Side &side, int sequence_number,
 	if(sequence_number == 0)
 	{
 		if(side.get_side_id() == side_left)
-			m_paw_position.front[coord_z]  = get_up_paw(front_height*(side.get_front_paw().m_x_center + m_distance / 2 + HALF_LENGTH) + back_height, side.get_front_paw());
+			m_paw_position.front[coord_z]  = get_up_paw(front_height*(side.get_front_paw().m_x_center + m_distance / 2 + HALF_LENGTH) + back_height, side.get_front_paw(), m_step_distance_z);
 		else
-			m_paw_position.back[coord_z]   = get_up_paw(front_height*(side.get_front_paw().m_x_center + m_distance / 2 - HALF_LENGTH) + back_height, side.get_back_paw());
+			m_paw_position.back[coord_z]   = get_up_paw(front_height*(side.get_front_paw().m_x_center + m_distance / 2 - HALF_LENGTH) + back_height, side.get_back_paw(), m_step_distance_z);
 	}
 	else if(sequence_number == 1)
 	{
 		if(side.get_side_id() == side_left)
-			m_paw_position.middle[coord_z] = get_up_paw(front_height*(side.get_front_paw().m_x_center + m_distance / 2) + back_height, side.get_middle_paw());
+			m_paw_position.middle[coord_z] = get_up_paw(front_height*(side.get_front_paw().m_x_center + m_distance / 2) + back_height, side.get_middle_paw(), m_step_distance_z);
 		else
-			m_paw_position.middle[coord_z] = get_up_paw(front_height*(side.get_front_paw().m_x_center + m_distance / 2) + back_height, side.get_middle_paw());
+			m_paw_position.middle[coord_z] = get_up_paw(front_height*(side.get_front_paw().m_x_center + m_distance / 2) + back_height, side.get_middle_paw(), m_step_distance_z);
 	}
 	else
 	{
 		if(side.get_side_id() == side_left)
-			m_paw_position.back[coord_z]   = get_up_paw(front_height*(side.get_front_paw().m_x_center + m_distance / 2 - HALF_LENGTH) + back_height, side.get_back_paw());
+			m_paw_position.back[coord_z]   = get_up_paw(front_height*(side.get_front_paw().m_x_center + m_distance / 2 - HALF_LENGTH) + back_height, side.get_back_paw(), m_step_distance_z);
 		else
-			m_paw_position.front[coord_z]  = get_up_paw(front_height*(side.get_front_paw().m_x_center + m_distance / 2 + HALF_LENGTH) + back_height, side.get_front_paw());
+			m_paw_position.front[coord_z]  = get_up_paw(front_height*(side.get_front_paw().m_x_center + m_distance / 2 + HALF_LENGTH) + back_height, side.get_front_paw(), m_step_distance_z);
 	}
 }
 
