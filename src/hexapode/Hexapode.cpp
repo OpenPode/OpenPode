@@ -131,7 +131,7 @@ void Hexapode::move(Movement *mvt)
 	if(m_movement != nullptr)
 		delete m_movement;
 	else
-		m_step_number =  m_movement->m_step_number;
+		m_step_number =  mvt->m_step_number;
 
 	m_movement = mvt;
 	if(m_step_number != m_movement->m_step_number)
@@ -146,9 +146,10 @@ void Hexapode::move(Movement *mvt)
 int Hexapode::update()
 {
 	int result_right, result_left;
-	result_right = m_right_side.update(m_current_sequence_number, m_current_step_number);
-	result_left  = m_left_side.update(m_current_sequence_number, m_current_step_number);
+	result_right = m_right_side.update(m_current_sequence_number);
+	result_left  = m_left_side.update(m_current_sequence_number);
 	m_current_step_number ++;
+	m_movement->m_step_number = m_current_step_number;
 	return result_right & result_left;
 }
 

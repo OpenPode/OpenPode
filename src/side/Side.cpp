@@ -44,10 +44,8 @@ void Side::memorize_movement(Movement *mvt, int p_current_step_number)
 	m_movement->m_current_step_number = p_current_step_number;
 }
 
-int Side::update(int sequence_number, int p_current_step_number, double a, double b, double paw_spreading) //ax+b for height
+int Side::update(int sequence_number, double a, double b, double paw_spreading) //ax+b for height
 {
-	m_movement->m_current_step_number = p_current_step_number;
-
 	Paw_position paw_position = m_movement->determine_paws_position(*this, sequence_number, a, b, paw_spreading);
 
 	move_paw(m_front_paw, paw_position.front);
