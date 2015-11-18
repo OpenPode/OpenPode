@@ -119,6 +119,8 @@ void Hexapode::toggle()
 		m_movement->m_corrected_distance = min_distance;
 	else
 		m_movement->m_corrected_distance = m_movement->m_distance;
+
+	m_movement->compute_variables();
 }
 
 void Hexapode::move(Movement *mvt)

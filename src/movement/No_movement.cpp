@@ -124,6 +124,10 @@ double No_movement::determine_real_distance(Side &side)
 	return 0;
 }
 
+void No_movement::compute_variables()
+{
+}
+
 Paw_position No_movement::determine_paws_position(Side &side, int sequence_number, double a, double b, double paw_spreading)
 {
 	if(test_for_get_up(side, paw_spreading))

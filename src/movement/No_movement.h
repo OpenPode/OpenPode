@@ -19,7 +19,7 @@ public:
 	virtual ~No_movement() {}
 
 	virtual double determine_real_distance(Side &side);
-
+	virtual void compute_variables();
 	virtual Paw_position determine_paws_position(Side &side, int sequence_number, double front_height, double back_height, double paw_spreading);
 
 protected:
