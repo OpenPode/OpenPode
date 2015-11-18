@@ -12,6 +12,8 @@
 #include "Side.h"
 #include "timer_t.hpp"
 
+class Movement;
+
 class Hexapode
 {
 public:
@@ -22,7 +24,7 @@ public:
 	void run();
 	void calibrate_servomotors(double x, double y, double z);
 
-	void move(Movement mvt);
+	void move(Movement *mvt);
 
 	int update();
 
@@ -37,7 +39,7 @@ public:
 	Side m_left_side;
 	Side m_right_side;
 
-	Movement m_mvt;
+	Movement *m_movement;
 	int m_current_sequence_number;
 };
 

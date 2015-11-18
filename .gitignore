@@ -36,7 +36,7 @@ Debug/
 # CDT-specific
 .cproject
 
-.settings/
+*.settings/
 
 # =========================
 # Operating System Files
@@ -84,3 +84,8 @@ $RECYCLE.BIN/
 
 # Windows shortcuts
 *.lnk
+*.xml
+*.d
+*.mk
+Debug/makefile
+*.d

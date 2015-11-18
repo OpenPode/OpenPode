@@ -15,9 +15,9 @@ Paw_math_model::Paw_math_model(Side_enum side)
 	a3 = TIBIA_LENGTH;
 
 	if(side==Side_enum::side_left)
-		r4 = -TIBIA_ORIGINE_OFFSET;
+		r4 = -TIBIA_ORIGIN_OFFSET;
 	else
-		r4 = TIBIA_ORIGINE_OFFSET;
+		r4 = TIBIA_ORIGIN_OFFSET;
 }
 
 Angles Paw_math_model::compute_angles(Coords coords)

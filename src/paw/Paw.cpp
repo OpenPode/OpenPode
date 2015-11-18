@@ -15,9 +15,9 @@
 Paw::Paw(Side_enum side, Paw_position_enum position) :
 	Paw_math_model(side),
 	m_side(side), m_position(position),
-	m_servo1(side, position, position_coxa),
-	m_servo2(side, position, position_femur),
-	m_servo3(side, position, position_tibia)
+	m_coxa(side, position, position_coxa),
+	m_femur(side, position, position_femur),
+	m_tibia(side, position, position_tibia)
 {
 	if(side == Side_enum::side_left)
 	{

@@ -28,9 +28,9 @@ public:
 	Side_enum m_side;
 	Paw_position_enum m_position;
 
-	Servo m_servo1;
-	Servo m_servo2;
-	Servo m_servo3;
+	Servo m_coxa;
+	Servo m_femur;
+	Servo m_tibia;
 
 	Coords m_current_coords;
 	int m_x_center;
