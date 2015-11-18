@@ -10,6 +10,8 @@
 #include "bcm2835.h"
 #include "Linear_movement.h"
 
+const int SEQUENCE_NUMBER = 3;
+
 Hexapode::Hexapode() : m_i2c(new i2cdev),
 					   m_left_side(side_left, m_i2c), m_right_side(side_right, m_i2c),
 					   m_movement(NULL), // initialiser à no_movement
@@ -103,18 +105,9 @@ void Hexapode::calibrate_servomotors(double x, double y, double z)
 
 void Hexapode::toggle()
 {
-	if(m_current_sequence_number == 0)
-		m_current_sequence_number = 1;
-	else if(m_current_sequence_number == 1)
-		m_current_sequence_number = 2;
-	else
-		m_current_sequence_number = 0;
-
-	/* TODO
 	m_current_sequence_number++;
 	if(m_current_sequence_number >= SEQUENCE_NUMBER)
 		m_current_sequence_number = 0;
-	*/
 
 	double real_distance_left  = m_left_side.change_sequence_number(m_current_sequence_number);
 	double real_distance_right = m_right_side.change_sequence_number(m_current_sequence_number);
@@ -132,7 +125,7 @@ void Hexapode::move(Movement *mvt)
 	 */
 	//toggle();
 
-	if(m_movement != NULL)
+	if(m_movement != nullptr)
 		delete m_movement;
 
 	m_movement = mvt;
