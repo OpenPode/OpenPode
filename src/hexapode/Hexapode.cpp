@@ -40,7 +40,7 @@ void Hexapode::run()
 	toggle();
 	cout << "fin" <<endl;
 	//move(new Linear_movement(direction_back, 50, 30));
-	move(new complete_linear_movement(45, 50, 20));
+	move(new complete_linear_movement(90, 40, 20));
 
 	int cpt = 0;
 	while(1)
@@ -128,7 +128,7 @@ void Hexapode::toggle(bool not_change)
 	double real_distance_left  = m_left_side.change_sequence_number(m_current_sequence_number, m_current_step_number);
 	double real_distance_right = m_right_side.change_sequence_number(m_current_sequence_number, m_current_step_number);
 	double min_distance = min(real_distance_left, real_distance_right);
-	cout << " min d " << min_distance << endl;
+	//cout << " min d " << min_distance << endl;
 	if(min_distance != (m_movement->m_distance / 2))
 		m_movement->m_corrected_distance = min_distance;
 	else
