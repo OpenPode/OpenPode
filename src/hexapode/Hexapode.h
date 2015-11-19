@@ -28,7 +28,7 @@ public:
 
 	int update();
 
-	void toggle();
+	void toggle(bool not_change = 0);
 
 public:
 

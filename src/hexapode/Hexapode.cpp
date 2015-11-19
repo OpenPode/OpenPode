@@ -9,6 +9,7 @@
 #include "Hexapode.h"
 #include "bcm2835.h"
 #include "Linear_movement.h"
+#include "No_movement.h"
 
 const int SEQUENCE_NUMBER = 3;
 
@@ -16,7 +17,8 @@ Hexapode::Hexapode() : m_i2c(new i2cdev),
 					   m_left_side(side_left, m_i2c), m_right_side(side_right, m_i2c),
 					   m_movement(NULL), // initialiser à no_movement
 					   m_current_sequence_number(0), //remettre -1
-					   m_current_step_number(0)
+					   m_current_step_number(0),
+					   m_step_number(1)
 
 {
 	bcm2835_gpio_clr(7);
@@ -32,9 +34,11 @@ void Hexapode::run()
 {
 	m_timer.reset();
 
+	move(new No_movement());
+	cout << "toggle" <<endl;
 	toggle();
-
-	move(new Linear_movement(direction_back, 50, 12));
+	cout << "fin" <<endl;
+	move(new Linear_movement(direction_front, 50, 20));
 
 	while(1)
 	{
@@ -104,13 +108,16 @@ void Hexapode::calibrate_servomotors(double x, double y, double z)
 	m_right_side.get_module().set_off_time(channel8, time1);
 }
 
-void Hexapode::toggle()
+void Hexapode::toggle(bool not_change)
 {
-	m_current_sequence_number++;
-	if(m_current_sequence_number >= SEQUENCE_NUMBER)
-		m_current_sequence_number = 0;
+	if(!not_change)
+	{
+		m_current_sequence_number++;
+		if(m_current_sequence_number >= SEQUENCE_NUMBER)
+			m_current_sequence_number = 0;
 
-	m_current_step_number = 0;
+		m_current_step_number = 0;
+	}
 
 	double real_distance_left  = m_left_side.change_sequence_number(m_current_sequence_number, m_current_step_number);
 	double real_distance_right = m_right_side.change_sequence_number(m_current_sequence_number, m_current_step_number);
@@ -119,7 +126,6 @@ void Hexapode::toggle()
 		m_movement->m_corrected_distance = min_distance;
 	else
 		m_movement->m_corrected_distance = m_movement->m_distance;
-
 	m_movement->compute_variables();
 }
 
@@ -129,7 +135,6 @@ void Hexapode::move(Movement *mvt)
 	 * 	compute the distance for each side for circular mvt
 	 */
 	//toggle();
-
 	if(m_movement != nullptr)
 		delete m_movement;
 	else
@@ -143,6 +148,8 @@ void Hexapode::move(Movement *mvt)
 	}
 	m_left_side.memorize_movement(mvt, m_current_step_number);
 	m_right_side.memorize_movement(mvt, m_current_step_number);
+
+	toggle(true);
 }
 
 int Hexapode::update()
@@ -151,7 +158,7 @@ int Hexapode::update()
 	result_right = m_right_side.update(m_current_sequence_number);
 	result_left  = m_left_side.update(m_current_sequence_number);
 	m_current_step_number ++;
-	m_movement->m_step_number = m_current_step_number;
+	m_movement->m_current_step_number = m_current_step_number;
 	return result_right & result_left;
 }
 
