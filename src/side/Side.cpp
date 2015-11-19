@@ -53,7 +53,7 @@ int Side::update(int sequence_number, double a, double b, double paw_spreading) 
 	move_paw(m_back_paw, paw_position.back);
 
 	// for test purpose
-	if(m_movement->m_current_step_number == m_movement->m_step_number)
+	if(m_movement->m_current_step_number == (m_movement->m_step_number - 1))
 		return 0;
 	else
 		return 1;
@@ -67,12 +67,12 @@ void Side::move_paw(Paw &paw, double coords[3])
 	int time_femur  = static_cast<int>(  m_side_coef *  angles.theta2*(180./M_PI) * Servo::resolution      + paw.m_femur.get_offset());
 	int time_coxa   = static_cast<int>(-(angles.theta1*(180./M_PI) - m_side_coef*90.) * Servo::resolution  + paw.m_coxa.get_offset());
 
-	if(paw.m_position == position_middle)
+	/*if(paw.m_position == position_middle)
 	{
 		std::cout << "tib : " << - m_side_coef * (angles.theta3*(180./M_PI)+90.) * Servo::resolution + paw.m_tibia.get_offset() << std::endl;
 		std::cout << "fem : " << m_side_coef *  angles.theta2*(180./M_PI) * Servo::resolution      + paw.m_femur.get_offset() << std::endl;
 		std::cout << "cox : " << -(angles.theta1*(180./M_PI) - m_side_coef*90.) * Servo::resolution  + paw.m_coxa.get_offset() << std::endl;
-	}
+	}*/
 
 	m_module.set_off_time(channel_table[paw.m_position][position_tibia], time_tibias);
 	m_module.set_off_time(channel_table[paw.m_position][position_femur], time_femur);

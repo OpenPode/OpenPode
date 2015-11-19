@@ -55,7 +55,7 @@ double Movement::get_up_paw(double final_height, Paw &paw, double p_step_distanc
 double Movement::goto_position(double present, double futur, double nb_step)
 {
 	double step_distance = abs(present - futur) / nb_step;
-
+	cout << "step_dist " << step_distance << " nb_step " << nb_step << endl;
 	if(futur > present)
 	{
 		return(present + step_distance);

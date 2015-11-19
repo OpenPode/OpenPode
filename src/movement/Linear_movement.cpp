@@ -98,9 +98,6 @@ void Linear_movement::determine_z_paws_position(Side &side, int sequence_number,
 		else
 			m_paw_position.front[coord_z]  = get_up_paw(front_height*(side.get_front_paw().m_x_center + m_distance / 2 + HALF_LENGTH) + back_height, side.get_front_paw(), m_step_distance_z);
 	}
-	cout << "z " << m_paw_position.middle[coord_z] << endl;
-	cout << back_height << " : " << m_step_distance_z << endl;
-	cout << "seq " << sequence_number << endl;
 }
 
 double Linear_movement::determine_real_distance(Side &side)

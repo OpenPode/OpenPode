@@ -53,6 +53,7 @@ public:
 	double m_angle;
 	int m_step_number;
 	double m_step_distance_x;
+	double m_step_distance_y;
 	double m_step_distance_z;
 
 	double m_corrected_distance;

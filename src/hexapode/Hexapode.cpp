@@ -10,6 +10,7 @@
 #include "bcm2835.h"
 #include "Linear_movement.h"
 #include "No_movement.h"
+#include "complete_linear_movement.h"
 
 const int SEQUENCE_NUMBER = 3;
 
@@ -38,8 +39,10 @@ void Hexapode::run()
 	cout << "toggle" <<endl;
 	toggle();
 	cout << "fin" <<endl;
-	move(new Linear_movement(direction_front, 50, 20));
+	//move(new Linear_movement(direction_back, 50, 30));
+	move(new complete_linear_movement(45, 50, 20));
 
+	int cpt = 0;
 	while(1)
 	{
 		if(m_timer.elapsed().millis() >= 20.0)
@@ -49,8 +52,11 @@ void Hexapode::run()
 			if(!update())
 				toggle();
 				//doris.move({linear, direction_front, 100, 0, 50});
-
+			cpt++;
 		}
+
+		/*if(cpt == 310)
+			move(new Linear_movement(direction_front, 50, 75));*/
 	}
 }
 
@@ -122,6 +128,7 @@ void Hexapode::toggle(bool not_change)
 	double real_distance_left  = m_left_side.change_sequence_number(m_current_sequence_number, m_current_step_number);
 	double real_distance_right = m_right_side.change_sequence_number(m_current_sequence_number, m_current_step_number);
 	double min_distance = min(real_distance_left, real_distance_right);
+	cout << " min d " << min_distance << endl;
 	if(min_distance != (m_movement->m_distance / 2))
 		m_movement->m_corrected_distance = min_distance;
 	else
