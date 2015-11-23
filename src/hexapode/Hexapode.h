@@ -27,7 +27,7 @@ public:
 
 	void move(Movement *mvt);
 
-	int update();
+	int update(double a= 0, double b=-50, double paw_spreading=90);
 
 	void toggle(bool not_change = 0);
 
@@ -44,6 +44,9 @@ public:
 	int m_current_sequence_number;
 	int m_current_step_number;
 	int m_step_number;
+
+	double m_paw_spreading;
+	double m_center_height;
 
 	PS4Controller m_controller;
 };

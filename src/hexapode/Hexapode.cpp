@@ -20,7 +20,9 @@ Hexapode::Hexapode() : m_i2c(new i2cdev),
 					   m_movement(nullptr), // initialiser à no_movement
 					   m_current_sequence_number(0), //remettre -1
 					   m_current_step_number(0),
-					   m_step_number(1)
+					   m_step_number(1),
+					   m_paw_spreading(80),
+					   m_center_height(-50)
 
 {
 	bcm2835_gpio_clr(7);
@@ -37,12 +39,9 @@ void Hexapode::run()
 	m_timer.reset();
 
 	move(new No_movement());
-	cout << "toggle" <<endl;
-	toggle();
-	cout << "fin" <<endl;
-	//move(new complete_linear_movement( 0, 40,150));
 
-	int cpt = 0;
+	toggle();
+
 	while(1)
 	{
 		m_controller.process_input();
@@ -50,11 +49,6 @@ void Hexapode::run()
 		if(m_timer.elapsed().millis() >= 20.0)
 		{
 			m_timer.reset();
-
-			//cout << m_controller.m_jsr_y_value << endl;
-			//cout << m_controller.m_jsr_x_value << endl;
-			//cout << atan2(m_controller.m_jsr_x_value , m_controller.m_jsr_y_value)*180/M_PI << endl;
-			cout << abs(140 - sqrt(m_controller.m_jsr_y_value*m_controller.m_jsr_y_value + m_controller.m_jsr_x_value*m_controller.m_jsr_x_value)/37000.*140.+12) << endl;
 
 			if((abs(m_controller.m_jsr_x_value) <= 2000) and (abs(m_controller.m_jsr_y_value) <= 2000))
 			{
@@ -65,12 +59,22 @@ void Hexapode::run()
 				int step_number = abs(140 - sqrt(m_controller.m_jsr_y_value*m_controller.m_jsr_y_value + m_controller.m_jsr_x_value*m_controller.m_jsr_x_value)/32000.*140.+12);
 				if(step_number < 12)
 					step_number = 12;
+
 				move(new complete_linear_movement(  atan2(m_controller.m_jsr_x_value , m_controller.m_jsr_y_value)*180/M_PI,
-													40,
-													step_number));
+													40, step_number));
 			}
 
-			if(!update())
+			if(m_controller.m_is_r2_press)
+				m_paw_spreading += 0.5;
+			else if(m_controller.m_is_l2_press)
+				m_paw_spreading -= 0.5;
+
+			if(m_controller.m_is_r1_press)
+				m_center_height += 0.5;
+			else if(m_controller.m_is_l1_press)
+				m_center_height -= 0.5;
+
+			if(!update(0, m_center_height, m_paw_spreading))
 				toggle();
 		}
 	}
@@ -159,7 +163,6 @@ void Hexapode::move(Movement *mvt)
 	/* TODO :
 	 * 	compute the distance for each side for circular mvt
 	 */
-	//toggle();
 	if(m_movement != nullptr)
 		delete m_movement;
 	else
@@ -178,11 +181,11 @@ void Hexapode::move(Movement *mvt)
 	toggle(true);
 }
 
-int Hexapode::update()
+int Hexapode::update(double a, double b, double paw_spreading)
 {
 	int result_right, result_left;
-	result_right = m_right_side.update(m_current_sequence_number);
-	result_left  = m_left_side.update(m_current_sequence_number);
+	result_right = m_right_side.update(m_current_sequence_number, a, b, paw_spreading);
+	result_left  = m_left_side.update(m_current_sequence_number, a, b, paw_spreading);
 	m_current_step_number ++;
 	m_movement->m_current_step_number = m_current_step_number;
 	return result_right & result_left;

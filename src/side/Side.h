@@ -28,7 +28,7 @@ public:
 	Side(Side_enum side, i2cdev *i2c);
 
 	void memorize_movement(Movement *mvt, int m_current_step_number);
-	int update(int sequence_number, double a= 0, double b=-50, double paw_spreading=90); // a = 0.07
+	int update(int sequence_number, double a, double b, double paw_spreading); // a = 0.07
 	double change_sequence_number(int sequence_number, int p_current_step_number);
 	void memorize_current_paw_position();
 
