@@ -11,7 +11,8 @@
 #include <cmath>
 
 complete_linear_movement::complete_linear_movement(int angle, double distance, int step_number) :
-	Movement(complete_linear, direction_front, distance, angle*M_PI/180., step_number)
+	Movement(complete_linear, direction_front, distance, angle*M_PI/180., step_number),
+	m_paw_spreading(0)
 {
 }
 
@@ -134,39 +135,81 @@ void complete_linear_movement::determine_z_paws_position(Side &side, int sequenc
 
 double complete_linear_movement::determine_real_distance(Side &side)
 {
-	double real_distance[3];
-	real_distance[position_front]  = (side.get_paws_position().front_paw.x - cos(m_angle) * (side.get_front_paw().m_x_center - m_distance / 2));
-	real_distance[position_middle] = (side.get_paws_position().middle_paw.x - cos(m_angle) * (side.get_middle_paw().m_x_center - m_distance / 2));
-	real_distance[position_back]   = (side.get_paws_position().back_paw.x - cos(m_angle) * (side.get_back_paw().m_x_center - m_distance / 2));
+	double real_distance_x[3];
+	real_distance_x[position_front]  = side.get_paws_position().front_paw.x  - cos(m_angle) / abs(cos(m_angle)) * side.get_front_paw().m_x_center  + cos(m_angle) * m_distance / 2;
+	real_distance_x[position_middle] = side.get_paws_position().middle_paw.x - cos(m_angle) / abs(cos(m_angle)) * side.get_middle_paw().m_x_center + cos(m_angle) * m_distance / 2;
+	real_distance_x[position_back]   = side.get_paws_position().back_paw.x   - cos(m_angle) / abs(cos(m_angle)) * side.get_back_paw().m_x_center   + cos(m_angle) * m_distance / 2;
 
 	if(side.get_side_id() == side_left)
 	{
 		if(side.get_current_sequence_number() == 0)
-			real_distance[position_front]  = cos(m_angle) * m_distance;
+			real_distance_x[position_front]  = abs(cos(m_angle)) * m_distance;
 		else if(side.get_current_sequence_number() == 1)
-			real_distance[position_middle] = cos(m_angle) * m_distance;
+			real_distance_x[position_middle] = abs(cos(m_angle)) * m_distance;
 		else
-			real_distance[position_back]   = cos(m_angle) * m_distance;
+			real_distance_x[position_back]   = abs(cos(m_angle)) * m_distance;
 	}
 	else
 	{
 		if(side.get_current_sequence_number() == 0)
-			real_distance[position_back]   = cos(m_angle) * m_distance;
+			real_distance_x[position_back]   = abs(cos(m_angle)) * m_distance;
 		else if(side.get_current_sequence_number() == 1)
-			real_distance[position_middle] = cos(m_angle) * m_distance;
+			real_distance_x[position_middle] = abs(cos(m_angle)) * m_distance;
 		else
-			real_distance[position_front]  = cos(m_angle) * m_distance;
+			real_distance_x[position_front]  = abs(cos(m_angle)) * m_distance;
 	}
 
-	if(cos(m_angle) * real_distance[position_front] < 0)
-		real_distance[position_front] = 0;
-	if(cos(m_angle) * real_distance[position_middle] < 0)
-		real_distance[position_middle] = 0;
-	if(cos(m_angle) * real_distance[position_back] < 0)
-		real_distance[position_back] = 0;
+	if(cos(m_angle) * real_distance_x[position_front] < 0)
+		real_distance_x[position_front] = 0;
+	if(cos(m_angle) * real_distance_x[position_middle] < 0)
+		real_distance_x[position_middle] = 0;
+	if(cos(m_angle) * real_distance_x[position_back] < 0)
+		real_distance_x[position_back] = 0;
 
-	real_distance[position_middle] = std::min(abs(real_distance[position_front]), abs(real_distance[position_middle]));
-	//return (std::min(abs(real_distance[position_middle]), abs(real_distance[position_back])));
+	double real_distance_y[3];
+	real_distance_y[position_front]  = side.get_paws_position().front_paw.y  - sin(m_angle) / abs(sin(m_angle)) * m_paw_spreading + sin(m_angle) * m_distance / 2;
+	real_distance_y[position_middle] = side.get_paws_position().middle_paw.y - sin(m_angle) / abs(sin(m_angle)) * m_paw_spreading + sin(m_angle) * m_distance / 2;
+	real_distance_y[position_back]   = side.get_paws_position().back_paw.y   - sin(m_angle) / abs(sin(m_angle)) * m_paw_spreading + sin(m_angle) * m_distance / 2;
+
+	if(side.get_side_id() == side_left)
+	{
+		if(side.get_current_sequence_number() == 0)
+			real_distance_y[position_front]  = abs(sin(m_angle)) * m_distance;
+		else if(side.get_current_sequence_number() == 1)
+			real_distance_y[position_middle] = abs(sin(m_angle)) * m_distance;
+		else
+			real_distance_y[position_back]   = abs(sin(m_angle)) * m_distance;
+	}
+	else
+	{
+		if(side.get_current_sequence_number() == 0)
+			real_distance_y[position_back]   = abs(sin(m_angle)) * m_distance;
+		else if(side.get_current_sequence_number() == 1)
+			real_distance_y[position_middle] = abs(sin(m_angle)) * m_distance;
+		else
+			real_distance_y[position_front]  = abs(sin(m_angle)) * m_distance;
+	}
+
+	if(cos(m_angle) * real_distance_y[position_front] < 0)
+		real_distance_x[position_front] = 0;
+	if(cos(m_angle) * real_distance_y[position_middle] < 0)
+		real_distance_x[position_middle] = 0;
+	if(cos(m_angle) * real_distance_y[position_back] < 0)
+		real_distance_x[position_back] = 0;
+
+	real_distance_x[position_middle] = std::min(abs(real_distance_x[position_back]), abs(real_distance_x[position_middle]));
+	real_distance_x[position_front] = std::min(abs(real_distance_x[position_middle]), abs(real_distance_x[position_front]));
+
+	real_distance_y[position_middle] = std::min(abs(real_distance_y[position_back]), abs(real_distance_y[position_middle]));
+	real_distance_y[position_front] = std::min(abs(real_distance_y[position_middle]), abs(real_distance_y[position_front]));
+
+	//cout << "x " << real_distance_x[position_front] << " : y " << real_distance_y[position_front] << endl;
+
+	/*if(abs(real_distance_x[position_front] / sin(m_angle)) < abs(real_distance_y[position_front] / cos(m_angle)))
+		return (abs(real_distance_x[position_front]) / cos(m_angle));
+	else
+		return (abs(real_distance_y[position_front]) / sin(m_angle));*/
+
 	return abs(m_distance);
 }
 
@@ -183,6 +226,5 @@ void complete_linear_movement::compute_variables()
 	m_step_distance_z = m_distance / 2.0 / m_step_number;
 	m_step_distance_x = abs((m_corrected_distance / 2.0) * cos(m_angle) / m_step_number);
 	m_step_distance_y = abs((m_corrected_distance / 2.0) * sin(m_angle) / m_step_number);
-	cout << m_step_distance_x << " : " << m_step_distance_y << endl;
 }
 

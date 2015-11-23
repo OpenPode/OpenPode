@@ -25,6 +25,8 @@ public:
 	virtual double determine_real_distance(Side &side);
 	virtual void compute_variables();
 	virtual Paw_position determine_paws_position(Side &side, int sequence_number, double front_height, double back_height, double paw_spreading);
+
+	int m_paw_spreading;
 };
 
 #endif /* COMPLETE_LINEAR_MOVEMENT_H_ */

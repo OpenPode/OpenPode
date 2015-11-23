@@ -128,20 +128,20 @@ double Linear_movement::determine_real_distance(Side &side)
 	if(side.get_side_id() == side_left)
 	{
 		if(side.get_current_sequence_number() == 0)
-			real_distance[position_front]  = m_direction * m_distance;
+			real_distance[position_front]  = m_distance;
 		else if(side.get_current_sequence_number() == 1)
-			real_distance[position_middle] = m_direction * m_distance;
+			real_distance[position_middle] = m_distance;
 		else
-			real_distance[position_back]   = m_direction * m_distance;
+			real_distance[position_back]   = m_distance;
 	}
 	else
 	{
 		if(side.get_current_sequence_number() == 0)
-			real_distance[position_back]   = m_direction * m_distance;
+			real_distance[position_back]   = m_distance;
 		else if(side.get_current_sequence_number() == 1)
-			real_distance[position_middle] = m_direction * m_distance;
+			real_distance[position_middle] = m_distance;
 		else
-			real_distance[position_front]  = m_direction * m_distance;
+			real_distance[position_front]  = m_distance;
 	}
 
 	if(m_direction * real_distance[position_front] < 0)
