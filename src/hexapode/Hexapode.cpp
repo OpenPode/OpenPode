@@ -40,7 +40,7 @@ void Hexapode::run()
 	toggle();
 	cout << "fin" <<endl;
 	//move(new Linear_movement(direction_back, 50, 30));
-	move(new complete_linear_movement(90, 40, 20));
+	move(new complete_linear_movement(135, 40, 20));
 
 	int cpt = 0;
 	while(1)
