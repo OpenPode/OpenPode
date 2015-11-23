@@ -16,7 +16,7 @@ const int SEQUENCE_NUMBER = 3;
 
 Hexapode::Hexapode() : m_i2c(new i2cdev),
 					   m_left_side(side_left, m_i2c), m_right_side(side_right, m_i2c),
-					   m_movement(NULL), // initialiser à no_movement
+					   m_movement(nullptr), // initialiser à no_movement
 					   m_current_sequence_number(0), //remettre -1
 					   m_current_step_number(0),
 					   m_step_number(1)
@@ -35,24 +35,37 @@ void Hexapode::run()
 {
 	m_timer.reset();
 
-	move(new No_movement());
+	/*move(new No_movement());
 	cout << "toggle" <<endl;
 	toggle();
 	cout << "fin" <<endl;
 	//move(new Linear_movement(direction_back, 50, 30));
-	move(new complete_linear_movement(135, 40, 20));
+	move(new complete_linear_movement(135, 40, 20));*/
 
 	int cpt = 0;
 	while(1)
 	{
+		m_controller.process_input();
+
 		if(m_timer.elapsed().millis() >= 20.0)
 		{
 			m_timer.reset();
 
-			if(!update())
+			if(m_controller.m_is_share_press)
+				cout << "shr" << endl;
+			if(m_controller.m_is_r1_press)
+				cout << "r1" << endl;
+			if(m_controller.m_is_l1_press)
+				cout << "l1" << endl;
+			if(m_controller.m_is_r2_press)
+				cout << "r2" << endl;
+			if(m_controller.m_is_l2_press)
+				cout << "l2" << endl;
+
+			/*if(!update())
 				toggle();
 				//doris.move({linear, direction_front, 100, 0, 50});
-			cpt++;
+			cpt++;*/
 		}
 
 		/*if(cpt == 310)

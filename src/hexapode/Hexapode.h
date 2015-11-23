@@ -11,6 +11,7 @@
 #include "i2cdev.h"
 #include "Side.h"
 #include "timer_t.hpp"
+#include "PS4Controller.h"
 
 class Movement;
 
@@ -43,6 +44,8 @@ public:
 	int m_current_sequence_number;
 	int m_current_step_number;
 	int m_step_number;
+
+	PS4Controller m_controller;
 };
 
 #endif /* HEXAPODE_H_ */
