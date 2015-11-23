@@ -90,6 +90,5 @@ double Side::change_sequence_number(int sequence_number, int p_current_step_numb
 {
 	m_current_sequence_number = sequence_number;
 	m_movement->m_current_step_number = p_current_step_number;
-	memorize_current_paw_position();
 	return m_movement->determine_real_distance(*this);
 }

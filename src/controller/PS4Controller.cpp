@@ -91,16 +91,16 @@ void PS4Controller::process_input()
 		m_is_share_press = not m_is_share_press;
 
 	if( m_js.type == JS_EVENT_AXIS and m_js.number == 0 )
-		m_jsl_x_value = m_js.value;
+		m_jsl_x_value = -m_js.value;
 
 	if( m_js.type == JS_EVENT_AXIS and m_js.number == 1 )
-		m_jsl_y_value = m_js.value;
+		m_jsl_y_value = -m_js.value;
 
 	if( m_js.type == JS_EVENT_AXIS and m_js.number == 2 )
-		m_jsr_x_value = m_js.value;
+		m_jsr_x_value = -m_js.value;
 
 	if( m_js.type == JS_EVENT_AXIS and m_js.number == 5 )
-		m_jsr_y_value = m_js.value;
+		m_jsr_y_value = -m_js.value;
 }
 
 int PS4Controller::fdopen(std::string device, int mode)

@@ -107,9 +107,9 @@ void No_movement::determine_z_paws_position_not_get_up(double a, double b)
 
 bool No_movement::test_for_get_up(Side &side, double paw_spreading)
 {
-	if( (side.get_front_paw().m_current_coords.y != paw_spreading)  ||
-		(side.get_middle_paw().m_current_coords.y != paw_spreading) ||
-		(side.get_back_paw().m_current_coords.y != paw_spreading)    )
+	if( (side.get_front_paw().m_current_coords.y  != side.get_side_coef() * paw_spreading)  ||
+		(side.get_middle_paw().m_current_coords.y != side.get_side_coef() * paw_spreading) ||
+		(side.get_back_paw().m_current_coords.y   != side.get_side_coef() *paw_spreading)    )
 		return 0;
 	else if((side.get_paws_position().front_paw.x != side.get_front_paw().m_x_center)   ||
 			(side.get_paws_position().middle_paw.x != side.get_middle_paw().m_x_center) ||
@@ -130,7 +130,7 @@ void No_movement::compute_variables()
 
 Paw_position No_movement::determine_paws_position(Side &side, int sequence_number, double a, double b, double paw_spreading)
 {
-	if(test_for_get_up(side, paw_spreading))
+	if(!test_for_get_up(side, paw_spreading))
 	{
 		determine_x_paws_position(side, sequence_number);
 		determine_y_paws_position(side, sequence_number, paw_spreading);

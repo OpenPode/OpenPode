@@ -11,6 +11,7 @@
 #include "Linear_movement.h"
 #include "No_movement.h"
 #include "complete_linear_movement.h"
+#include <cmath>
 
 const int SEQUENCE_NUMBER = 3;
 
@@ -35,12 +36,11 @@ void Hexapode::run()
 {
 	m_timer.reset();
 
-	/*move(new No_movement());
+	move(new No_movement());
 	cout << "toggle" <<endl;
 	toggle();
 	cout << "fin" <<endl;
-	//move(new Linear_movement(direction_back, 50, 30));
-	move(new complete_linear_movement(135, 40, 20));*/
+	//move(new complete_linear_movement( 0, 40,150));
 
 	int cpt = 0;
 	while(1)
@@ -51,25 +51,28 @@ void Hexapode::run()
 		{
 			m_timer.reset();
 
-			if(m_controller.m_is_share_press)
-				cout << "shr" << endl;
-			if(m_controller.m_is_r1_press)
-				cout << "r1" << endl;
-			if(m_controller.m_is_l1_press)
-				cout << "l1" << endl;
-			if(m_controller.m_is_r2_press)
-				cout << "r2" << endl;
-			if(m_controller.m_is_l2_press)
-				cout << "l2" << endl;
+			//cout << m_controller.m_jsr_y_value << endl;
+			//cout << m_controller.m_jsr_x_value << endl;
+			//cout << atan2(m_controller.m_jsr_x_value , m_controller.m_jsr_y_value)*180/M_PI << endl;
+			cout << abs(140 - sqrt(m_controller.m_jsr_y_value*m_controller.m_jsr_y_value + m_controller.m_jsr_x_value*m_controller.m_jsr_x_value)/37000.*140.+12) << endl;
 
-			/*if(!update())
+			if((abs(m_controller.m_jsr_x_value) <= 2000) and (abs(m_controller.m_jsr_y_value) <= 2000))
+			{
+				move(new No_movement());
+			}
+			else
+			{
+				int step_number = abs(140 - sqrt(m_controller.m_jsr_y_value*m_controller.m_jsr_y_value + m_controller.m_jsr_x_value*m_controller.m_jsr_x_value)/32000.*140.+12);
+				if(step_number < 12)
+					step_number = 12;
+				move(new complete_linear_movement(  atan2(m_controller.m_jsr_x_value , m_controller.m_jsr_y_value)*180/M_PI,
+													40,
+													step_number));
+			}
+
+			if(!update())
 				toggle();
-				//doris.move({linear, direction_front, 100, 0, 50});
-			cpt++;*/
 		}
-
-		/*if(cpt == 310)
-			move(new Linear_movement(direction_front, 50, 75));*/
 	}
 }
 
@@ -136,6 +139,8 @@ void Hexapode::toggle(bool not_change)
 			m_current_sequence_number = 0;
 
 		m_current_step_number = 0;
+		m_left_side.memorize_current_paw_position();
+		m_right_side.memorize_current_paw_position();
 	}
 
 	double real_distance_left  = m_left_side.change_sequence_number(m_current_sequence_number, m_current_step_number);
@@ -163,11 +168,12 @@ void Hexapode::move(Movement *mvt)
 	m_movement = mvt;
 	if(m_step_number != m_movement->m_step_number)
 	{
-		m_current_step_number = (m_movement->m_step_number / m_step_number) * m_current_step_number;
+		m_current_step_number = m_movement->m_step_number * m_current_step_number / m_step_number;
 		m_step_number = m_movement->m_step_number;
 	}
 	m_left_side.memorize_movement(mvt, m_current_step_number);
 	m_right_side.memorize_movement(mvt, m_current_step_number);
+	cout << m_current_step_number << endl;
 
 	toggle(true);
 }

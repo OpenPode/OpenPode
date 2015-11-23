@@ -30,6 +30,7 @@ public:
 	void memorize_movement(Movement *mvt, int m_current_step_number);
 	int update(int sequence_number, double a= 0, double b=-50, double paw_spreading=90); // a = 0.07
 	double change_sequence_number(int sequence_number, int p_current_step_number);
+	void memorize_current_paw_position();
 
 	Paws_position get_paws_position() const { return m_paws_position; }
 	Side_enum get_side_id() const { return m_side; }
@@ -45,7 +46,6 @@ public:
 private:
 
 	void move_paw(Paw &paw, double tab[3]);
-	void memorize_current_paw_position();
 
 	Side_enum m_side;
 	Paws_position m_paws_position;
