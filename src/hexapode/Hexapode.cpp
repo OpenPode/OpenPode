@@ -74,7 +74,7 @@ void Hexapode::run()
 			else if(m_controller.m_is_l1_press)
 				m_center_height -= 0.5;
 
-			if(!update(0, m_center_height, m_paw_spreading))
+			if(!update(((m_center_height+30.) / (110. + 80.)) * (m_controller.m_jsl_y_value/32767.), m_center_height, m_paw_spreading))
 				toggle();
 		}
 	}
