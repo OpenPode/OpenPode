@@ -39,7 +39,7 @@ double Movement::get_up_paw(double final_height, Paw &paw, double p_step_distanc
 	if(m_current_step_number <= (m_step_number / 2))
 	{
 		if(paw.m_current_coords.z <= -30)
-			z = paw.m_current_coords.z + p_step_distance*2;
+			z = paw.m_current_coords.z + p_step_distance*2.5;
 		else
 			z = paw.m_current_coords.z;
 	}

@@ -54,7 +54,7 @@ void Hexapode::run()
 			{
 				move(new No_movement());
 			}
-			else
+			else if(((m_current_step_number <= 1) && (m_movement->m_type == no_movement)) || (m_movement->m_type != no_movement))
 			{
 				int step_number = abs(140 - sqrt(m_controller.m_jsr_y_value*m_controller.m_jsr_y_value + m_controller.m_jsr_x_value*m_controller.m_jsr_x_value)/32000.*140.+12);
 				if(step_number < 12)
@@ -65,11 +65,11 @@ void Hexapode::run()
 			}
 
 			if(m_controller.m_is_r2_press)
-				m_paw_spreading += 0.5;
-			else if(m_controller.m_is_l2_press)
-				m_paw_spreading -= 0.5;
+				m_paw_spreading += 0.2;
+			else if(m_controller.m_is_r1_press)
+				m_paw_spreading -= 0.2;
 
-			if(m_controller.m_is_r1_press)
+			if(m_controller.m_is_l2_press)
 				m_center_height += 0.5;
 			else if(m_controller.m_is_l1_press)
 				m_center_height -= 0.5;
@@ -176,7 +176,6 @@ void Hexapode::move(Movement *mvt)
 	}
 	m_left_side.memorize_movement(mvt, m_current_step_number);
 	m_right_side.memorize_movement(mvt, m_current_step_number);
-	cout << m_current_step_number << endl;
 
 	toggle(true);
 }
