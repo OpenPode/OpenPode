@@ -6,20 +6,35 @@
  */
 
 #include <iostream>
+#include <fstream>
 #include <unistd.h>
 #include <ctime>
 
 #include "Hexapode.h"
 #include "bcm2835.h"
+#include "exec.h"
 
 using namespace std;
+
+void block_until_ds4_controller_connexion();
+
+void launch_ds4drv();
 
 int main()
 {
 
-	cout << "Hello World" << endl;
+	cout << "Hello Blues Brothers" << endl;
+
+	//launch_ds4drv();
+
+	block_until_ds4_controller_connexion();
+
+	cout << "Doris is now running" << endl;
 
 	Hexapode doris;
+
+	doris.run();
+	//doris.calibrate_servomotors(-44.1, 70, -100);
 
 	/*********************************************************/
 
@@ -105,10 +120,6 @@ int main()
 
 	/*********************************************************/
 
-	doris.run();
-
-	//doris.calibrate_servomotors(-44.1, 70, -100);
-
 	/*doris.move({linear, direction_, 50, 0, 50});
 	int i = 0;
 	while(i < 20)
@@ -118,10 +129,48 @@ int main()
 		doris.move({linear, direction_front, 100, 0, 50});
 	}*/
 
-	cout << "bye\n";
-
 	return 0;
 }
 
+void block_until_ds4_controller_connexion()
+{
+	string mac_address = "";
 
+	cout << "Wait for DS4 controller 1C:96:5A:D2:D2:74 connexion"  << endl;
+
+	while(mac_address != "1C:96:5A:D2:D2:74")
+	{
+		try
+		{
+			mac_address = exec("hcitool -i hci0 con").substr(20,17);
+		}
+		catch(const std::exception &e)
+		{
+			mac_address = "";
+		}
+		sleep(2);
+	}
+
+	cout << "The DS4 controller 1C:96:5A:D2:D2:74 is connected"  << endl;
+}
+
+void launch_ds4drv()
+{
+	fstream pid_file("/tmp/ds4drv.pid");
+	cout << "Check if ds4drv is launched" << endl;
+
+	if(not pid_file.is_open())
+	{
+		cout << "Launch ds4drv" << endl;
+		exec("ds4drv");
+		sleep(2);
+	}
+	else
+	{
+		cout << "ds4drv already launched" << endl;
+	}
+
+	pid_file.close();
+
+}
 
