@@ -50,17 +50,17 @@ void Hexapode::run()
 		{
 			m_timer.reset();
 
-			if((abs(m_controller.m_jsr_x_value) <= 2000) and (abs(m_controller.m_jsr_y_value) <= 2000))
+			if((abs(m_controller.m_jsl_x_value) <= 2000) and (abs(m_controller.m_jsl_y_value) <= 2000))
 			{
 				move(new No_movement());
 			}
 			else if(((m_current_step_number <= 1) && (m_movement->m_type == no_movement)) || (m_movement->m_type != no_movement))
 			{
-				int step_number = abs(140 - sqrt(m_controller.m_jsr_y_value*m_controller.m_jsr_y_value + m_controller.m_jsr_x_value*m_controller.m_jsr_x_value)/32000.*140.+12);
+				int step_number = abs(140 - sqrt(m_controller.m_jsl_y_value*m_controller.m_jsl_y_value + m_controller.m_jsl_x_value*m_controller.m_jsl_x_value)/32000.*140.+12);
 				if(step_number < 12)
 					step_number = 12;
 
-				move(new complete_linear_movement(  atan2(m_controller.m_jsr_x_value , m_controller.m_jsr_y_value)*180/M_PI,
+				move(new complete_linear_movement(  atan2(m_controller.m_jsl_x_value , m_controller.m_jsl_y_value)*180/M_PI,
 													40, step_number));
 			}
 
@@ -74,7 +74,7 @@ void Hexapode::run()
 			else if(m_controller.m_is_l1_press)
 				m_center_height -= 0.5;
 
-			if(!update(((m_center_height+30.) / (110. + 80.)) * (m_controller.m_jsl_y_value/32767.), m_center_height, m_paw_spreading))
+			if(!update(((m_center_height+30.) / (110. + 80.)) * (m_controller.m_jsr_y_value/32767.), m_center_height, m_paw_spreading))
 				toggle();
 		}
 	}
