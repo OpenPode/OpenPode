@@ -62,7 +62,7 @@ void complete_linear_movement::determine_y_paws_position(Side &side, int sequenc
 	m_paw_position.front[coord_y]  = side.get_paws_position().front_paw.y  -  sin(m_angle) * m_step_distance_y * m_current_step_number;
 	m_paw_position.middle[coord_y] = side.get_paws_position().middle_paw.y -  sin(m_angle) * m_step_distance_y * m_current_step_number;
 	m_paw_position.back[coord_y]   = side.get_paws_position().back_paw.y   -  sin(m_angle) * m_step_distance_y * m_current_step_number;
-	cout << "pos : " << side.get_paws_position().front_paw.y << endl;
+	//cout << "pos : " << side.get_paws_position().front_paw.y << endl;
 
 	if(sequence_number == 0)
 	{

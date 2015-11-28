@@ -9,7 +9,7 @@
 #include "Side.h"
 #include "hexapode_dimensions.h"
 
-No_movement::No_movement() : Movement(no_movement, direction_front, 0, 0, 20)
+No_movement::No_movement() : Movement(no_movement, direction_front, 0, 0, 30)
 {
 
 }
