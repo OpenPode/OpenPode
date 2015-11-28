@@ -13,6 +13,9 @@
 #include "Hexapode.h"
 #include "bcm2835.h"
 #include "exec.h"
+#include "config.h"
+
+//#define CALIBRATION
 
 using namespace std;
 
@@ -22,19 +25,23 @@ void launch_ds4drv();
 
 int main()
 {
-
 	cout << "Hello Blues Brothers" << endl;
 
-	//launch_ds4drv();
+#ifndef CALIBRATION
+	launch_ds4drv();
 
 	block_until_ds4_controller_connexion();
+#endif
 
 	cout << "Doris is now running" << endl;
 
 	Hexapode doris;
 
+#ifndef CALIBRATION
 	doris.run();
-	//doris.calibrate_servomotors(-44.1, 70, -100);
+#else
+	doris.calibrate_servomotors(-44.1, 70, -100);
+#endif
 
 	/*********************************************************/
 
@@ -136,9 +143,9 @@ void block_until_ds4_controller_connexion()
 {
 	string mac_address = "";
 
-	cout << "Wait for DS4 controller 1C:96:5A:D2:D2:74 connexion"  << endl;
+	cout << "Wait for DS4 controller " << ps4_controller_mac_addr << " connexion"  << endl;
 
-	while(mac_address != "1C:96:5A:D2:D2:74")
+	while(mac_address != ps4_controller_mac_addr)
 	{
 		try
 		{
@@ -151,23 +158,24 @@ void block_until_ds4_controller_connexion()
 		sleep(2);
 	}
 
-	cout << "The DS4 controller 1C:96:5A:D2:D2:74 is connected"  << endl;
+	cout << "The DS4 controller " << ps4_controller_mac_addr << " is connected"  << endl;
 }
 
 void launch_ds4drv()
 {
 	fstream pid_file("/tmp/ds4drv.pid");
+
 	cout << "Check if ds4drv is launched" << endl;
 
 	if(not pid_file.is_open())
 	{
 		cout << "Launch ds4drv" << endl;
-		exec("ds4drv");
+		system("ds4drv");
 		sleep(2);
 	}
 	else
 	{
-		cout << "ds4drv already launched" << endl;
+		cout << "Ds4drv already launched" << endl;
 	}
 
 	pid_file.close();
