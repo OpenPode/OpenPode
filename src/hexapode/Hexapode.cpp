@@ -38,7 +38,7 @@ void Hexapode::run()
 {
 	m_timer.reset();
 
-	move(new No_movement());
+	move(new complete_linear_movement( 0, 40, 20));
 
 	toggle();
 
