@@ -3,6 +3,7 @@
 *.lo
 *.o
 *.obj
+*.d
 
 # Precompiled Headers
 *.gch
@@ -25,20 +26,17 @@
 *.app
 
 # Target
-Debug/
-
+Debug/*
 
 # Eclipse Core
 .project
 
+# Eclipse setting folder
+.settings/*
+
 # CDT-specific
 .cproject
 
-*.settings/
-
-
-Debug/makefile
-*.d
-Debug/Hexapode
-Debug/src/main.d
-*.mk
+# STL modeling files
+*.stl
+*.STL
