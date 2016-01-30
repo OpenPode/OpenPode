@@ -1,12 +1,9 @@
 #include <iostream>
-#include <string>
 #include <cstdio>
 
-using namespace std;
-
-std::string exec(const char* cmd)
+std::string exec(const std::string cmd)
 {
-    FILE* pipe = popen(cmd, "r");
+    FILE* pipe = popen(cmd.c_str(), "r");
     if (!pipe) return "ERROR";
     char buffer[128];
     std::string result = "";

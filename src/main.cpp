@@ -9,6 +9,7 @@
 #include <fstream>
 #include <unistd.h>
 #include <ctime>
+#include <signal.h>
 
 #include "Hexapode.h"
 #include "bcm2835.h"
@@ -149,7 +150,7 @@ void block_until_ds4_controller_connexion()
 	{
 		try
 		{
-			mac_address = exec("hcitool -i hci0 con").substr(20,17);
+			mac_address = exec(bluetooth_scan_command).substr(20,17);
 		}
 		catch(const std::exception &e)
 		{
@@ -163,14 +164,14 @@ void block_until_ds4_controller_connexion()
 
 void launch_ds4drv()
 {
-	fstream pid_file("/tmp/ds4drv.pid");
+	fstream pid_file(pid_filename);
 
 	cout << "Check if ds4drv is launched" << endl;
 
 	if(not pid_file.is_open())
 	{
 		cout << "Launch ds4drv" << endl;
-		system("ds4drv");
+		system(ds4_driver_launch_command.c_str());
 		sleep(2);
 	}
 	else
@@ -181,4 +182,6 @@ void launch_ds4drv()
 	pid_file.close();
 
 }
+
+
 

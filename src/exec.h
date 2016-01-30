@@ -1,3 +1,3 @@
 #include <string>
 
-std::string exec(const char* cmd);
+std::string exec(const std::string cmd);

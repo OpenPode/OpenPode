@@ -10,9 +10,16 @@
 
 #include <string>
 
-/*
- * PS4 controller MAC address
- */
+/**********************************************************************************
+ * DS4 Controller
+ **********************************************************************************/
+
+// Driver
+const std::string ds4_driver_launch_command = "ds4drv";
+const std::string bluetooth_scan_command = "hcitool -i hci0 con";
+const std::string pid_filename = "/tmp/ds4drv.pid";
+
+// Controller
 const std::string ps4_controller_mac_addr = "1C:96:5A:D2:D2:74";
 
 
