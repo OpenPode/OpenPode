@@ -7,6 +7,7 @@
 
 #include "Paw.h"
 #include "hexapode_dimensions.h"
+#include "config.h"
 #include "bcm2835.h"
 
 #include <iostream>
@@ -19,40 +20,41 @@ Paw::Paw(Side_enum side, Paw_position_enum position) :
 	m_femur(side, position, position_femur),
 	m_tibia(side, position, position_tibia)
 {
+	//init paws at default position
 	if(side == Side_enum::side_left)
 	{
 		if(position == Paw_position_enum::position_front)
 		{
-			m_current_coords = {-20, 80, -70};
-			m_x_center = 0;
+			m_current_coords = {DEFAULT_X_CENTER_FRONT, DEFAULT_Y, DEFAULT_Z};
+			m_x_center = DEFAULT_X_CENTER_FRONT;
 		}
 		else if(position == Paw_position_enum::position_middle)
 		{
-			m_current_coords = {-44, 80, -70};
-			m_x_center = -20;
+			m_current_coords = {DEFAULT_X_CENTER_MIDDLE, DEFAULT_Y, DEFAULT_Z};
+			m_x_center = DEFAULT_X_CENTER_MIDDLE;
 		}
 		else if(position == Paw_position_enum::position_back)
 		{
-			m_current_coords = {-44.1, 80, -70};
-			m_x_center = -44.1;
+			m_current_coords = {DEFAULT_X_CENTER_BACK, DEFAULT_Y, DEFAULT_Z};
+			m_x_center = DEFAULT_X_CENTER_BACK;
 		}
 	}
 	else
 	{
 		if(position == Paw_position_enum::position_front)
 		{
-			m_current_coords = {-20, -80, -70};
-			m_x_center = 0;
+			m_current_coords = {DEFAULT_X_CENTER_FRONT, -DEFAULT_Y, DEFAULT_Z};
+			m_x_center = DEFAULT_X_CENTER_FRONT;
 		}
 		else if(position == Paw_position_enum::position_middle)
 		{
-			m_current_coords = {-44, -80, -70};
-			m_x_center = -20;
+			m_current_coords = {DEFAULT_X_CENTER_MIDDLE, -DEFAULT_Y, DEFAULT_Z};
+			m_x_center = DEFAULT_X_CENTER_MIDDLE;
 		}
 		else if(position == Paw_position_enum::position_back)
 		{
-			m_current_coords = {-44.1, -80, -70};
-			m_x_center = -44.1;
+			m_current_coords = {DEFAULT_X_CENTER_BACK, -DEFAULT_Y, DEFAULT_Z};
+			m_x_center = DEFAULT_X_CENTER_BACK;
 		}
 	}
 }
@@ -60,14 +62,9 @@ Paw::Paw(Side_enum side, Paw_position_enum position) :
 Angles Paw::move(double x, double y, double z)
 {
 	Angles servo_angles = compute_angles({x, y, z});
+	//use Paw_math_model to get servos angles
 
-	/*std::cout << servo_angles.theta1*180.0/M_PI << std::endl
-			  << servo_angles.theta2*180.0/M_PI << std::endl
-			  << servo_angles.theta3*180.0/M_PI << std::endl;*/
-
-	/*m_servo1.move(servo_angles.theta1);
-	m_servo2.move(servo_angles.theta2);
-	m_servo3.move(servo_angles.theta3);*/
+	//TODO: compute invalid positions
 
 	m_current_coords = {x, y, z};
 

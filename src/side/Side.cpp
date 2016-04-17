@@ -34,14 +34,8 @@ Side::Side(Side_enum side, i2cdev *i2c) : m_side(side),
 		m_module = PCA9685(i2c, 0x41);
 		m_side_coef = -1;
 	}
-
+	//represent the initial sequence
 	m_current_sequence_number = -1;
-}
-
-void Side::memorize_movement(Movement *mvt, int p_current_step_number)
-{
-	m_movement = mvt;
-	m_movement->m_current_step_number = p_current_step_number;
 }
 
 int Side::update(int sequence_number, double a, double b, double paw_spreading) //ax+b for height
@@ -67,13 +61,6 @@ void Side::move_paw(Paw &paw, double coords[3])
 	int time_femur  = static_cast<int>(  m_side_coef *  angles.theta2*(180./M_PI) * Servo::resolution      + paw.m_femur.get_offset());
 	int time_coxa   = static_cast<int>(-(angles.theta1*(180./M_PI) - m_side_coef*90.) * Servo::resolution  + paw.m_coxa.get_offset());
 
-	/*if(paw.m_position == position_middle)
-	{
-		std::cout << "tib : " << - m_side_coef * (angles.theta3*(180./M_PI)+90.) * Servo::resolution + paw.m_tibia.get_offset() << std::endl;
-		std::cout << "fem : " << m_side_coef *  angles.theta2*(180./M_PI) * Servo::resolution      + paw.m_femur.get_offset() << std::endl;
-		std::cout << "cox : " << -(angles.theta1*(180./M_PI) - m_side_coef*90.) * Servo::resolution  + paw.m_coxa.get_offset() << std::endl;
-	}*/
-
 	m_module.set_off_time(channel_table[paw.m_position][position_tibia], time_tibias);
 	m_module.set_off_time(channel_table[paw.m_position][position_femur], time_femur);
 	m_module.set_off_time(channel_table[paw.m_position][position_coxa], time_coxa);
@@ -84,6 +71,12 @@ void Side::memorize_current_paw_position()
 	m_paws_position.front_paw = m_front_paw.get_current_position();
 	m_paws_position.middle_paw = m_middle_paw.get_current_position();
 	m_paws_position.back_paw = m_back_paw.get_current_position();
+}
+
+void Side::memorize_movement(Movement *mvt, int p_current_step_number)
+{
+	m_movement = mvt;
+	m_movement->m_current_step_number = p_current_step_number;
 }
 
 double Side::change_sequence_number(int sequence_number, int p_current_step_number)

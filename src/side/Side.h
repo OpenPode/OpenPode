@@ -47,13 +47,16 @@ private:
 
 	void move_paw(Paw &paw, double tab[3]);
 
+	//TODO: Change side_enum place
 	Side_enum m_side;
+	//represent the xyz coordinates of each paw
 	Paws_position m_paws_position;
 
 	Paw m_front_paw;
 	Paw m_middle_paw;
 	Paw m_back_paw;
 
+	//side_coef is used to correct formula depending of the side
 	int m_side_coef;
 
 	static const Channel_t channel_table[3][3];
@@ -61,6 +64,7 @@ private:
 	PCA9685 m_module;
 
 	Movement *m_movement;
+	//the sequence number represent the 3 step of any movement
 	int m_current_sequence_number;
 };
 
