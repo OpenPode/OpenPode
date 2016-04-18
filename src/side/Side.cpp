@@ -79,9 +79,13 @@ void Side::memorize_movement(Movement *mvt, int p_current_step_number)
 	m_movement->m_current_step_number = p_current_step_number;
 }
 
-double Side::change_sequence_number(int sequence_number, int p_current_step_number)
+void Side::change_sequence_number(int sequence_number, int p_current_step_number)
 {
 	m_current_sequence_number = sequence_number;
 	m_movement->m_current_step_number = p_current_step_number;
+}
+
+double Side::get_real_distance()
+{
 	return m_movement->determine_real_distance(*this);
 }

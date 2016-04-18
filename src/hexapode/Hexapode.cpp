@@ -82,8 +82,8 @@ void Hexapode::run()
 
 void Hexapode::determine_real_distance_for_movement()
 {
-	double real_distance_left  = m_left_side.change_sequence_number(m_current_sequence_number, m_current_step_number);
-	double real_distance_right = m_right_side.change_sequence_number(m_current_sequence_number, m_current_step_number);
+	double real_distance_left  = m_left_side.get_real_distance();
+	double real_distance_right = m_right_side.get_real_distance();
 	double min_distance = min(real_distance_left, real_distance_right);
 
 	if(min_distance != (m_movement->m_distance / 2))
@@ -103,6 +103,9 @@ void Hexapode::toggle()
 	m_current_step_number = 0;
 	m_left_side.memorize_current_paw_position();
 	m_right_side.memorize_current_paw_position();
+
+	m_left_side.change_sequence_number(m_current_sequence_number, m_current_step_number);
+	m_right_side.change_sequence_number(m_current_sequence_number, m_current_step_number);
 
 	determine_real_distance_for_movement();
 
