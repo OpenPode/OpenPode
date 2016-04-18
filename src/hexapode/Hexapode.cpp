@@ -34,7 +34,7 @@ Hexapode::~Hexapode()
 void Hexapode::run()
 {
 	m_timer.reset();
-
+	move(m_controller.m_movement);
 	toggle();
 
 	while(1)
@@ -42,7 +42,6 @@ void Hexapode::run()
 		if(m_timer.elapsed().millis() >= 20.0)
 		{
 			m_timer.reset();
-
 			if(m_controller.get_new_movement(m_current_step_number, m_step_number))
 			{
 				move(m_controller.m_movement);
@@ -56,7 +55,9 @@ void Hexapode::run()
 
 void Hexapode::determine_real_distance_for_movement()
 {
+	std::cout << "memorize_movement call" << std::endl;
 	double real_distance_left  = m_left_side.get_real_distance();
+	std::cout << "real_distance_left" << std::endl;
 	double real_distance_right = m_right_side.get_real_distance();
 	double min_distance = min(real_distance_left, real_distance_right);
 
@@ -64,6 +65,7 @@ void Hexapode::determine_real_distance_for_movement()
 		m_movement->m_corrected_distance = min_distance;
 	else
 		m_movement->m_corrected_distance = m_movement->m_distance;
+
 	m_movement->compute_variables();
 }
 
@@ -105,8 +107,8 @@ void Hexapode::move(Movement *mvt)
 	}
 	m_left_side.memorize_movement(mvt, m_current_step_number);
 	m_right_side.memorize_movement(mvt, m_current_step_number);
-
 	determine_real_distance_for_movement();
+
 }
 
 int Hexapode::update(double a, double b, double paw_spreading)

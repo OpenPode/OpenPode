@@ -14,6 +14,7 @@
 #include "No_movement.h"
 #include "complete_linear_movement.h"
 #include <cmath>
+#include <stdlib.h>
 
 Movement_controller::Movement_controller() : m_movement(nullptr), // init to no_movement
 					   m_paw_spreading(80), m_center_height(-50),
@@ -25,6 +26,7 @@ Movement_controller::Movement_controller() : m_movement(nullptr), // init to no_
 					   m_move_apart_pressed(false), m_tighten_pressed(false)
 
 {
+	m_movement = new No_movement();
 }
 
 Movement_controller::~Movement_controller()

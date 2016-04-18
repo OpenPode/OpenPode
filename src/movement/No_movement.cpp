@@ -210,6 +210,7 @@ bool No_movement::test_for_get_up_sequence2(Side &side, double paw_spreading)
 
 double No_movement::determine_real_distance(Side &side)
 {
+	std::cout << "No_movement" << std::endl;
 	return 0;
 }
 
