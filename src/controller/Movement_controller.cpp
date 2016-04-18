@@ -8,6 +8,8 @@
 
 #include "Movement_controller.h"
 #include "bcm2835.h"
+#include "hexapode_dimensions.h"
+
 #include "Linear_movement.h"
 #include "No_movement.h"
 #include "complete_linear_movement.h"
@@ -73,15 +75,27 @@ bool Movement_controller::get_new_movement(int current_step_number, int step_num
 		have_changed = true;
 	}
 
-	if(m_up_pressed)
-		m_paw_spreading += 0.2;
-	else if(m_down_pressed)
-		m_paw_spreading -= 0.2;
-
 	if(m_move_apart_pressed)
-		m_center_height += 0.5;
+	{
+		if(m_paw_spreading <= (TIBIA_LENGTH + FEMUR_LENGTH))
+			m_paw_spreading += 0.2;
+	}
 	else if(m_tighten_pressed)
-		m_center_height -= 0.5;
+	{
+		if(m_paw_spreading >= TIBIA_ORIGIN_OFFSET)
+		m_paw_spreading -= 0.2;
+	}
+
+	if(m_up_pressed)
+	{
+		if(m_center_height <= 0)
+			m_center_height += 0.5;
+	}
+	else if(m_down_pressed)
+	{
+		if(m_center_height >= (-TIBIA_LENGTH - FEMUR_LENGTH))
+			m_center_height -= 0.5;
+	}
 
 	m_A_coef_incline = ((m_center_height+30.) / (110. + 80.)) * (m_incline_value/32767.);
 	m_B_coef_incline = m_center_height;
