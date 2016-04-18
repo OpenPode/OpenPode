@@ -47,7 +47,7 @@ int Side::update(int sequence_number, double a, double b, double paw_spreading) 
 	move_paw(m_back_paw, paw_position.back);
 
 	// for test purpose
-	if(m_movement->m_current_step_number == (m_movement->m_step_number - 1))
+	if(m_movement->is_sequence_finished(*this, sequence_number))
 		return 0;
 	else
 		return 1;

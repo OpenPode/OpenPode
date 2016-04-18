@@ -229,3 +229,11 @@ void complete_linear_movement::compute_variables()
 	m_step_distance_y = abs((m_corrected_distance / 2.0) * sin(m_angle) / m_step_number);
 }
 
+bool complete_linear_movement::is_sequence_finished(Side &side, int sequence_number)
+{
+	if(m_current_step_number >= (m_step_number - 1))
+		return 1;
+	else
+		return 0;
+}
+

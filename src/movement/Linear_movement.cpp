@@ -169,3 +169,11 @@ Paw_position Linear_movement::determine_paws_position(Side &side, int sequence_n
 	return m_paw_position;
 }
 
+bool Linear_movement::is_sequence_finished(Side &side, int sequence_number)
+{
+	if(m_current_step_number >= (m_step_number - 1))
+		return 1;
+	else
+		return 0;
+}
+

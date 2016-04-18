@@ -46,6 +46,7 @@ public:
 	virtual double determine_real_distance(Side &side) = 0;
 	virtual void compute_variables() = 0;
 	virtual Paw_position determine_paws_position(Side &side, int sequence_number, double front_height, double back_height, double paw_spreading) = 0;
+	virtual bool is_sequence_finished(Side &side, int sequence_number) = 0;
 
 	Movement_type m_type;
 	Movement_direction m_direction;
