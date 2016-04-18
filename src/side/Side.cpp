@@ -87,5 +87,8 @@ void Side::change_sequence_number(int sequence_number, int p_current_step_number
 
 double Side::get_real_distance()
 {
+	std::cout << "get_real_distance call" << std::endl;
+	if(m_movement == nullptr)
+		std::cout << "error" << std::endl;
 	return m_movement->determine_real_distance(*this);
 }
