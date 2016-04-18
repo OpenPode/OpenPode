@@ -30,7 +30,10 @@ protected:
 	void determine_z_paws_position_not_get_up(double a, double b);
 
 private:
-	bool test_for_get_up(Side &side, double paw_spreading);
+	bool test_for_get_up_sequence0(Side &side, double paw_spreading);
+	bool test_for_get_up_sequence1(Side &side, double paw_spreading);
+	bool test_for_get_up_sequence2(Side &side, double paw_spreading);
+	bool test_for_get_up(Side &side, double paw_spreading, int sequence_number);
 };
 
 #endif /* NO_MOVEMENT_H_ */
