@@ -58,6 +58,7 @@ public:
 	double m_step_distance_z;
 
 	double m_corrected_distance;
+	int m_paw_spreading;
 
 	int m_current_step_number;
 

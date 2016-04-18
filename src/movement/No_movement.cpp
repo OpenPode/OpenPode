@@ -20,24 +20,24 @@ void No_movement::determine_x_paws_position(Side &side, int sequence_number)
 	m_paw_position.middle[coord_x] = side.get_paws_position().middle_paw.x;
 	m_paw_position.back[coord_x]   = side.get_paws_position().back_paw.x;
 
-	//remember must go to the position : goto_position(present, futur, nb_step);
+	//remember try to go to the position: reproach_position(present, futur, step_dist);
 	if(side.get_side_id() == side_left)
 	{
 		if(sequence_number == 0)
-			m_paw_position.front[coord_x]  = goto_position(side.get_front_paw().m_current_coords.x, side.get_front_paw().m_x_center, m_step_number - m_current_step_number);
+			m_paw_position.front[coord_x]  = reproach_position(side.get_front_paw().m_current_coords.x, side.get_front_paw().m_x_center, NO_MOVEMENT_STEP_DIST);
 		else if(sequence_number == 1)
-			m_paw_position.middle[coord_x] = goto_position(side.get_middle_paw().m_current_coords.x, side.get_middle_paw().m_x_center, m_step_number - m_current_step_number);
+			m_paw_position.middle[coord_x] = reproach_position(side.get_middle_paw().m_current_coords.x, side.get_middle_paw().m_x_center, NO_MOVEMENT_STEP_DIST);
 		else if(sequence_number == 2)
-			m_paw_position.back[coord_x]   = goto_position(side.get_back_paw().m_current_coords.x, side.get_back_paw().m_x_center, m_step_number - m_current_step_number);
+			m_paw_position.back[coord_x]   = reproach_position(side.get_back_paw().m_current_coords.x, side.get_back_paw().m_x_center, NO_MOVEMENT_STEP_DIST);
 	}
 	else
 	{
 		if(sequence_number == 0)
-			m_paw_position.back[coord_x]   = goto_position(side.get_back_paw().m_current_coords.x, side.get_back_paw().m_x_center, m_step_number - m_current_step_number);
+			m_paw_position.back[coord_x]   = reproach_position(side.get_back_paw().m_current_coords.x, side.get_back_paw().m_x_center, NO_MOVEMENT_STEP_DIST);
 		else if(sequence_number == 1)
-			m_paw_position.middle[coord_x] = goto_position(side.get_middle_paw().m_current_coords.x, side.get_middle_paw().m_x_center, m_step_number - m_current_step_number);
+			m_paw_position.middle[coord_x] = reproach_position(side.get_middle_paw().m_current_coords.x, side.get_middle_paw().m_x_center, NO_MOVEMENT_STEP_DIST);
 		else if(sequence_number == 2)
-			m_paw_position.front[coord_x]  = goto_position(side.get_front_paw().m_current_coords.x, side.get_front_paw().m_x_center, m_step_number - m_current_step_number);
+			m_paw_position.front[coord_x]  = reproach_position(side.get_front_paw().m_current_coords.x, side.get_front_paw().m_x_center, NO_MOVEMENT_STEP_DIST);
 	}
 }
 
@@ -58,9 +58,9 @@ void No_movement::determine_y_paws_position(Side &side, int sequence_number, dou
 	else if(sequence_number == 1)
 	{
 		if(side.get_side_id() == side_left)
-			m_paw_position.middle[coord_y] = reproach_position(side.get_middle_paw().m_current_coords.y, side.get_side_coef() * (paw_spreading - 0), NO_MOVEMENT_STEP_DIST);
+			m_paw_position.middle[coord_y] = reproach_position(side.get_middle_paw().m_current_coords.y, side.get_side_coef() * (paw_spreading), NO_MOVEMENT_STEP_DIST);
 		else
-			m_paw_position.middle[coord_y] = reproach_position(side.get_middle_paw().m_current_coords.y, side.get_side_coef() * (paw_spreading - 0), NO_MOVEMENT_STEP_DIST);
+			m_paw_position.middle[coord_y] = reproach_position(side.get_middle_paw().m_current_coords.y, side.get_side_coef() * (paw_spreading), NO_MOVEMENT_STEP_DIST);
 	}
 	else if(sequence_number == 2)
 	{
@@ -170,6 +170,8 @@ void No_movement::compute_variables()
 
 Paw_position No_movement::determine_paws_position(Side &side, int sequence_number, double a, double b, double paw_spreading)
 {
+	m_paw_spreading = paw_spreading;
+
 	//get up paws only if one or more paw is not at the correct x,y or z position
 	if(!test_for_get_up(side, paw_spreading, sequence_number))
 	{
@@ -185,6 +187,57 @@ Paw_position No_movement::determine_paws_position(Side &side, int sequence_numbe
 	}
 
 	return m_paw_position;
+}
+
+//permit to create a more realistic movement
+bool No_movement::is_sequence_finished(Side &side, int sequence_number)
+{
+	bool ok = false;
+
+	if(side.get_side_id() == side_left)
+	{
+		if((sequence_number == 0) && (side.get_front_paw().m_current_coords.x == side.get_front_paw().m_x_center))
+			ok = true;
+		else if((sequence_number == 1) && (side.get_middle_paw().m_current_coords.x == side.get_middle_paw().m_x_center))
+			ok = true;
+		else if((sequence_number == 2) && (side.get_back_paw().m_current_coords.x == side.get_back_paw().m_x_center))
+			ok = true;
+	}
+	else
+	{
+		if((sequence_number == 0) && (side.get_back_paw().m_current_coords.x == side.get_back_paw().m_x_center))
+			ok = true;
+		else if((sequence_number == 1) && (side.get_middle_paw().m_current_coords.x == side.get_middle_paw().m_x_center))
+			ok = true;
+		else if((sequence_number == 2) && (side.get_front_paw().m_current_coords.x == side.get_front_paw().m_x_center))
+			ok = true;
+	}
+
+	if((ok == true) && ((m_current_step_number >= (m_step_number - 1))))
+		return 1;
+	else if(ok == true)
+	{
+		if(side.get_side_id() == side_left)
+		{
+			if((sequence_number == 0) && (side.get_front_paw().m_current_coords.y == side.get_side_coef() * m_paw_spreading))
+				return 1;
+			else if((sequence_number == 1) && (side.get_middle_paw().m_current_coords.y == side.get_side_coef() * m_paw_spreading))
+				return 1;
+			else if((sequence_number == 2) && (side.get_back_paw().m_current_coords.y == side.get_side_coef() * m_paw_spreading))
+				return 1;
+		}
+		else
+		{
+			if((sequence_number == 0) && (side.get_back_paw().m_current_coords.y == side.get_side_coef() * m_paw_spreading))
+				return 1;
+			else if((sequence_number == 1) && (side.get_middle_paw().m_current_coords.y == side.get_side_coef() * m_paw_spreading))
+				return 1;
+			else if((sequence_number == 2) && (side.get_front_paw().m_current_coords.y, side.get_side_coef() * m_paw_spreading))
+				return 1;
+		}
+	}
+
+	return 0; //movement doesn't finished
 }
 
 
