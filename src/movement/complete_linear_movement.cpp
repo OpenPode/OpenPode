@@ -210,8 +210,8 @@ double complete_linear_movement::determine_real_distance(Side &side)
 	real_distance_y[position_front] = std::abs(real_distance_y[position_front]/sin(m_angle));
 
 	//cout << "x " << real_distance_x[position_front] << " : y " << real_distance_y[position_front] << endl;
-	return(std::min(real_distance_x[position_front], real_distance_y[position_front]));
-	//return abs(m_distance);
+	//return(std::min(real_distance_x[position_front], real_distance_y[position_front]));
+	return abs(m_distance);
 }
 
 Paw_position complete_linear_movement::determine_paws_position(Side &side, int sequence_number, double front_height, double back_height, double paw_spreading)
@@ -224,9 +224,9 @@ Paw_position complete_linear_movement::determine_paws_position(Side &side, int s
 
 void complete_linear_movement::compute_variables()
 {
-	m_step_distance_z = m_distance / 2.0 / m_step_number;
-	m_step_distance_x = abs((m_corrected_distance) * cos(m_angle) / m_step_number);
-	m_step_distance_y = abs((m_corrected_distance) * sin(m_angle) / m_step_number);
+	m_step_distance_z = m_distance / 2.0 / (float)m_step_number;
+	m_step_distance_x = abs((m_corrected_distance /2) * cos(m_angle) / m_step_number);
+	m_step_distance_y = abs((m_corrected_distance /2) * sin(m_angle) / m_step_number);
 }
 
 bool complete_linear_movement::is_sequence_finished(Side &side, int sequence_number)

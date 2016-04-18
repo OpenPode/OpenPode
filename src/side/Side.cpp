@@ -41,11 +41,9 @@ Side::Side(Side_enum side, i2cdev *i2c) : m_side(side),
 int Side::update(int sequence_number, double a, double b, double paw_spreading) //ax+b for height
 {
 	Paw_position paw_position = m_movement->determine_paws_position(*this, sequence_number, a, b, paw_spreading);
-
 	move_paw(m_front_paw, paw_position.front);
 	move_paw(m_middle_paw, paw_position.middle);
 	move_paw(m_back_paw, paw_position.back);
-
 	// for test purpose
 	if(m_movement->is_sequence_finished(*this, sequence_number))
 		return 0;
@@ -87,8 +85,5 @@ void Side::change_sequence_number(int sequence_number, int p_current_step_number
 
 double Side::get_real_distance()
 {
-	std::cout << "get_real_distance call" << std::endl;
-	if(m_movement == nullptr)
-		std::cout << "error" << std::endl;
 	return m_movement->determine_real_distance(*this);
 }

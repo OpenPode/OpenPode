@@ -39,6 +39,7 @@ void Hexapode::run()
 
 	while(1)
 	{
+		m_controller.run_controller();
 		if(m_timer.elapsed().millis() >= 20.0)
 		{
 			m_timer.reset();
@@ -47,17 +48,18 @@ void Hexapode::run()
 				move(m_controller.m_movement);
 			}
 
+
 			if(!update(m_controller.get_A_coef_incline() , m_controller.get_B_coef_incline() , m_controller.get_paw_spreading()))
+			{
 				toggle(); //if sequence is finished
+			}
 		}
 	}
 }
 
 void Hexapode::determine_real_distance_for_movement()
 {
-	std::cout << "memorize_movement call" << std::endl;
 	double real_distance_left  = m_left_side.get_real_distance();
-	std::cout << "real_distance_left" << std::endl;
 	double real_distance_right = m_right_side.get_real_distance();
 	double min_distance = min(real_distance_left, real_distance_right);
 
@@ -65,7 +67,6 @@ void Hexapode::determine_real_distance_for_movement()
 		m_movement->m_corrected_distance = min_distance;
 	else
 		m_movement->m_corrected_distance = m_movement->m_distance;
-
 	m_movement->compute_variables();
 }
 
@@ -92,9 +93,7 @@ void Hexapode::move(Movement *mvt)
 	/* TODO :
 	 * 	compute the distance for each side for circular mvt
 	 */
-	if(m_movement != nullptr)//for init
-		delete m_movement;
-	else
+	if(m_movement == nullptr)//for init
 		m_step_number =  mvt->m_step_number;
 
 	m_movement = mvt;

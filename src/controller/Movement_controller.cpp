@@ -34,10 +34,13 @@ Movement_controller::~Movement_controller()
 	delete m_movement;
 }
 
-void Movement_controller::get_control_values()
+void Movement_controller::run_controller()
 {
 	m_PS4_controller.process_input();
+}
 
+void Movement_controller::get_control_values()
+{
 	m_movement_x_value = m_PS4_controller.m_jsl_x_value;
 	m_movement_y_value = m_PS4_controller.m_jsl_y_value;
 	m_incline_value = m_PS4_controller.m_jsr_y_value;
@@ -80,12 +83,12 @@ bool Movement_controller::get_new_movement(int current_step_number, int step_num
 	if(m_move_apart_pressed)
 	{
 		if(m_paw_spreading <= (TIBIA_LENGTH + FEMUR_LENGTH))
-			m_paw_spreading += 0.2;
+			m_paw_spreading += 0.5;
 	}
 	else if(m_tighten_pressed)
 	{
 		if(m_paw_spreading >= TIBIA_ORIGIN_OFFSET)
-		m_paw_spreading -= 0.2;
+		m_paw_spreading -= 0.5;
 	}
 
 	if(m_up_pressed)

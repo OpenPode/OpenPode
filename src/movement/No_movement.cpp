@@ -173,12 +173,12 @@ bool No_movement::test_for_get_up_sequence0(Side &side, double paw_spreading)
 {
 	//test if one or more paw is not at the correct x,y or z position
 	if(side.get_side_id() == side_left)
-		if( (side.get_front_paw().m_current_coords.y  != side.get_side_coef() * paw_spreading)  || (side.get_paws_position().front_paw.x != side.get_front_paw().m_x_center))
+		if( (side.get_front_paw().m_current_coords.y  != side.get_side_coef() * paw_spreading)  || (side.get_front_paw().m_current_coords.x != side.get_front_paw().m_x_center))
 			return 0;
 		else
 			return 1;
 	else
-		if( (side.get_back_paw().m_current_coords.y  != side.get_side_coef() * paw_spreading)  || (side.get_paws_position().back_paw.x != side.get_back_paw().m_x_center))
+		if( (side.get_back_paw().m_current_coords.y  != side.get_side_coef() * paw_spreading)  || (side.get_back_paw().m_current_coords.x != side.get_back_paw().m_x_center))
 			return 0;
 		else
 			return 1;
@@ -187,7 +187,7 @@ bool No_movement::test_for_get_up_sequence0(Side &side, double paw_spreading)
 bool No_movement::test_for_get_up_sequence1(Side &side, double paw_spreading)
 {
 	//test if one or more paw is not at the correct x,y or z position
-	if( (side.get_middle_paw().m_current_coords.y  != side.get_side_coef() * paw_spreading)  || (side.get_paws_position().middle_paw.x != side.get_middle_paw().m_x_center))
+	if( (side.get_middle_paw().m_current_coords.y  != side.get_side_coef() * paw_spreading)  || (side.get_middle_paw().m_current_coords.x != side.get_middle_paw().m_x_center))
 		return 0;
 	else
 		return 1;
@@ -197,12 +197,12 @@ bool No_movement::test_for_get_up_sequence2(Side &side, double paw_spreading)
 {
 	//test if one or more paw is not at the correct x,y or z position
 	if(side.get_side_id() == side_left)
-		if( (side.get_back_paw().m_current_coords.y  != side.get_side_coef() * paw_spreading)  || (side.get_paws_position().back_paw.x != side.get_back_paw().m_x_center))
+		if( (side.get_back_paw().m_current_coords.y  != side.get_side_coef() * paw_spreading)  || (side.get_back_paw().m_current_coords.x != side.get_back_paw().m_x_center))
 			return 0;
 		else
 			return 1;
 	else
-		if( (side.get_front_paw().m_current_coords.y  != side.get_side_coef() * paw_spreading)  || (side.get_paws_position().front_paw.x != side.get_front_paw().m_x_center))
+		if( (side.get_front_paw().m_current_coords.y  != side.get_side_coef() * paw_spreading)  || (side.get_front_paw().m_current_coords.x != side.get_front_paw().m_x_center))
 			return 0;
 		else
 			return 1;
@@ -210,7 +210,6 @@ bool No_movement::test_for_get_up_sequence2(Side &side, double paw_spreading)
 
 double No_movement::determine_real_distance(Side &side)
 {
-	std::cout << "No_movement" << std::endl;
 	return 0;
 }
 
@@ -224,7 +223,6 @@ Paw_position No_movement::determine_paws_position(Side &side, int sequence_numbe
 
 	m_xy_good_position = test_for_good_position_xy(side, paw_spreading, sequence_number);
 	m_z_good_position = test_for_good_position_z(side, a,  b,  sequence_number);
-
 	//get up paws only if one or more paw is not at the correct x,y or z position
 	if(!m_xy_good_position)
 	{

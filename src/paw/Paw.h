@@ -33,7 +33,7 @@ public:
 	Servo m_tibia;
 
 	Coords m_current_coords;
-	int m_x_center;
+	double m_x_center;
 };
 
 

@@ -20,6 +20,7 @@ public:
 	~Movement_controller();
 
 	bool get_new_movement(int current_step_number, int step_number);
+	void run_controller();
 
 public:
 
