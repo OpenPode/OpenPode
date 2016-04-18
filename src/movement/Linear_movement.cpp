@@ -18,9 +18,9 @@ Linear_movement::Linear_movement(Movement_direction direction, double distance, 
 
 void Linear_movement::determine_x_paws_position(Side &side, int sequence_number)
 {
-	m_paw_position.front[coord_x]  = side.get_paws_position().front_paw.x  - m_direction * m_step_distance_x * m_current_step_number;
-	m_paw_position.middle[coord_x] = side.get_paws_position().middle_paw.x - m_direction * m_step_distance_x * m_current_step_number;
-	m_paw_position.back[coord_x]   = side.get_paws_position().back_paw.x   - m_direction * m_step_distance_x * m_current_step_number;
+	m_paw_position.front[coord_x]  = side.get_front_paw().m_current_coords.x  - m_direction * m_step_distance_x;
+	m_paw_position.middle[coord_x] = side.get_middle_paw().m_current_coords.x - m_direction * m_step_distance_x;
+	m_paw_position.back[coord_x]   = side.get_back_paw().m_current_coords.x   - m_direction * m_step_distance_x;
 
 	if(side.get_side_id() == side_left)
 	{
@@ -158,7 +158,7 @@ double Linear_movement::determine_real_distance(Side &side)
 void Linear_movement::compute_variables()
 {
 	m_step_distance_z = m_distance / 2.0 / m_step_number;
-	m_step_distance_x = m_corrected_distance / 2.0 / m_step_number;
+	m_step_distance_x = m_corrected_distance / m_step_number;
 }
 
 Paw_position Linear_movement::determine_paws_position(Side &side, int sequence_number, double front_height, double back_height, double paw_spreading)

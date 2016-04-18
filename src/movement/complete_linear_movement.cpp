@@ -11,19 +11,18 @@
 #include <cmath>
 
 complete_linear_movement::complete_linear_movement(int angle, double distance, int step_number) :
-	Movement(complete_linear, direction_front, distance, angle*M_PI/180., step_number),
-	m_paw_spreading(0)
+	Movement(complete_linear, direction_front, distance, angle*M_PI/180., step_number)
 {
 }
 
 void complete_linear_movement::determine_x_paws_position(Side &side, int sequence_number)
 {
-	m_paw_position.front[coord_x]  = side.get_paws_position().front_paw.x
-									- cos(m_angle) * m_step_distance_x * m_current_step_number;
-	m_paw_position.middle[coord_x] = side.get_paws_position().middle_paw.x
-									- cos(m_angle) * m_step_distance_x * m_current_step_number;
-	m_paw_position.back[coord_x]   = side.get_paws_position().back_paw.x
-									- cos(m_angle) * m_step_distance_x * m_current_step_number;
+	m_paw_position.front[coord_x]  = side.get_front_paw().m_current_coords.x
+									- cos(m_angle) * m_step_distance_x;
+	m_paw_position.middle[coord_x] = side.get_middle_paw().m_current_coords.x
+									- cos(m_angle) * m_step_distance_x;
+	m_paw_position.back[coord_x]   = side.get_back_paw().m_current_coords.x
+									- cos(m_angle) * m_step_distance_x;
 
 	if(side.get_side_id() == side_left)
 	{
@@ -59,10 +58,12 @@ void complete_linear_movement::determine_x_paws_position(Side &side, int sequenc
 
 void complete_linear_movement::determine_y_paws_position(Side &side, int sequence_number, double paw_spreading)
 {
-	m_paw_position.front[coord_y]  = side.get_paws_position().front_paw.y  -  sin(m_angle) * m_step_distance_y * m_current_step_number;
-	m_paw_position.middle[coord_y] = side.get_paws_position().middle_paw.y -  sin(m_angle) * m_step_distance_y * m_current_step_number;
-	m_paw_position.back[coord_y]   = side.get_paws_position().back_paw.y   -  sin(m_angle) * m_step_distance_y * m_current_step_number;
-	//cout << "pos : " << side.get_paws_position().front_paw.y << endl;
+	m_paw_position.front[coord_y]  = side.get_front_paw().m_current_coords.y
+									- sin(m_angle) * m_step_distance_y;
+	m_paw_position.middle[coord_y] = side.get_middle_paw().m_current_coords.y
+									- sin(m_angle) * m_step_distance_y;
+	m_paw_position.back[coord_y]   = side.get_back_paw().m_current_coords.y
+									- sin(m_angle) * m_step_distance_y;
 
 	if(sequence_number == 0)
 	{

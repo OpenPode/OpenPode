@@ -26,8 +26,6 @@ public:
 	virtual void compute_variables();
 	virtual Paw_position determine_paws_position(Side &side, int sequence_number, double front_height, double back_height, double paw_spreading);
 	bool is_sequence_finished(Side &side, int sequence_number);
-
-	int m_paw_spreading;
 };
 
 #endif /* COMPLETE_LINEAR_MOVEMENT_H_ */
