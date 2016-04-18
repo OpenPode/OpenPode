@@ -29,7 +29,8 @@ public:
 
 	int update(double a= 0, double b=-50, double paw_spreading=90);
 
-	void toggle(bool not_change = 0);
+	void determine_real_distance_for_movement();
+	void toggle();
 
 public:
 

@@ -80,19 +80,8 @@ void Hexapode::run()
 	}
 }
 
-void Hexapode::toggle(bool not_change)
+void Hexapode::determine_real_distance_for_movement()
 {
-	if(!not_change)
-	{
-		m_current_sequence_number++;
-		if(m_current_sequence_number >= SEQUENCE_NUMBER)
-			m_current_sequence_number = 0;
-
-		m_current_step_number = 0;
-		m_left_side.memorize_current_paw_position();
-		m_right_side.memorize_current_paw_position();
-	}
-
 	double real_distance_left  = m_left_side.change_sequence_number(m_current_sequence_number, m_current_step_number);
 	double real_distance_right = m_right_side.change_sequence_number(m_current_sequence_number, m_current_step_number);
 	double min_distance = min(real_distance_left, real_distance_right);
@@ -104,27 +93,43 @@ void Hexapode::toggle(bool not_change)
 	m_movement->compute_variables();
 }
 
+void Hexapode::toggle()
+{
+
+	m_current_sequence_number++;
+	if(m_current_sequence_number >= SEQUENCE_NUMBER)
+		m_current_sequence_number = 0;
+
+	m_current_step_number = 0;
+	m_left_side.memorize_current_paw_position();
+	m_right_side.memorize_current_paw_position();
+
+	determine_real_distance_for_movement();
+
+}
+
 void Hexapode::move(Movement *mvt)
 {
 	/* TODO :
 	 * 	compute the distance for each side for circular mvt
 	 */
-	if(m_movement != nullptr)
-	{
+	if(m_movement != nullptr)//for init
 		delete m_movement;
-		m_movement = mvt;
+	else
+		m_step_number =  mvt->m_step_number;
 
-		if(m_step_number != m_movement->m_step_number)//if the previous isn't the same of the new one
-		{
-			//create an approximation of the current step number
-			m_current_step_number = m_movement->m_step_number * m_current_step_number / m_step_number;
-			m_step_number = m_movement->m_step_number;
-		}
-		m_left_side.memorize_movement(mvt, m_current_step_number);
-		m_right_side.memorize_movement(mvt, m_current_step_number);
+	m_movement = mvt;
 
-		toggle(true);
+	if(m_step_number != m_movement->m_step_number)//if the previous isn't the same of the new one
+	{
+		//create an approximation of the current step number
+		m_current_step_number = m_movement->m_step_number * m_current_step_number / m_step_number;
+		m_step_number = m_movement->m_step_number;
 	}
+	m_left_side.memorize_movement(mvt, m_current_step_number);
+	m_right_side.memorize_movement(mvt, m_current_step_number);
+
+	determine_real_distance_for_movement();
 }
 
 int Hexapode::update(double a, double b, double paw_spreading)
