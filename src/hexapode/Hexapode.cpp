@@ -20,10 +20,7 @@ Hexapode::Hexapode() : m_i2c(new i2cdev),
 					   m_movement(nullptr), // init to no_movement
 					   m_current_sequence_number(0), //remettre -1
 					   m_current_step_number(0),
-					   m_step_number(1),
-					   m_paw_spreading(80),
-					   m_center_height(-50)
-
+					   m_step_number(1)
 {
 	bcm2835_gpio_clr(7);
 }
@@ -38,44 +35,21 @@ void Hexapode::run()
 {
 	m_timer.reset();
 
-	move(new complete_linear_movement( 0, 40, 20));
-
 	toggle();
 
 	while(1)
 	{
-		m_controller.process_input();
-
 		if(m_timer.elapsed().millis() >= 20.0)
 		{
 			m_timer.reset();
 
-			if((abs(m_controller.m_jsl_x_value) <= 2000) and (abs(m_controller.m_jsl_y_value) <= 2000))
+			if(m_controller.get_new_movement(m_current_step_number, m_step_number))
 			{
-				move(new No_movement());
-			}
-			else if(((m_current_step_number <= 1) && (m_movement->m_type == no_movement)) || (m_movement->m_type != no_movement))
-			{
-				int step_number = abs(140 - sqrt(m_controller.m_jsl_y_value*m_controller.m_jsl_y_value + m_controller.m_jsl_x_value*m_controller.m_jsl_x_value)/32000.*140.+12);
-				if(step_number < 12)
-					step_number = 12;
-
-				move(new complete_linear_movement(  atan2(m_controller.m_jsl_x_value , m_controller.m_jsl_y_value)*180/M_PI,
-													40, step_number));
+				move(m_controller.m_movement);
 			}
 
-			if(m_controller.m_is_r2_press)
-				m_paw_spreading += 0.2;
-			else if(m_controller.m_is_r1_press)
-				m_paw_spreading -= 0.2;
-
-			if(m_controller.m_is_l2_press)
-				m_center_height += 0.5;
-			else if(m_controller.m_is_l1_press)
-				m_center_height -= 0.5;
-
-			if(!update(((m_center_height+30.) / (110. + 80.)) * (m_controller.m_jsr_y_value/32767.), m_center_height, m_paw_spreading))
-				toggle();
+			if(!update(m_controller.get_A_coef_incline() , m_controller.get_B_coef_incline() , m_controller.get_paw_spreading()))
+				toggle(); //if sequence is finished
 		}
 	}
 }
@@ -142,7 +116,7 @@ int Hexapode::update(double a, double b, double paw_spreading)
 	result_left  = m_left_side.update(m_current_sequence_number, a, b, paw_spreading);
 	m_current_step_number ++;
 	m_movement->m_current_step_number = m_current_step_number;
-	return result_right & result_left;
+	return result_right & result_left; //if both sequence are finished
 }
 
 //for calibration
