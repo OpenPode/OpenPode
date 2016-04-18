@@ -41,6 +41,8 @@ public:
 
 	double reproach_position(double present, double futur, double p_step_distance);
 	double get_up_paw(double final_height, Paw &paw, double p_step_distance);
+	double just_get_up_paw(Paw &paw, double p_step_distance);
+	double just_get_down_paw(double final_height, Paw &paw, double p_step_distance);
 	double goto_position(double present, double futur, double nb_step);
 
 	virtual double determine_real_distance(Side &side) = 0;

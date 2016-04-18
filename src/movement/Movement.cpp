@@ -57,6 +57,34 @@ double Movement::get_up_paw(double final_height, Paw &paw, double p_step_distanc
 	return z;
 }
 
+double Movement::just_get_up_paw(Paw &paw, double p_step_distance)
+{
+	double z;
+
+	if(paw.m_current_coords.z <= MAX_HEIGHT_GET_UP)
+		z = paw.m_current_coords.z + p_step_distance*2.5;
+	else
+		z = paw.m_current_coords.z;
+
+	return z;
+}
+
+double Movement::just_get_down_paw(double final_height, Paw &paw, double p_step_distance)
+{
+	if((paw.m_current_coords.z - final_height) <= - p_step_distance)
+	{
+		return(paw.m_current_coords.z + p_step_distance);
+	}
+	else if((paw.m_current_coords.z - final_height) >= p_step_distance)
+	{
+		return(paw.m_current_coords.z - p_step_distance);
+	}
+	else
+	{
+		return final_height;
+	}
+}
+
 //must go to the position
 double Movement::goto_position(double present, double futur, double nb_step)
 {
