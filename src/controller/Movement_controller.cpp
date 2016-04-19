@@ -102,7 +102,7 @@ bool Movement_controller::get_new_movement(int current_step_number, int step_num
 			m_center_height -= 0.5;
 	}
 
-	m_A_coef_incline = ((m_center_height+30.) / (110. + 80.)) * (m_incline_value/32767.);
+	m_A_coef_incline = ((m_center_height - CENTER_TO_GROUND_OFFSET) / (HALF_LENGTH + 80.)) * (m_incline_value/m_PS4_controller.max_pot_value);
 	m_B_coef_incline = m_center_height;
 
 	return have_changed;

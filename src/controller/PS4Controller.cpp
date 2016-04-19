@@ -17,14 +17,13 @@ PS4Controller::PS4Controller() :
 		m_is_r1_press(false), m_is_r2_press(false), m_is_r3_press(false),
 		m_is_l1_press(false), m_is_l2_press(false), m_is_l3_press(false),
 
-		m_is_ps_press(false), m_is_options_press(false), m_is_share_press(false),
+		m_is_ps_press(false), m_is_share_press(false), m_is_options_press(false),
 
 		m_jsl_x_value(0), m_jsl_y_value(0),
 		m_jsr_x_value(0), m_jsr_y_value(0)
 {
 	m_fd_ev = fdopen(m_device_ev, O_NONBLOCK);
 	m_fd_js = fdopen(m_device_js, O_NONBLOCK);
-
 }
 
 void PS4Controller::process_input()

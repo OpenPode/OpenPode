@@ -100,6 +100,8 @@ public:
 	static const std::string m_device_ev;
 	static const std::string m_device_js;
 
+	static const int max_pot_value = 32767;
+
 	input_event m_ev;
 	js_event m_js;
 
