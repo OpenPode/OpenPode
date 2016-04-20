@@ -32,5 +32,12 @@ const double DEFAULT_X_CENTER_BACK = -44.1;
 
 //movement
 const double MAX_HEIGHT_GET_UP = -30;
+const double MAX_STEP_NUMBER = 140.;
+const double MIN_STEP_NUMBER = 12.;
+
+const double DEFAULT_DISTANCE = 40.;
+
+const double SPREADING_STEP = 0.5;
+const double HEIGHT_STEP = 0.5;
 
 #endif /* CONFIG_H_ */
