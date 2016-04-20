@@ -73,59 +73,110 @@ void No_movement::determine_y_paws_position(Side &side, int sequence_number, dou
 
 void No_movement::determine_z_paws_position(Side &side, int sequence_number, double a, double b, double c)
 {
-	m_paw_position.front[coord_z]  = a*(m_paw_position.front[coord_x] + HALF_LENGTH) + c;
-	m_paw_position.middle[coord_z] = a*m_paw_position.middle[coord_x] + c;
-	m_paw_position.back[coord_z]   = a*(m_paw_position.back[coord_x] - HALF_LENGTH) + c;
-
 	if(sequence_number == 0)
 	{
 		if(side.get_side_id() == side_left)
+		{
 			m_paw_position.front[coord_z]  = just_get_up_paw(side.get_front_paw(), NO_MOVEMENT_STEP_DIST);
+
+			m_paw_position.middle[coord_z] = a*m_paw_position.middle[coord_x] + b*(m_paw_position.middle[coord_y] + HALF_WIDTH_MAX) + c;
+			m_paw_position.back[coord_z]   = a*(m_paw_position.back[coord_x] - HALF_LENGTH) + b*(m_paw_position.back[coord_y] + HALF_WIDTH_MIN) + c;
+		}
 		else
+		{
 			m_paw_position.back[coord_z]   = just_get_up_paw(side.get_back_paw(), NO_MOVEMENT_STEP_DIST);
+
+			m_paw_position.middle[coord_z] = a*m_paw_position.middle[coord_x] + b*(m_paw_position.middle[coord_y] - HALF_WIDTH_MAX) + c;
+			m_paw_position.front[coord_z]   = a*(m_paw_position.front[coord_x] + HALF_LENGTH) + b*(m_paw_position.front[coord_y] - HALF_WIDTH_MIN) +c;
+		}
 	}
 	else if(sequence_number == 1)
 	{
 		if(side.get_side_id() == side_left)
+		{
 			m_paw_position.middle[coord_z] = just_get_up_paw(side.get_middle_paw(), NO_MOVEMENT_STEP_DIST);
+
+			m_paw_position.front[coord_z]   = a*(m_paw_position.front[coord_x] + HALF_LENGTH) + b*(m_paw_position.front[coord_y] + HALF_WIDTH_MIN) +c;
+			m_paw_position.back[coord_z]   = a*(m_paw_position.back[coord_x] - HALF_LENGTH) + b*(m_paw_position.back[coord_y] + HALF_WIDTH_MIN) + c;
+		}
 		else
+		{
 			m_paw_position.middle[coord_z] = just_get_up_paw(side.get_middle_paw(), NO_MOVEMENT_STEP_DIST);
+
+			m_paw_position.front[coord_z]   = a*(m_paw_position.front[coord_x] + HALF_LENGTH) + b*(m_paw_position.front[coord_y] - HALF_WIDTH_MIN) +c;
+			m_paw_position.back[coord_z]   = a*(m_paw_position.back[coord_x] - HALF_LENGTH) + b*(m_paw_position.back[coord_y] - HALF_WIDTH_MIN) + c;
+		}
 	}
 	else if(sequence_number == 2)
 	{
 		if(side.get_side_id() == side_left)
+		{
 			m_paw_position.back[coord_z]   = just_get_up_paw(side.get_back_paw(), NO_MOVEMENT_STEP_DIST);
+
+			m_paw_position.middle[coord_z] = a*m_paw_position.middle[coord_x] + b*(m_paw_position.middle[coord_y] + HALF_WIDTH_MAX) + c;
+			m_paw_position.front[coord_z]   = a*(m_paw_position.front[coord_x] + HALF_LENGTH) + b*(m_paw_position.front[coord_y] + HALF_WIDTH_MIN) +c;
+		}
 		else
+		{
 			m_paw_position.front[coord_z]  = just_get_up_paw(side.get_front_paw(), NO_MOVEMENT_STEP_DIST);
+			m_paw_position.middle[coord_z] = a*m_paw_position.middle[coord_x] + b*(m_paw_position.middle[coord_y] - HALF_WIDTH_MAX) + c;
+			m_paw_position.back[coord_z]   = a*(m_paw_position.back[coord_x] - HALF_LENGTH) + b*(m_paw_position.back[coord_y] - HALF_WIDTH_MIN) + c;
+		}
 	}
 }
 
 void No_movement::determine_z_paws_position_not_get_up(Side &side, int sequence_number, double a, double b, double c)
 {
-	m_paw_position.front[coord_z]  = a*(m_paw_position.front[coord_x] + HALF_LENGTH) + c;
-	m_paw_position.middle[coord_z] = a*m_paw_position.middle[coord_x] + c;
-	m_paw_position.back[coord_z]   = a*(m_paw_position.back[coord_x] - HALF_LENGTH) + c;
-
 	if(sequence_number == 0)
 	{
 		if(side.get_side_id() == side_left)
-			m_paw_position.front[coord_z]  = just_get_down_paw(a*(side.get_front_paw().m_x_center + m_distance / 2 + HALF_LENGTH) + c, side.get_front_paw(), NO_MOVEMENT_STEP_DIST);
+		{
+			m_paw_position.front[coord_z]  = just_get_down_paw(a*(side.get_front_paw().m_x_center + HALF_LENGTH) + b*(m_paw_position.front[coord_y] + HALF_WIDTH_MIN) + c, side.get_front_paw(), NO_MOVEMENT_STEP_DIST);
+
+			m_paw_position.middle[coord_z] = a*m_paw_position.middle[coord_x] + b*(m_paw_position.middle[coord_y] + HALF_WIDTH_MAX) + c;
+			m_paw_position.back[coord_z]   = a*(m_paw_position.back[coord_x] - HALF_LENGTH) + b*(m_paw_position.back[coord_y] + HALF_WIDTH_MIN) + c;
+		}
 		else
-			m_paw_position.back[coord_z]   = just_get_down_paw(a*(side.get_back_paw().m_x_center + m_distance / 2 - HALF_LENGTH) + c, side.get_back_paw(), NO_MOVEMENT_STEP_DIST);
+		{
+			m_paw_position.back[coord_z]   = just_get_down_paw(a*(side.get_back_paw().m_x_center - HALF_LENGTH) + b*(m_paw_position.back[coord_y] - HALF_WIDTH_MIN) + c, side.get_back_paw(), NO_MOVEMENT_STEP_DIST);
+
+			m_paw_position.middle[coord_z] = a*m_paw_position.middle[coord_x] + b*(m_paw_position.middle[coord_y] - HALF_WIDTH_MAX) + c;
+			m_paw_position.front[coord_z]   = a*(m_paw_position.front[coord_x] + HALF_LENGTH) + b*(m_paw_position.front[coord_y] - HALF_WIDTH_MIN) +c;
+		}
 	}
 	else if(sequence_number == 1)
 	{
 		if(side.get_side_id() == side_left)
-			m_paw_position.middle[coord_z] = just_get_down_paw(a*(side.get_middle_paw().m_x_center + m_distance / 2) + c, side.get_middle_paw(), NO_MOVEMENT_STEP_DIST);
+		{
+			m_paw_position.middle[coord_z] = just_get_down_paw(a*(side.get_middle_paw().m_x_center) + b*(m_paw_position.middle[coord_y] + HALF_WIDTH_MAX) + c, side.get_middle_paw(), NO_MOVEMENT_STEP_DIST);
+
+			m_paw_position.front[coord_z]   = a*(m_paw_position.front[coord_x] + HALF_LENGTH) + b*(m_paw_position.front[coord_y] + HALF_WIDTH_MIN) +c;
+			m_paw_position.back[coord_z]   = a*(m_paw_position.back[coord_x] - HALF_LENGTH) + b*(m_paw_position.back[coord_y] + HALF_WIDTH_MIN) + c;
+		}
 		else
-			m_paw_position.middle[coord_z] = just_get_down_paw(a*(side.get_middle_paw().m_x_center + m_distance / 2) + c, side.get_middle_paw(), NO_MOVEMENT_STEP_DIST);
+		{
+			m_paw_position.middle[coord_z] = just_get_down_paw(a*(side.get_middle_paw().m_x_center) + b*(m_paw_position.middle[coord_y] - HALF_WIDTH_MAX) + c, side.get_middle_paw(), NO_MOVEMENT_STEP_DIST);
+
+			m_paw_position.front[coord_z]   = a*(m_paw_position.front[coord_x] + HALF_LENGTH) + b*(m_paw_position.front[coord_y] - HALF_WIDTH_MIN) +c;
+			m_paw_position.back[coord_z]   = a*(m_paw_position.back[coord_x] - HALF_LENGTH) + b*(m_paw_position.back[coord_y] - HALF_WIDTH_MIN) + c;
+		}
 	}
 	else if(sequence_number == 2)
 	{
 		if(side.get_side_id() == side_left)
-			m_paw_position.back[coord_z]   = just_get_down_paw(a*(side.get_back_paw().m_x_center + m_distance / 2 - HALF_LENGTH) + c, side.get_back_paw(), NO_MOVEMENT_STEP_DIST);
+		{
+			m_paw_position.back[coord_z]   = just_get_down_paw(a*(side.get_back_paw().m_x_center - HALF_LENGTH) + b*(m_paw_position.back[coord_y] + HALF_WIDTH_MIN) + c, side.get_back_paw(), NO_MOVEMENT_STEP_DIST);
+
+			m_paw_position.middle[coord_z] = a*m_paw_position.middle[coord_x] + b*(m_paw_position.middle[coord_y] + HALF_WIDTH_MAX) + c;
+			m_paw_position.front[coord_z]   = a*(m_paw_position.front[coord_x] + HALF_LENGTH) + b*(m_paw_position.front[coord_y] + HALF_WIDTH_MIN) +c;
+		}
 		else
-			m_paw_position.front[coord_z]  = just_get_down_paw(a*(side.get_front_paw().m_x_center + m_distance / 2 + HALF_LENGTH) + c,side.get_front_paw(), NO_MOVEMENT_STEP_DIST);
+		{
+			m_paw_position.front[coord_z]  = just_get_down_paw(a*(side.get_front_paw().m_x_center + HALF_LENGTH) + b*(m_paw_position.front[coord_y] - HALF_WIDTH_MIN) + c,side.get_front_paw(), NO_MOVEMENT_STEP_DIST);
+
+			m_paw_position.middle[coord_z]   = a*(m_paw_position.middle[coord_x]) + b*(m_paw_position.middle[coord_y] - HALF_WIDTH_MAX) +c;
+			m_paw_position.back[coord_z]   = a*(m_paw_position.back[coord_x] - HALF_LENGTH) + b*(m_paw_position.back[coord_y] - HALF_WIDTH_MIN) + c;
+		}
 	}
 }
 
@@ -135,23 +186,23 @@ bool No_movement::test_for_good_position_z(Side &side,double a, double b, double
 	if(sequence_number == 0)
 	{
 		if(side.get_side_id() == side_left)
-			return((a*(side.get_front_paw().m_x_center + m_distance / 2 + HALF_LENGTH) + c) == (side.get_front_paw().m_current_coords.z));
+			return((a*(side.get_front_paw().m_x_center + HALF_LENGTH) + b*(m_paw_position.front[coord_y] + HALF_WIDTH_MIN) + c) == (side.get_front_paw().m_current_coords.z));
 		else
-			return((a*(side.get_back_paw().m_x_center + m_distance / 2 - HALF_LENGTH) + c) == ( side.get_back_paw().m_current_coords.z));
+			return((a*(side.get_back_paw().m_x_center - HALF_LENGTH) + b*(m_paw_position.back[coord_y] - HALF_WIDTH_MIN) + c) == ( side.get_back_paw().m_current_coords.z));
 	}
 	else if(sequence_number == 1)
 	{
 		if(side.get_side_id() == side_left)
-			return((a*(side.get_middle_paw().m_x_center + m_distance / 2) + c) == ( side.get_middle_paw().m_current_coords.z));
+			return((a*(side.get_middle_paw().m_x_center) + b*(m_paw_position.middle[coord_y] + HALF_WIDTH_MAX) + c) == ( side.get_middle_paw().m_current_coords.z));
 		else
-			return((a*(side.get_middle_paw().m_x_center + m_distance / 2) + c) == ( side.get_middle_paw().m_current_coords.z));
+			return((a*(side.get_middle_paw().m_x_center) + b*(m_paw_position.middle[coord_y] - HALF_WIDTH_MAX) + c) == ( side.get_middle_paw().m_current_coords.z));
 	}
 	else if(sequence_number == 2)
 	{
 		if(side.get_side_id() == side_left)
-			return((a*(side.get_back_paw().m_x_center + m_distance / 2 - HALF_LENGTH) + c) == ( side.get_back_paw().m_current_coords.z));
+			return((a*(side.get_back_paw().m_x_center - HALF_LENGTH) + b*(m_paw_position.back[coord_y] + HALF_WIDTH_MIN) + c) == ( side.get_back_paw().m_current_coords.z));
 		else
-			return((a*(side.get_front_paw().m_x_center + m_distance / 2 + HALF_LENGTH) + c) == (side.get_front_paw().m_current_coords.z));
+			return((a*(side.get_front_paw().m_x_center + HALF_LENGTH) + b*(m_paw_position.front[coord_y] - HALF_WIDTH_MIN) + c) == (side.get_front_paw().m_current_coords.z));
 	}
 	return 0;
 }
