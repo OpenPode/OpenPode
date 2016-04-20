@@ -43,11 +43,11 @@ void Hexapode::run()
 		if(m_timer.elapsed().millis() >= 20.0)
 		{
 			m_timer.reset();
+
 			if(m_controller.get_new_movement(m_current_step_number, m_step_number))
 			{
 				move(m_controller.m_movement);
 			}
-
 
 			if(!update(m_controller.get_A_coef_incline() , m_controller.get_B_coef_incline() , m_controller.get_paw_spreading()))
 			{

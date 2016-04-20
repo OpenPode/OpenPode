@@ -9,6 +9,7 @@
 #include "Movement_controller.h"
 #include "bcm2835.h"
 #include "hexapode_dimensions.h"
+#include "config.h"
 
 #include "Linear_movement.h"
 #include "No_movement.h"
@@ -20,8 +21,8 @@ Movement_controller::Movement_controller() : m_movement(nullptr), // init to no_
 					   m_paw_spreading(80), m_center_height(-50),
 					   m_current_step_number(0), m_step_number(0),
 					   m_A_coef_incline(0), m_B_coef_incline(0),
-					   m_movement_x_value(0), m_movement_y_value(0),
-					   m_incline_value(0),
+					   m_movement_x_value(0), m_movement_y_value(0), m_incline_value(0),
+					   m_movement_x_lin_value(0), m_movement_y_lin_value(0), m_incline_lin_value(0),
 					   m_up_pressed(false), m_down_pressed(false),
 					   m_move_apart_pressed(false), m_tighten_pressed(false)
 
@@ -32,6 +33,30 @@ Movement_controller::Movement_controller() : m_movement(nullptr), // init to no_
 Movement_controller::~Movement_controller()
 {
 	delete m_movement;
+}
+
+double Movement_controller::make_more_linear(int stick_value) //out between [-1 ; 1]
+{
+	if(stick_value > 0)
+	{
+		stick_value -= m_PS4_controller.stick_offset;
+		if(stick_value < 0)
+			stick_value = 0;
+	}
+	else if(stick_value < 0)
+	{
+		stick_value += m_PS4_controller.stick_offset;
+		if(stick_value > 0)
+			stick_value = 0;
+	}
+	return (stick_value/(m_PS4_controller.max_stick_value - m_PS4_controller.stick_offset));
+}
+
+void Movement_controller::make_sticks_more_linear()
+{
+	m_movement_x_lin_value = make_more_linear(m_movement_x_value);
+	m_movement_y_lin_value = make_more_linear(m_movement_y_value);
+	m_incline_lin_value = make_more_linear(m_incline_value);
 }
 
 void Movement_controller::run_controller()
@@ -58,8 +83,9 @@ bool Movement_controller::get_new_movement(int current_step_number, int step_num
 	m_step_number = step_number;
 
 	get_control_values();
+	make_sticks_more_linear();
 
-	if((abs(m_movement_x_value) <= 2000) and (abs(m_movement_y_value) <= 2000))
+	if((m_movement_x_lin_value == 0) and (m_movement_y_lin_value == 0))
 	{
 		if(m_movement != nullptr)
 			delete m_movement;
@@ -69,40 +95,40 @@ bool Movement_controller::get_new_movement(int current_step_number, int step_num
 	}
 	else if(((m_current_step_number <= 1) && (m_movement->m_type == no_movement)) || (m_movement->m_type != no_movement))
 	{
-		int step_number = abs(140 - sqrt(m_movement_y_value*m_movement_y_value + m_movement_x_value*m_movement_x_value)/32000.*140.+12);
+		int step_number = abs(MAX_STEP_NUMBER - sqrt(m_movement_y_lin_value*m_movement_y_lin_value + m_movement_x_lin_value*m_movement_x_lin_value)*MAX_STEP_NUMBER + MIN_STEP_NUMBER);
 		if(step_number < 12)
 			step_number = 12;
 
 		if(m_movement != nullptr)
 			delete m_movement;
 
-		m_movement = new complete_linear_movement(  atan2(m_movement_x_value, m_movement_y_value)*180/M_PI, 40, step_number);
+		m_movement = new complete_linear_movement(  atan2(m_movement_x_lin_value, m_movement_y_lin_value)*180/M_PI, DEFAULT_DISTANCE, step_number);
 		have_changed = true;
 	}
 
 	if(m_move_apart_pressed)
 	{
 		if(m_paw_spreading <= (TIBIA_LENGTH + FEMUR_LENGTH))
-			m_paw_spreading += 0.5;
+			m_paw_spreading += SPREADING_STEP;
 	}
 	else if(m_tighten_pressed)
 	{
 		if(m_paw_spreading >= TIBIA_ORIGIN_OFFSET)
-		m_paw_spreading -= 0.5;
+		m_paw_spreading -= SPREADING_STEP;
 	}
 
 	if(m_up_pressed)
 	{
 		if(m_center_height <= 0)
-			m_center_height += 0.5;
+			m_center_height += HEIGHT_STEP;
 	}
 	else if(m_down_pressed)
 	{
 		if(m_center_height >= (-TIBIA_LENGTH - FEMUR_LENGTH))
-			m_center_height -= 0.5;
+			m_center_height -= HEIGHT_STEP;
 	}
 
-	m_A_coef_incline = ((m_center_height - CENTER_TO_GROUND_OFFSET) / (HALF_LENGTH + 80.)) * (m_incline_value/m_PS4_controller.max_pot_value);
+	m_A_coef_incline = ((m_center_height + CENTER_TO_GROUND_OFFSET) / (HALF_LENGTH)) * m_incline_lin_value;
 	m_B_coef_incline = m_center_height;
 
 	return have_changed;
