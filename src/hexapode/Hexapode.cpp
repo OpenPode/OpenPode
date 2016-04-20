@@ -49,7 +49,7 @@ void Hexapode::run()
 				move(m_controller.m_movement);
 			}
 
-			if(!update(m_controller.get_A_coef_incline() , m_controller.get_B_coef_incline() , m_controller.get_paw_spreading()))
+			if(!update(m_controller.get_A_coef_incline() , m_controller.get_B_coef_incline(), m_controller.get_C_coef_incline() , m_controller.get_paw_spreading()))
 			{
 				toggle(); //if sequence is finished
 			}
@@ -110,11 +110,11 @@ void Hexapode::move(Movement *mvt)
 
 }
 
-int Hexapode::update(double a, double b, double paw_spreading)
+int Hexapode::update(double a, double b, double c, double paw_spreading)
 {
 	int result_right, result_left;
-	result_right = m_right_side.update(m_current_sequence_number, a, b, paw_spreading);
-	result_left  = m_left_side.update(m_current_sequence_number, a, b, paw_spreading);
+	result_right = m_right_side.update(m_current_sequence_number, a, b, c, paw_spreading);
+	result_left  = m_left_side.update(m_current_sequence_number, a, b, c, paw_spreading);
 	m_current_step_number ++;
 	m_movement->m_current_step_number = m_current_step_number;
 	return result_right & result_left; //if both sequence are finished

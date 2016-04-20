@@ -71,11 +71,11 @@ void No_movement::determine_y_paws_position(Side &side, int sequence_number, dou
 	}
 }
 
-void No_movement::determine_z_paws_position(Side &side, int sequence_number, double a, double b)
+void No_movement::determine_z_paws_position(Side &side, int sequence_number, double a, double b, double c)
 {
-	m_paw_position.front[coord_z]  = a*(m_paw_position.front[coord_x] + HALF_LENGTH) + b;
-	m_paw_position.middle[coord_z] = a*m_paw_position.middle[coord_x] + b;
-	m_paw_position.back[coord_z]   = a*(m_paw_position.back[coord_x] - HALF_LENGTH) + b;
+	m_paw_position.front[coord_z]  = a*(m_paw_position.front[coord_x] + HALF_LENGTH) + c;
+	m_paw_position.middle[coord_z] = a*m_paw_position.middle[coord_x] + c;
+	m_paw_position.back[coord_z]   = a*(m_paw_position.back[coord_x] - HALF_LENGTH) + c;
 
 	if(sequence_number == 0)
 	{
@@ -100,58 +100,58 @@ void No_movement::determine_z_paws_position(Side &side, int sequence_number, dou
 	}
 }
 
-void No_movement::determine_z_paws_position_not_get_up(Side &side, int sequence_number, double a, double b)
+void No_movement::determine_z_paws_position_not_get_up(Side &side, int sequence_number, double a, double b, double c)
 {
-	m_paw_position.front[coord_z]  = a*(m_paw_position.front[coord_x] + HALF_LENGTH) + b;
-	m_paw_position.middle[coord_z] = a*m_paw_position.middle[coord_x] + b;
-	m_paw_position.back[coord_z]   = a*(m_paw_position.back[coord_x] - HALF_LENGTH) + b;
+	m_paw_position.front[coord_z]  = a*(m_paw_position.front[coord_x] + HALF_LENGTH) + c;
+	m_paw_position.middle[coord_z] = a*m_paw_position.middle[coord_x] + c;
+	m_paw_position.back[coord_z]   = a*(m_paw_position.back[coord_x] - HALF_LENGTH) + c;
 
 	if(sequence_number == 0)
 	{
 		if(side.get_side_id() == side_left)
-			m_paw_position.front[coord_z]  = just_get_down_paw(a*(side.get_front_paw().m_x_center + m_distance / 2 + HALF_LENGTH) + b, side.get_front_paw(), NO_MOVEMENT_STEP_DIST);
+			m_paw_position.front[coord_z]  = just_get_down_paw(a*(side.get_front_paw().m_x_center + m_distance / 2 + HALF_LENGTH) + c, side.get_front_paw(), NO_MOVEMENT_STEP_DIST);
 		else
-			m_paw_position.back[coord_z]   = just_get_down_paw(a*(side.get_back_paw().m_x_center + m_distance / 2 - HALF_LENGTH) + b, side.get_back_paw(), NO_MOVEMENT_STEP_DIST);
+			m_paw_position.back[coord_z]   = just_get_down_paw(a*(side.get_back_paw().m_x_center + m_distance / 2 - HALF_LENGTH) + c, side.get_back_paw(), NO_MOVEMENT_STEP_DIST);
 	}
 	else if(sequence_number == 1)
 	{
 		if(side.get_side_id() == side_left)
-			m_paw_position.middle[coord_z] = just_get_down_paw(a*(side.get_middle_paw().m_x_center + m_distance / 2) + b, side.get_middle_paw(), NO_MOVEMENT_STEP_DIST);
+			m_paw_position.middle[coord_z] = just_get_down_paw(a*(side.get_middle_paw().m_x_center + m_distance / 2) + c, side.get_middle_paw(), NO_MOVEMENT_STEP_DIST);
 		else
-			m_paw_position.middle[coord_z] = just_get_down_paw(a*(side.get_middle_paw().m_x_center + m_distance / 2) + b, side.get_middle_paw(), NO_MOVEMENT_STEP_DIST);
+			m_paw_position.middle[coord_z] = just_get_down_paw(a*(side.get_middle_paw().m_x_center + m_distance / 2) + c, side.get_middle_paw(), NO_MOVEMENT_STEP_DIST);
 	}
 	else if(sequence_number == 2)
 	{
 		if(side.get_side_id() == side_left)
-			m_paw_position.back[coord_z]   = just_get_down_paw(a*(side.get_back_paw().m_x_center + m_distance / 2 - HALF_LENGTH) + b, side.get_back_paw(), NO_MOVEMENT_STEP_DIST);
+			m_paw_position.back[coord_z]   = just_get_down_paw(a*(side.get_back_paw().m_x_center + m_distance / 2 - HALF_LENGTH) + c, side.get_back_paw(), NO_MOVEMENT_STEP_DIST);
 		else
-			m_paw_position.front[coord_z]  = just_get_down_paw(a*(side.get_front_paw().m_x_center + m_distance / 2 + HALF_LENGTH) + b,side.get_front_paw(), NO_MOVEMENT_STEP_DIST);
+			m_paw_position.front[coord_z]  = just_get_down_paw(a*(side.get_front_paw().m_x_center + m_distance / 2 + HALF_LENGTH) + c,side.get_front_paw(), NO_MOVEMENT_STEP_DIST);
 	}
 }
 
-bool No_movement::test_for_good_position_z(Side &side,double a, double b, int sequence_number)
+bool No_movement::test_for_good_position_z(Side &side,double a, double b, double c, int sequence_number)
 {
 	//test if one or more paw is not at the correct x,y or z position
 	if(sequence_number == 0)
 	{
 		if(side.get_side_id() == side_left)
-			return((a*(side.get_front_paw().m_x_center + m_distance / 2 + HALF_LENGTH) + b) == (side.get_front_paw().m_current_coords.z));
+			return((a*(side.get_front_paw().m_x_center + m_distance / 2 + HALF_LENGTH) + c) == (side.get_front_paw().m_current_coords.z));
 		else
-			return((a*(side.get_back_paw().m_x_center + m_distance / 2 - HALF_LENGTH) + b) == ( side.get_back_paw().m_current_coords.z));
+			return((a*(side.get_back_paw().m_x_center + m_distance / 2 - HALF_LENGTH) + c) == ( side.get_back_paw().m_current_coords.z));
 	}
 	else if(sequence_number == 1)
 	{
 		if(side.get_side_id() == side_left)
-			return((a*(side.get_middle_paw().m_x_center + m_distance / 2) + b) == ( side.get_middle_paw().m_current_coords.z));
+			return((a*(side.get_middle_paw().m_x_center + m_distance / 2) + c) == ( side.get_middle_paw().m_current_coords.z));
 		else
-			return((a*(side.get_middle_paw().m_x_center + m_distance / 2) + b) == ( side.get_middle_paw().m_current_coords.z));
+			return((a*(side.get_middle_paw().m_x_center + m_distance / 2) + c) == ( side.get_middle_paw().m_current_coords.z));
 	}
 	else if(sequence_number == 2)
 	{
 		if(side.get_side_id() == side_left)
-			return((a*(side.get_back_paw().m_x_center + m_distance / 2 - HALF_LENGTH) + b) == ( side.get_back_paw().m_current_coords.z));
+			return((a*(side.get_back_paw().m_x_center + m_distance / 2 - HALF_LENGTH) + c) == ( side.get_back_paw().m_current_coords.z));
 		else
-			return((a*(side.get_front_paw().m_x_center + m_distance / 2 + HALF_LENGTH) + b) == (side.get_front_paw().m_current_coords.z));
+			return((a*(side.get_front_paw().m_x_center + m_distance / 2 + HALF_LENGTH) + c) == (side.get_front_paw().m_current_coords.z));
 	}
 	return 0;
 }
@@ -217,24 +217,24 @@ void No_movement::compute_variables()
 {
 }
 
-Paw_position No_movement::determine_paws_position(Side &side, int sequence_number, double a, double b, double paw_spreading)
+Paw_position No_movement::determine_paws_position(Side &side, int sequence_number, double a, double b, double c, double paw_spreading)
 {
 	m_paw_spreading = paw_spreading;
 
 	m_xy_good_position = test_for_good_position_xy(side, paw_spreading, sequence_number);
-	m_z_good_position = test_for_good_position_z(side, a,  b,  sequence_number);
+	m_z_good_position = test_for_good_position_z(side, a, b, c,  sequence_number);
 	//get up paws only if one or more paw is not at the correct x,y or z position
 	if(!m_xy_good_position)
 	{
 		determine_x_paws_position(side, sequence_number);
 		determine_y_paws_position(side, sequence_number, paw_spreading);
-		determine_z_paws_position(side, sequence_number, a, b);
+		determine_z_paws_position(side, sequence_number, a, b, c);
 	}
 	else
 	{
 		determine_x_paws_position(side, sequence_number);
 		determine_y_paws_position(side, sequence_number, paw_spreading);
-		determine_z_paws_position_not_get_up(side, sequence_number, a, b);
+		determine_z_paws_position_not_get_up(side, sequence_number, a, b, c);
 	}
 
 	return m_paw_position;

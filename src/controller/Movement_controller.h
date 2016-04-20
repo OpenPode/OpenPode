@@ -34,11 +34,13 @@ public:
 
 	float m_A_coef_incline;
 	float m_B_coef_incline;
+	float m_C_coef_incline;
 
 	double get_paw_spreading() const { return m_paw_spreading; }
 	double get_center_height() const { return m_center_height; }
 	double get_A_coef_incline() const { return m_A_coef_incline; }
 	double get_B_coef_incline() const { return m_B_coef_incline; }
+	double get_C_coef_incline() const { return m_C_coef_incline; }
 
 	double make_more_linear(int stick_value); //out between [-1 ; 1]
 	void make_sticks_more_linear();
@@ -47,10 +49,14 @@ private:
 
 	int m_movement_x_value;
 	int m_movement_y_value;
-	int m_incline_value;
+	int m_incline_pitch_value;
+	int m_incline_roll_value;
+
 	double m_movement_x_lin_value;
 	double m_movement_y_lin_value;
-	double m_incline_lin_value;
+	double m_incline_pitch_lin_value;
+	double m_incline_roll_lin_value;
+
 	bool m_up_pressed;
 	bool m_down_pressed;
 	bool m_move_apart_pressed;

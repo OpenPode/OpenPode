@@ -38,9 +38,9 @@ Side::Side(Side_enum side, i2cdev *i2c) : m_side(side),
 	m_current_sequence_number = -1;
 }
 
-int Side::update(int sequence_number, double a, double b, double paw_spreading) //ax+b for height
+int Side::update(int sequence_number, double a, double b, double c, double paw_spreading) //ax+by+c for height
 {
-	Paw_position paw_position = m_movement->determine_paws_position(*this, sequence_number, a, b, paw_spreading);
+	Paw_position paw_position = m_movement->determine_paws_position(*this, sequence_number, a, b, c, paw_spreading);
 	move_paw(m_front_paw, paw_position.front);
 	move_paw(m_middle_paw, paw_position.middle);
 	move_paw(m_back_paw, paw_position.back);

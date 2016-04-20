@@ -20,9 +20,11 @@
 Movement_controller::Movement_controller() : m_movement(nullptr), // init to no_movement
 					   m_paw_spreading(80), m_center_height(-50),
 					   m_current_step_number(0), m_step_number(0),
-					   m_A_coef_incline(0), m_B_coef_incline(0),
-					   m_movement_x_value(0), m_movement_y_value(0), m_incline_value(0),
-					   m_movement_x_lin_value(0), m_movement_y_lin_value(0), m_incline_lin_value(0),
+					   m_A_coef_incline(0), m_B_coef_incline(0), m_C_coef_incline(0),
+					   m_movement_x_value(0), m_movement_y_value(0),
+					   m_incline_pitch_value(0), m_incline_roll_value(0),
+					   m_movement_x_lin_value(0), m_movement_y_lin_value(0),
+					   m_incline_pitch_lin_value(0), m_incline_roll_lin_value(0),
 					   m_up_pressed(false), m_down_pressed(false),
 					   m_move_apart_pressed(false), m_tighten_pressed(false)
 
@@ -56,7 +58,8 @@ void Movement_controller::make_sticks_more_linear()
 {
 	m_movement_x_lin_value = make_more_linear(m_movement_x_value);
 	m_movement_y_lin_value = make_more_linear(m_movement_y_value);
-	m_incline_lin_value = make_more_linear(m_incline_value);
+	m_incline_pitch_lin_value = make_more_linear(m_incline_pitch_value);
+	m_incline_roll_lin_value = make_more_linear(m_incline_roll_value);
 }
 
 void Movement_controller::run_controller()
@@ -68,7 +71,8 @@ void Movement_controller::get_control_values()
 {
 	m_movement_x_value = m_PS4_controller.m_jsl_x_value;
 	m_movement_y_value = m_PS4_controller.m_jsl_y_value;
-	m_incline_value = m_PS4_controller.m_jsr_y_value;
+	m_incline_pitch_value = m_PS4_controller.m_jsr_y_value;
+	m_incline_roll_value = m_PS4_controller.m_jsr_x_value;
 	m_up_pressed = m_PS4_controller.m_is_r2_press;
 	m_down_pressed = m_PS4_controller.m_is_r1_press;
 	m_move_apart_pressed = m_PS4_controller.m_is_l2_press;
@@ -128,8 +132,13 @@ bool Movement_controller::get_new_movement(int current_step_number, int step_num
 			m_center_height -= HEIGHT_STEP;
 	}
 
-	m_A_coef_incline = ((m_center_height + CENTER_TO_GROUND_OFFSET) / (HALF_LENGTH)) * m_incline_lin_value;
-	m_B_coef_incline = m_center_height;
+	double incline_coef = std::abs(m_incline_roll_lin_value) + std::abs(m_incline_pitch_lin_value);
+	if(incline_coef == 0)
+		incline_coef = 1.;
+
+	m_A_coef_incline = ((m_center_height + CENTER_TO_GROUND_OFFSET) / (-HALF_LENGTH)) * m_incline_pitch_lin_value * std::abs(m_incline_pitch_lin_value) / incline_coef;
+	m_B_coef_incline = ((m_center_height + CENTER_TO_GROUND_OFFSET) / (-HALF_WIDTH_MAX)) * m_incline_roll_lin_value * std::abs(m_incline_roll_lin_value) / incline_coef;;
+	m_C_coef_incline = m_center_height;
 
 	return have_changed;
 }

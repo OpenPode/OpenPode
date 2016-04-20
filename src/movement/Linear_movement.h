@@ -20,11 +20,11 @@ public:
 
 	void determine_x_paws_position(Side &side, int sequence_number);
 	void determine_y_paws_position(Side &side, int sequence_number, double paw_spreading);
-	void determine_z_paws_position(Side &side, int sequence_number, double front_height, double back_height);
+	void determine_z_paws_position(Side &side, int sequence_number, double a, double b, double c);
 
 	virtual double determine_real_distance(Side &side);
 	virtual void compute_variables();
-	virtual Paw_position determine_paws_position(Side &side, int sequence_number, double front_height, double back_height, double paw_spreading);
+	virtual Paw_position determine_paws_position(Side &side, int sequence_number, double a, double b, double c, double paw_spreading);
 	bool is_sequence_finished(Side &side, int sequence_number);
 };
 
