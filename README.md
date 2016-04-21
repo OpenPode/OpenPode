@@ -13,3 +13,14 @@ Contacts
 ------------------
 * Guillaume Sarthou (3ème année INSA Toulouse), guillaum324bis@hotmail.fr
 * Julien Combattelli  (3ème année INSA Toulouse), julien.combattelli@hotmail.com
+
+changements importants :
+-mise en place du controlleur de mouvement (movement_controller)
+-mise en place de l'inclinaison 2D : tangage(pitch) et roulis(roll)
+	-calcul des coeficients
+	-déploiment des coeficients sur les classes enfants
+	-prises en compte de l'inclinaison 2D dans las mouvement (z_paw_position_determination)
+-prise en compte de butées mécaniques (début)
+	-dans servo
+	-dans paw
+	-dans side
