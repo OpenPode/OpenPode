@@ -41,9 +41,13 @@ Side::Side(Side_enum side, i2cdev *i2c) : m_side(side),
 int Side::update(int sequence_number, double a, double b, double c, double paw_spreading) //ax+by+c for height
 {
 	Paw_position paw_position = m_movement->determine_paws_position(*this, sequence_number, a, b, c, paw_spreading);
-	move_paw(m_front_paw, paw_position.front);
-	move_paw(m_middle_paw, paw_position.middle);
-	move_paw(m_back_paw, paw_position.back);
+	determine_servos_paw_time(m_front_paw, paw_position.front);
+	determine_servos_paw_time(m_middle_paw, paw_position.middle);
+	determine_servos_paw_time(m_back_paw, paw_position.back);
+
+	move_paw(m_front_paw);
+	move_paw(m_middle_paw);
+	move_paw(m_back_paw);
 	// for test purpose
 	if(m_movement->is_sequence_finished(*this, sequence_number))
 		return 0;
@@ -51,17 +55,24 @@ int Side::update(int sequence_number, double a, double b, double c, double paw_s
 		return 1;
 }
 
-void Side::move_paw(Paw &paw, double coords[3])
+bool Side::determine_servos_paw_time(Paw &paw, double coords[3])
 {
 	Angles angles = paw.move(coords[coord_x], coords[coord_y], coords[coord_z]);
 
-	int time_tibias = static_cast<int>(- m_side_coef * (angles.theta3*(180./M_PI)+90.) * Servo::resolution + paw.m_tibia.get_offset());
-	int time_femur  = static_cast<int>(  m_side_coef *  angles.theta2*(180./M_PI) * Servo::resolution      + paw.m_femur.get_offset());
-	int time_coxa   = static_cast<int>(-(angles.theta1*(180./M_PI) - m_side_coef*90.) * Servo::resolution  + paw.m_coxa.get_offset());
+	servos_time_table[paw.m_position][position_tibia] = (int)(- m_side_coef * (angles.theta3*(180./M_PI)+90.) * Servo::resolution + paw.m_tibia.get_offset());
+	servos_time_table[paw.m_position][position_femur] = (int)(  m_side_coef *  angles.theta2*(180./M_PI) * Servo::resolution      + paw.m_femur.get_offset());
+	servos_time_table[paw.m_position][position_coxa]  = (int)(-(angles.theta1*(180./M_PI) - m_side_coef*90.) * Servo::resolution  + paw.m_coxa.get_offset());
 
-	m_module.set_off_time(channel_table[paw.m_position][position_tibia], time_tibias);
-	m_module.set_off_time(channel_table[paw.m_position][position_femur], time_femur);
-	m_module.set_off_time(channel_table[paw.m_position][position_coxa], time_coxa);
+	return (paw.is_position_available(servos_time_table[paw.m_position][position_tibia],
+									  servos_time_table[paw.m_position][position_femur],
+									  servos_time_table[paw.m_position][position_coxa]));
+}
+
+void Side::move_paw(Paw &paw)
+{
+	m_module.set_off_time(channel_table[paw.m_position][position_tibia], servos_time_table[paw.m_position][position_tibia]);
+	m_module.set_off_time(channel_table[paw.m_position][position_femur], servos_time_table[paw.m_position][position_femur]);
+	m_module.set_off_time(channel_table[paw.m_position][position_coxa], servos_time_table[paw.m_position][position_coxa]);
 }
 
 void Side::memorize_current_paw_position()

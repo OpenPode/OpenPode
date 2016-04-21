@@ -37,6 +37,7 @@ public:
 	Side_enum get_side_id() const { return m_side; }
 	int get_side_coef() const { return m_side_coef; }
 	int get_current_sequence_number() const { return m_current_sequence_number; }
+	bool is_paws_positions_available();
 
 	// Debug functions
 	Paw& get_front_paw() {return m_front_paw;}
@@ -46,7 +47,8 @@ public:
 
 private:
 
-	void move_paw(Paw &paw, double tab[3]);
+	void move_paw(Paw &paw);
+	bool determine_servos_paw_time(Paw &paw, double coords[3]);
 
 	//TODO: Change side_enum place
 	Side_enum m_side;
@@ -61,6 +63,7 @@ private:
 	int m_side_coef;
 
 	static const Channel_t channel_table[3][3];
+	int servos_time_table[3][3];
 
 	PCA9685 m_module;
 

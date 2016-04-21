@@ -76,4 +76,14 @@ Coords Paw::get_current_position() const
 	return m_current_coords;
 }
 
-
+bool Paw::is_position_available(int tibias_value, int femur_value, int coxa_value)
+{
+	if(!m_tibia.is_value_in_the_range(tibias_value))
+		return false;
+	else if(!m_femur.is_value_in_the_range(femur_value))
+		return false;
+	else if(!m_coxa.is_value_in_the_range(coxa_value))
+		return false;
+	else
+		return true;
+}

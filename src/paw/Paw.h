@@ -23,6 +23,8 @@ public:
 
 	Coords get_current_position() const;
 
+	bool is_position_available(int tibias_value, int femur_value, int coxa_value);
+
 public:
 
 	Side_enum m_side;

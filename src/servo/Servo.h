@@ -47,6 +47,7 @@ public:
 	static constexpr double resolution = double(max_ratio-min_ratio)/excursion_deg;
 
 	int get_offset() const;
+	bool is_value_in_the_range(int value);
 
 public:
 
