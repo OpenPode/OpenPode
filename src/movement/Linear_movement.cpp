@@ -85,36 +85,50 @@ void Linear_movement::determine_y_paws_position(Side &side, int sequence_number,
 
 void Linear_movement::determine_z_paws_position(Side &side, int sequence_number, double a, double b, double c)
 {
-	m_paw_position.front[coord_z]  = a*(m_paw_position.front[coord_x] + HALF_LENGTH) + c;
-	m_paw_position.middle[coord_z] = a*m_paw_position.middle[coord_x] + c;
-	m_paw_position.back[coord_z]   = a*(m_paw_position.back[coord_x] - HALF_LENGTH) + c;
+	double z_value = 0; // ax + by + c
+
+	m_paw_position.front[coord_z]  = a*(m_paw_position.front[coord_x] + HALF_LENGTH) + b*(m_paw_position.front[coord_y] + side.get_side_coef()*HALF_WIDTH_MIN)  + c;
+	m_paw_position.middle[coord_z] = a*m_paw_position.middle[coord_x] 				 + b*(m_paw_position.middle[coord_y] + side.get_side_coef()*HALF_WIDTH_MAX) + c;
+	m_paw_position.back[coord_z]   = a*(m_paw_position.back[coord_x] - HALF_LENGTH)  + b*(m_paw_position.back[coord_y] + side.get_side_coef()*HALF_WIDTH_MIN)   + c;
 
 	if(sequence_number == 0)
 	{
 		if(side.get_side_id() == side_left)
-			m_paw_position.front[coord_z]  = get_up_paw(a*(side.get_front_paw().m_x_center + m_distance / 2 + HALF_LENGTH) + c,
-														side.get_front_paw(), m_step_distance_z);
+		{
+			z_value = a*(m_paw_position.front[coord_x]+ HALF_LENGTH) + b*(m_paw_position.front[coord_y] + HALF_WIDTH_MIN) + c;
+			m_paw_position.front[coord_z]  = get_up_paw(z_value, side.get_front_paw(), m_step_distance_z);
+		}
 		else
-			m_paw_position.back[coord_z]   = get_up_paw(a*(side.get_back_paw().m_x_center + m_distance / 2 - HALF_LENGTH) + c,
-														side.get_back_paw(), m_step_distance_z);
+		{
+			z_value = a*(m_paw_position.back[coord_x] - HALF_LENGTH) + b*(m_paw_position.back[coord_y] - HALF_WIDTH_MIN) + c;
+			m_paw_position.back[coord_z]   = get_up_paw(z_value, side.get_back_paw(), m_step_distance_z);
+		}
 	}
 	else if(sequence_number == 1)
 	{
 		if(side.get_side_id() == side_left)
-			m_paw_position.middle[coord_z] = get_up_paw(a*(side.get_middle_paw().m_x_center + m_distance / 2) + c,
-														side.get_middle_paw(), m_step_distance_z);
+		{
+			z_value = a*(m_paw_position.middle[coord_x]) + b*(m_paw_position.middle[coord_y] + HALF_WIDTH_MAX) + c;
+			m_paw_position.middle[coord_z] = get_up_paw(z_value, side.get_middle_paw(), m_step_distance_z);
+		}
 		else
-			m_paw_position.middle[coord_z] = get_up_paw(a*(side.get_middle_paw().m_x_center + m_distance / 2) + c,
-														side.get_middle_paw(), m_step_distance_z);
+		{
+			z_value = a*(m_paw_position.middle[coord_x]) + b*(m_paw_position.middle[coord_y] - HALF_WIDTH_MAX) + c;
+			m_paw_position.middle[coord_z] = get_up_paw(z_value, side.get_middle_paw(), m_step_distance_z);
+		}
 	}
 	else
 	{
 		if(side.get_side_id() == side_left)
-			m_paw_position.back[coord_z]   = get_up_paw(a*(side.get_back_paw().m_x_center + m_distance / 2 - HALF_LENGTH) + c,
-														side.get_back_paw(), m_step_distance_z);
+		{
+			z_value = a*(m_paw_position.back[coord_x] - HALF_LENGTH) + b*(m_paw_position.back[coord_y] + HALF_WIDTH_MIN) + c;
+			m_paw_position.back[coord_z]   = get_up_paw(z_value, side.get_back_paw(), m_step_distance_z);
+		}
 		else
-			m_paw_position.front[coord_z]  = get_up_paw(a*(side.get_front_paw().m_x_center + m_distance / 2 + HALF_LENGTH) + c,
-														side.get_front_paw(), m_step_distance_z);
+		{
+			z_value = a*(m_paw_position.front[coord_x] + HALF_LENGTH) + b*(m_paw_position.front[coord_y] - HALF_WIDTH_MIN) + c;
+			m_paw_position.front[coord_z]  = get_up_paw(z_value, side.get_front_paw(), m_step_distance_z);
+		}
 	}
 }
 
