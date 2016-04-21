@@ -70,15 +70,15 @@ void Movement_controller::run_controller()
 
 void Movement_controller::get_control_values()
 {
-	m_movement_x_value = m_PS4_controller.m_jsl_x_value;
-	m_movement_y_value = m_PS4_controller.m_jsl_y_value;
-	m_incline_pitch_value = m_PS4_controller.m_jsr_y_value;
-	m_incline_roll_value = m_PS4_controller.m_jsr_x_value;
-	m_up_pressed = m_PS4_controller.m_is_r2_press;
-	m_down_pressed = m_PS4_controller.m_is_r1_press;
-	m_move_apart_pressed = m_PS4_controller.m_is_l2_press;
-	m_tighten_pressed = m_PS4_controller.m_is_l1_press;
-	m_turn_back_default_pressed = m_PS4_controller.m_is_options_press;
+	m_movement_x_value = m_PS4_controller.get_js_left_x();
+	m_movement_y_value = m_PS4_controller.get_js_left_y();
+	m_incline_pitch_value = m_PS4_controller.get_js_right_y();
+	m_incline_roll_value = m_PS4_controller.get_js_right_x();
+	m_up_pressed = m_PS4_controller.is_key_press(PS4_Key::KEY_R2);
+	m_down_pressed = m_PS4_controller.is_key_press(PS4_Key::KEY_R1);
+	m_move_apart_pressed = m_PS4_controller.is_key_press(PS4_Key::KEY_L2);
+	m_tighten_pressed = m_PS4_controller.is_key_press(PS4_Key::KEY_L1);
+	m_turn_back_default_pressed = m_PS4_controller.is_key_press(PS4_Key::KEY_OPTIONS);
 }
 
 bool Movement_controller::get_new_movement(int current_step_number, int step_number)

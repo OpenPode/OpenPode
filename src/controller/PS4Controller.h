@@ -18,17 +18,18 @@
 #include <fcntl.h>
 #include <string>
 
-enum Key
+enum PS4_Key
 {
     KEY_CROSS       = BTN_B,
     KEY_CIRCLE      = BTN_C,
     KEY_SQUARE      = BTN_A,
     KEY_TRIANGLE    = BTN_X,
 
-    KEY_DPAD_UP     = ABS_HAT0Y,
-    KEY_DPAD_DOWN   = ABS_HAT0Y,
-    KEY_DPAD_LEFT   = ABS_HAT0X,
-    KEY_DPAD_RIGHT  = ABS_HAT0X,
+	// arbitrary values to avoid collision with other enumerators
+    KEY_DPAD_UP     = 0xFFFC,
+    KEY_DPAD_DOWN   = 0xFFFD,
+    KEY_DPAD_LEFT   = 0xFFFE,
+    KEY_DPAD_RIGHT  = 0xFFFF,
 
     KEY_R1          = BTN_Z,
     KEY_R2          = BTN_TR,
@@ -43,7 +44,7 @@ enum Key
     KEY_SHARE       = BTN_TL2
 };
 
-enum Key_event_type
+enum PS4_Key_event_type
 {
     Key_release,
     Key_press,
@@ -58,14 +59,20 @@ public:
 
 	void process_input();
 
-	bool is_key_press(Key key) const;
+	bool is_key_press(PS4_Key key) const;
 
-	int get_js_left_x() const;
-	int get_js_left_y() const;
-	int get_js_right_x() const;
-	int get_js_right_y() const;
+	int get_js_left_x() const { return m_jsl_x_value; }
+	int get_js_left_y() const { return m_jsl_y_value; }
+	int get_js_right_x() const { return m_jsr_x_value; }
+	int get_js_right_y() const { return m_jsr_y_value; }
 
-public:
+	static const std::string device_ev;
+	static const std::string device_js;
+
+	static const double max_stick_value;
+	static const double stick_offset;
+
+private:
 
 	int fdopen(std::string device, int mode);
 
@@ -96,12 +103,6 @@ public:
 
 	int m_jsr_x_value;
 	int m_jsr_y_value;
-
-	static const std::string m_device_ev;
-	static const std::string m_device_js;
-
-	static const double max_stick_value;
-	static const double stick_offset;
 
 	input_event m_ev;
 	js_event m_js;
