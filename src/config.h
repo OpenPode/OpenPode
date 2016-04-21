@@ -40,4 +40,8 @@ const double DEFAULT_DISTANCE = 40.;
 const double SPREADING_STEP = 0.5;
 const double HEIGHT_STEP = 0.5;
 
+//default position
+const double DEFAULT_PAW_SPREADING = 80;
+const double DEFAULT_HEIGHT		   = -50;
+
 #endif /* CONFIG_H_ */

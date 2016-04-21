@@ -62,6 +62,8 @@ private:
 	bool m_move_apart_pressed;
 	bool m_tighten_pressed;
 
+	bool m_turn_back_default_pressed;
+
 	void get_control_values();
 
 	PS4Controller m_PS4_controller;
