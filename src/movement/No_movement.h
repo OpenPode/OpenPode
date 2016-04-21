@@ -35,7 +35,7 @@ private:
 	bool test_for_get_up_sequence1(Side &side, double paw_spreading);
 	bool test_for_get_up_sequence2(Side &side, double paw_spreading);
 	bool test_for_good_position_xy(Side &side, double paw_spreading, int sequence_number);
-	bool test_for_good_position_z(Side &side,double a, double b, double c, int sequence_number);
+	bool test_for_good_position_z(Side &side,double a, double b, double c, int paw_spreading, int sequence_number);
 
 	bool m_z_good_position;
 	bool m_xy_good_position;
