@@ -34,13 +34,11 @@ Side::Side(Side_enum side, i2cdev *i2c) : m_side(side),
 		m_module = PCA9685(i2c, 0x41);
 		m_side_coef = -1;
 	}
-	//represent the initial sequence
-	m_current_sequence_number = -1;
 }
 
-int Side::update(int sequence_number, Incline_coef_t p_incline_coef, double paw_spreading) //ax+by+c for height
+int Side::update() //ax+by+c for height
 {
-	Paw_position paw_position = m_movement->determine_paws_position(*this, sequence_number, p_incline_coef, paw_spreading);
+	Paw_position paw_position = m_movement->determine_paws_position(*this);
 	determine_servos_paw_time(m_front_paw, paw_position.front);
 	determine_servos_paw_time(m_middle_paw, paw_position.middle);
 	determine_servos_paw_time(m_back_paw, paw_position.back);
@@ -82,16 +80,9 @@ void Side::memorize_current_paw_position()
 	m_paws_position.back_paw = m_back_paw.get_current_position();
 }
 
-void Side::memorize_movement(Movement *mvt, int p_current_step_number)
+void Side::memorize_movement(Movement *mvt)
 {
 	m_movement = mvt;
-	m_movement->m_current_step_number = p_current_step_number;
-}
-
-void Side::change_sequence_number(int sequence_number, int p_current_step_number)
-{
-	m_current_sequence_number = sequence_number;
-	m_movement->m_current_step_number = p_current_step_number;
 }
 
 double Side::get_real_distance()

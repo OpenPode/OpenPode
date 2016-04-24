@@ -49,7 +49,8 @@ void Hexapode::run()
 				move(m_controller.m_movement);
 			}
 
-			if(!update(m_controller.get_incline_coef(), m_controller.get_paw_spreading()))
+			m_movement->memorize_parameters(m_current_sequence_number, m_controller.get_incline_coef(), m_controller.get_paw_spreading());
+			if(!update())
 			{
 				toggle(); //if sequence is finished
 			}
@@ -69,19 +70,22 @@ void Hexapode::determine_real_distance_for_movement()
 		m_movement->m_corrected_distance = m_movement->m_distance;
 }
 
-void Hexapode::toggle()
+void Hexapode::update_sequence_number()
 {
-
 	m_current_sequence_number++;
 	if(m_current_sequence_number >= SEQUENCE_NUMBER)
 		m_current_sequence_number = 0;
 
 	m_current_step_number = 0;
+	m_movement->raz_current_step_number();
+}
+
+void Hexapode::toggle()
+{
+	update_sequence_number();
+
 	m_left_side.memorize_current_paw_position();
 	m_right_side.memorize_current_paw_position();
-
-	m_left_side.change_sequence_number(m_current_sequence_number, m_current_step_number);
-	m_right_side.change_sequence_number(m_current_sequence_number, m_current_step_number);
 
 	determine_real_distance_for_movement();
 	m_movement->compute_variables();
@@ -104,21 +108,25 @@ void Hexapode::move(Movement *mvt)
 		m_current_step_number = m_movement->m_step_number * m_current_step_number / m_step_number;
 		m_step_number = m_movement->m_step_number;
 	}
-	m_left_side.memorize_movement(mvt, m_current_step_number);
-	m_right_side.memorize_movement(mvt, m_current_step_number);
+	m_left_side.memorize_movement(mvt);
+	m_right_side.memorize_movement(mvt);
+	m_movement->update_current_step_number(m_current_step_number);
+
 	determine_real_distance_for_movement();
 	m_movement->compute_variables();
 
 }
 
-int Hexapode::update(Incline_coef_t p_incline_coef, double paw_spreading)
+int Hexapode::update()
 {
-	int result_right, result_left;
-	result_right = m_right_side.update(m_current_sequence_number, p_incline_coef, paw_spreading);
-	result_left  = m_left_side.update(m_current_sequence_number, p_incline_coef, paw_spreading);
+	int sequence_end_right, sequence_end_left;
+	sequence_end_right = m_right_side.update();
+	sequence_end_left  = m_left_side.update();
+
 	m_current_step_number ++;
-	m_movement->m_current_step_number = m_current_step_number;
-	return result_right & result_left; //if both sequence are finished
+	m_movement->increase_current_step_number();
+
+	return sequence_end_right & sequence_end_left; //if both sequence are finished
 }
 
 //for calibration

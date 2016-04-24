@@ -28,16 +28,14 @@ public:
 
 	Side(Side_enum side, i2cdev *i2c);
 
-	void memorize_movement(Movement *mvt, int m_current_step_number);
-	int update(int sequence_number, Incline_coef_t p_incline_coef, double paw_spreading);
-	void change_sequence_number(int sequence_number, int p_current_step_number);
+	void memorize_movement(Movement *mvt);
+	int update();
 	double get_real_distance();
 	void memorize_current_paw_position();
 
 	Paws_position get_paws_position() const { return m_paws_position; }
 	Side_enum get_side_id() const { return m_side; }
 	int get_side_coef() const { return m_side_coef; }
-	int get_current_sequence_number() const { return m_current_sequence_number; }
 	bool is_paws_positions_available();
 
 	// Debug functions
@@ -69,8 +67,6 @@ private:
 	PCA9685 m_module;
 
 	Movement *m_movement;
-	//the sequence number represent the 3 step of any movement
-	int m_current_sequence_number;
 };
 
 

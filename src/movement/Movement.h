@@ -43,19 +43,22 @@ public:
 	Movement(Movement_type type, Movement_direction direction, double distance, double angle, int step_number);
 	virtual ~Movement() {}
 
+	void compute_z_value_for_standard_paw(Side &side, Incline_coef_t p_incline_coef);
+	void memorize_parameters(int sequence_number, Incline_coef_t p_incline_coef, double paw_spreading);
+	void raz_current_step_number();
+	void update_current_step_number(int p_current_step_number);
+	void increase_current_step_number();
+
+	virtual double determine_real_distance(Side &side) = 0;
+	virtual void compute_variables() = 0;
+	virtual Paw_position determine_paws_position(Side &side) = 0;
+	virtual bool is_sequence_finished(Side &side) = 0;
+
 	double reproach_position(double present, double futur, double p_step_distance);
 	double get_up_paw(double final_height, Paw &paw, double p_step_distance);
 	double just_get_up_paw(Paw &paw, double p_step_distance);
 	double just_get_down_paw(double final_height, Paw &paw, double p_step_distance);
 	double goto_position(double present, double futur, double nb_step);
-
-	void compute_z_value_for_standard_paw(Side &side, Incline_coef_t p_incline_coef);
-	void memorize_parameters(int sequence_number, Incline_coef_t p_incline_coef, double paw_spreading);
-
-	virtual double determine_real_distance(Side &side) = 0;
-	virtual void compute_variables() = 0;
-	virtual Paw_position determine_paws_position(Side &side, int sequence_number, Incline_coef_t p_incline_coef, double paw_spreading) = 0;
-	virtual bool is_sequence_finished(Side &side) = 0;
 
 	Movement_type m_type;
 	Movement_direction m_direction;

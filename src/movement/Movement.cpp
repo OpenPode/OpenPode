@@ -128,3 +128,18 @@ void Movement::memorize_parameters(int sequence_number, Incline_coef_t p_incline
 	m_incline_coef = p_incline_coef;
 	m_paw_spreading = paw_spreading;
 }
+
+void Movement::raz_current_step_number()
+{
+	m_current_step_number = 0;
+}
+
+void Movement::update_current_step_number(int p_current_step_number)
+{
+	m_current_step_number = p_current_step_number;
+}
+
+void Movement::increase_current_step_number()
+{
+	m_current_step_number++;
+}

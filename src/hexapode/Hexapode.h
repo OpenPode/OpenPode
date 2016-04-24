@@ -27,10 +27,11 @@ public:
 
 	void move(Movement *mvt);
 
-	int update(Incline_coef_t p_incline_coef, double paw_spreading=90);
+	int update();
 
 	void determine_real_distance_for_movement();
 	void toggle();
+	void update_sequence_number();
 
 public:
 

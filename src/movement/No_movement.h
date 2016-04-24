@@ -20,7 +20,7 @@ public:
 
 	virtual double determine_real_distance(Side &side);
 	virtual void compute_variables();
-	virtual Paw_position determine_paws_position(Side &side, int sequence_number, Incline_coef_t p_incline_coef, double paw_spreading);
+	virtual Paw_position determine_paws_position(Side &side);
 	virtual bool is_sequence_finished(Side &side);
 
 protected:

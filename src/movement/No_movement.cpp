@@ -223,10 +223,8 @@ void No_movement::compute_variables()
 {
 }
 
-Paw_position No_movement::determine_paws_position(Side &side, int sequence_number, Incline_coef_t p_incline_coef, double paw_spreading)
+Paw_position No_movement::determine_paws_position(Side &side)
 {
-	memorize_parameters(sequence_number, p_incline_coef, paw_spreading);
-
 	m_xy_good_position = test_for_good_position_xy(side);
 	m_z_good_position = test_for_good_position_z(side);
 	//get up paws only if one or more paw is not at the correct x,y or z position
