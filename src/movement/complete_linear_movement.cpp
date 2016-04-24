@@ -100,54 +100,38 @@ void complete_linear_movement::determine_y_paws_position(Side &side, int sequenc
 	}
 }
 
-void complete_linear_movement::determine_z_paws_position(Side &side, int sequence_number, double a, double b, double c)
+void complete_linear_movement::determine_z_paws_position(Side &side, int sequence_number, Incline_coef_t p_incline_coef)
 {
+	compute_z_value_for_standard_paw(side, p_incline_coef);
+
 	//TODO : verify if in get_up_paw final height can be the height of the CURRENT point
-
-	double z_value = 0; // ax + by + c
-
-	m_paw_position.front[coord_z]   = a*(m_paw_position.front[coord_x] + HALF_LENGTH) + b*(m_paw_position.front[coord_y] + side.get_side_coef()*HALF_WIDTH_MIN) +c;
-	m_paw_position.middle[coord_z] = a*m_paw_position.middle[coord_x] + b*(m_paw_position.middle[coord_y] + side.get_side_coef()*HALF_WIDTH_MAX) + c;
-	m_paw_position.back[coord_z]   = a*(m_paw_position.back[coord_x] - HALF_LENGTH) + b*(m_paw_position.back[coord_y] + side.get_side_coef()*HALF_WIDTH_MIN) + c;
+	double z_theoretic_front_value = p_incline_coef.A*(m_paw_position.front[coord_x]+ HALF_LENGTH) +
+									 p_incline_coef.B*(m_paw_position.front[coord_y] + side.get_side_coef()*HALF_WIDTH_MIN) +
+									 p_incline_coef.C;
+	double z_theoretic_middle_value =p_incline_coef.A*(m_paw_position.middle[coord_x]) +
+									 p_incline_coef.B*(m_paw_position.middle[coord_y] + side.get_side_coef()*HALF_WIDTH_MAX) +
+									 p_incline_coef.C;
+	double z_theoretic_back_value =  p_incline_coef.A*(m_paw_position.back[coord_x] - HALF_LENGTH) +
+									 p_incline_coef.B*(m_paw_position.back[coord_y] + side.get_side_coef()*HALF_WIDTH_MIN) +
+									 p_incline_coef.C;
 
 	if(sequence_number == 0)
 	{
 		if(side.get_side_id() == side_left)
-		{
-			z_value = a*(m_paw_position.front[coord_x]+ HALF_LENGTH) + b*(m_paw_position.front[coord_y] + HALF_WIDTH_MIN) + c;
-			m_paw_position.front[coord_z]  = get_up_paw(z_value, side.get_front_paw(), m_step_distance_z);
-		}
+			m_paw_position.front[coord_z]  = get_up_paw(z_theoretic_front_value, side.get_front_paw(), m_step_distance_z);
 		else
-		{
-			z_value = a*(m_paw_position.back[coord_x] - HALF_LENGTH) + b*(m_paw_position.back[coord_y] - HALF_WIDTH_MIN) + c;
-			m_paw_position.back[coord_z]   = get_up_paw(z_value, side.get_back_paw(), m_step_distance_z);
-		}
+			m_paw_position.back[coord_z]   = get_up_paw(z_theoretic_back_value, side.get_back_paw(), m_step_distance_z);
 	}
 	else if(sequence_number == 1)
 	{
-		if(side.get_side_id() == side_left)
-		{
-			z_value = a*(m_paw_position.middle[coord_x]) + b*(m_paw_position.middle[coord_y] + HALF_WIDTH_MAX) + c;
-			m_paw_position.middle[coord_z] = get_up_paw(z_value, side.get_middle_paw(), m_step_distance_z);
-		}
-		else
-		{
-			z_value = a*(m_paw_position.middle[coord_x]) + b*(m_paw_position.middle[coord_y] - HALF_WIDTH_MAX) + c;
-			m_paw_position.middle[coord_z] = get_up_paw(z_value, side.get_middle_paw(), m_step_distance_z);
-		}
+		m_paw_position.middle[coord_z] = get_up_paw(z_theoretic_middle_value, side.get_middle_paw(), m_step_distance_z);
 	}
 	else
 	{
 		if(side.get_side_id() == side_left)
-		{
-			z_value = a*(m_paw_position.back[coord_x] - HALF_LENGTH) + b*(m_paw_position.back[coord_y] + HALF_WIDTH_MIN) + c;
-			m_paw_position.back[coord_z]   = get_up_paw(z_value, side.get_back_paw(), m_step_distance_z);
-		}
+			m_paw_position.back[coord_z]   = get_up_paw(z_theoretic_back_value, side.get_back_paw(), m_step_distance_z);
 		else
-		{
-			z_value = a*(m_paw_position.front[coord_x] + HALF_LENGTH) + b*(m_paw_position.front[coord_y] - HALF_WIDTH_MIN) + c;
-			m_paw_position.front[coord_z]  = get_up_paw(z_value, side.get_front_paw(), m_step_distance_z);
-		}
+			m_paw_position.front[coord_z]  = get_up_paw(z_theoretic_front_value, side.get_front_paw(), m_step_distance_z);
 	}
 }
 
@@ -230,11 +214,11 @@ double complete_linear_movement::determine_real_distance(Side &side)
 	return abs(m_distance);
 }
 
-Paw_position complete_linear_movement::determine_paws_position(Side &side, int sequence_number, double a, double b, double c, double paw_spreading)
+Paw_position complete_linear_movement::determine_paws_position(Side &side, int sequence_number, Incline_coef_t p_incline_coef, double paw_spreading)
 {
 	determine_x_paws_position(side, sequence_number);
 	determine_y_paws_position(side, sequence_number, paw_spreading);
-	determine_z_paws_position(side, sequence_number, a, b, c);
+	determine_z_paws_position(side, sequence_number, p_incline_coef);
 	return m_paw_position;
 }
 

@@ -20,7 +20,6 @@
 Movement_controller::Movement_controller() : m_movement(nullptr), // init to no_movement
 					   m_paw_spreading(DEFAULT_PAW_SPREADING), m_center_height(DEFAULT_HEIGHT),
 					   m_current_step_number(0), m_step_number(0),
-					   m_A_coef_incline(0), m_B_coef_incline(0), m_C_coef_incline(0),
 					   m_movement_x_value(0), m_movement_y_value(0),
 					   m_incline_pitch_value(0), m_incline_roll_value(0),
 					   m_movement_x_lin_value(0), m_movement_y_lin_value(0),
@@ -149,9 +148,9 @@ bool Movement_controller::get_new_movement(int current_step_number, int step_num
 	if(incline_coef == 0)
 		incline_coef = 1.;
 
-	m_A_coef_incline = ((m_center_height + CENTER_TO_GROUND_OFFSET) / (-HALF_LENGTH)) * m_incline_pitch_lin_value * std::abs(m_incline_pitch_lin_value) / incline_coef;
-	m_B_coef_incline = ((m_center_height + CENTER_TO_GROUND_OFFSET) / (-HALF_WIDTH_MAX)) * m_incline_roll_lin_value * std::abs(m_incline_roll_lin_value) / incline_coef;;
-	m_C_coef_incline = m_center_height;
+	m_incline_coef.A = ((m_center_height + CENTER_TO_GROUND_OFFSET) / (-HALF_LENGTH)) * m_incline_pitch_lin_value * std::abs(m_incline_pitch_lin_value) / incline_coef;
+	m_incline_coef.B = ((m_center_height + CENTER_TO_GROUND_OFFSET) / (-HALF_WIDTH_MAX)) * m_incline_roll_lin_value * std::abs(m_incline_roll_lin_value) / incline_coef;;
+	m_incline_coef.C = m_center_height;
 
 	return have_changed;
 }

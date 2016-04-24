@@ -10,6 +10,7 @@ c * Side.h
 
 #include "Paw.h"
 #include "PCA9685.h"
+#include "Movement_controller.h"
 
 class i2cdev;
 class Movement;
@@ -28,7 +29,7 @@ public:
 	Side(Side_enum side, i2cdev *i2c);
 
 	void memorize_movement(Movement *mvt, int m_current_step_number);
-	int update(int sequence_number, double a, double b, double c, double paw_spreading); // a = 0.07
+	int update(int sequence_number, Incline_coef_t p_incline_coef, double paw_spreading);
 	void change_sequence_number(int sequence_number, int p_current_step_number);
 	double get_real_distance();
 	void memorize_current_paw_position();

@@ -12,6 +12,13 @@
 
 class Movement;
 
+struct Incline_coef_t
+{
+	double A;
+	double B;
+	double C;
+};
+
 class Movement_controller
 {
 public:
@@ -32,15 +39,9 @@ public:
 	int m_current_step_number;
 	int m_step_number;
 
-	float m_A_coef_incline;
-	float m_B_coef_incline;
-	float m_C_coef_incline;
-
 	double get_paw_spreading() const { return m_paw_spreading; }
 	double get_center_height() const { return m_center_height; }
-	double get_A_coef_incline() const { return m_A_coef_incline; }
-	double get_B_coef_incline() const { return m_B_coef_incline; }
-	double get_C_coef_incline() const { return m_C_coef_incline; }
+	Incline_coef_t get_incline_coef() const { return m_incline_coef; }
 
 	double make_more_linear(int stick_value); //out between [-1 ; 1]
 	void make_sticks_more_linear();
@@ -63,6 +64,7 @@ private:
 	bool m_tighten_pressed;
 
 	bool m_turn_back_default_pressed;
+	Incline_coef_t m_incline_coef;
 
 	void get_control_values();
 

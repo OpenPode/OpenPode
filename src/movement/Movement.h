@@ -8,6 +8,10 @@
 #ifndef MOVEMENT_H_
 #define MOVEMENT_H_
 
+#include "Movement_controller.h"
+#include "hexapode_dimensions.h"
+#include "Side.h"
+
 class Side;
 class Paw;
 
@@ -45,9 +49,11 @@ public:
 	double just_get_down_paw(double final_height, Paw &paw, double p_step_distance);
 	double goto_position(double present, double futur, double nb_step);
 
+	void compute_z_value_for_standard_paw(Side &side, Incline_coef_t p_incline_coef);
+
 	virtual double determine_real_distance(Side &side) = 0;
 	virtual void compute_variables() = 0;
-	virtual Paw_position determine_paws_position(Side &side, int sequence_number, double a, double b, double c, double paw_spreading) = 0;
+	virtual Paw_position determine_paws_position(Side &side, int sequence_number, Incline_coef_t p_incline_coef, double paw_spreading) = 0;
 	virtual bool is_sequence_finished(Side &side, int sequence_number) = 0;
 
 	Movement_type m_type;
