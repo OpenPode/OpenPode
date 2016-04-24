@@ -50,25 +50,29 @@ public:
 	double goto_position(double present, double futur, double nb_step);
 
 	void compute_z_value_for_standard_paw(Side &side, Incline_coef_t p_incline_coef);
+	void memorize_parameters(int sequence_number, Incline_coef_t p_incline_coef, double paw_spreading);
 
 	virtual double determine_real_distance(Side &side) = 0;
 	virtual void compute_variables() = 0;
 	virtual Paw_position determine_paws_position(Side &side, int sequence_number, Incline_coef_t p_incline_coef, double paw_spreading) = 0;
-	virtual bool is_sequence_finished(Side &side, int sequence_number) = 0;
+	virtual bool is_sequence_finished(Side &side) = 0;
 
 	Movement_type m_type;
 	Movement_direction m_direction;
 	double m_distance;
-	double m_angle;
+	double m_corrected_distance;
+
+	int m_sequence_number;
 	int m_step_number;
+	int m_current_step_number;
+
 	double m_step_distance_x;
 	double m_step_distance_y;
 	double m_step_distance_z;
 
-	double m_corrected_distance;
+	double m_angle;
 	int m_paw_spreading;
-
-	int m_current_step_number;
+	Incline_coef_t m_incline_coef;
 
 	Paw_position m_paw_position;
 };

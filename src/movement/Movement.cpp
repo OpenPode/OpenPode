@@ -11,8 +11,10 @@
 #include <cmath>
 
 Movement::Movement(Movement_type type, Movement_direction direction, double distance, double angle, int step_number) :
-	m_type(type), m_direction(direction), m_distance(distance), m_angle(angle), m_step_number(step_number),
-	m_step_distance_x(0), m_step_distance_y(0), m_step_distance_z(0), m_corrected_distance(0), m_paw_spreading(50), m_current_step_number(0)
+	m_type(type), m_direction(direction), m_distance(distance), m_corrected_distance(0),
+	m_sequence_number(0), m_step_number(step_number), m_current_step_number(0),
+	m_step_distance_x(0), m_step_distance_y(0), m_step_distance_z(0),
+	m_angle(angle), m_paw_spreading(50)
 
 {
 
@@ -118,4 +120,11 @@ void Movement::compute_z_value_for_standard_paw(Side &side, Incline_coef_t p_inc
 	m_paw_position.back[coord_z]   =  p_incline_coef.A*(m_paw_position.back[coord_x] - HALF_LENGTH) +
 									  p_incline_coef.B*(m_paw_position.back[coord_y] + side.get_side_coef()*HALF_WIDTH_MIN) +
 									  p_incline_coef.C;
+}
+
+void Movement::memorize_parameters(int sequence_number, Incline_coef_t p_incline_coef, double paw_spreading)
+{
+	m_sequence_number = sequence_number;
+	m_incline_coef = p_incline_coef;
+	m_paw_spreading = paw_spreading;
 }

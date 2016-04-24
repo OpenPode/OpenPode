@@ -40,7 +40,7 @@ Side::Side(Side_enum side, i2cdev *i2c) : m_side(side),
 
 int Side::update(int sequence_number, Incline_coef_t p_incline_coef, double paw_spreading) //ax+by+c for height
 {
-	Paw_position paw_position = m_movement->determine_paws_position(*this, sequence_number, p_incline_coef.A, p_incline_coef.B, p_incline_coef.C, paw_spreading);
+	Paw_position paw_position = m_movement->determine_paws_position(*this, sequence_number, p_incline_coef, paw_spreading);
 	determine_servos_paw_time(m_front_paw, paw_position.front);
 	determine_servos_paw_time(m_middle_paw, paw_position.middle);
 	determine_servos_paw_time(m_back_paw, paw_position.back);
@@ -49,7 +49,7 @@ int Side::update(int sequence_number, Incline_coef_t p_incline_coef, double paw_
 	move_paw(m_middle_paw);
 	move_paw(m_back_paw);
 	// for test purpose
-	if(m_movement->is_sequence_finished(*this, sequence_number))
+	if(m_movement->is_sequence_finished(*this))
 		return 0;
 	else
 		return 1;

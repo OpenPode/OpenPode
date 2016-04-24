@@ -67,7 +67,6 @@ void Hexapode::determine_real_distance_for_movement()
 		m_movement->m_corrected_distance = min_distance;
 	else
 		m_movement->m_corrected_distance = m_movement->m_distance;
-	m_movement->compute_variables();
 }
 
 void Hexapode::toggle()
@@ -85,6 +84,7 @@ void Hexapode::toggle()
 	m_right_side.change_sequence_number(m_current_sequence_number, m_current_step_number);
 
 	determine_real_distance_for_movement();
+	m_movement->compute_variables();
 
 }
 
@@ -107,6 +107,7 @@ void Hexapode::move(Movement *mvt)
 	m_left_side.memorize_movement(mvt, m_current_step_number);
 	m_right_side.memorize_movement(mvt, m_current_step_number);
 	determine_real_distance_for_movement();
+	m_movement->compute_variables();
 
 }
 
