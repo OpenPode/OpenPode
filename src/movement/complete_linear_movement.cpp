@@ -104,15 +104,18 @@ void complete_linear_movement::determine_z_paws_position(Side &side, int sequenc
 {
 	compute_z_value_for_standard_paw(side, p_incline_coef);
 
-	//TODO : verify if in get_up_paw final height can be the height of the CURRENT point
-	double z_theoretic_front_value = p_incline_coef.A*(m_paw_position.front[coord_x]+ HALF_LENGTH) +
-									 p_incline_coef.B*(m_paw_position.front[coord_y] + side.get_side_coef()*HALF_WIDTH_MIN) +
+	double x_distance_front  = side.get_front_paw().m_x_center  + cos(m_angle) * m_distance / 2;
+	double x_distance_middle = side.get_middle_paw().m_x_center + cos(m_angle) * m_distance / 2;
+	double x_distance_back   = side.get_back_paw().m_x_center   + cos(m_angle) * m_distance / 2;
+	double y_distance_all = side.get_side_coef() * m_paw_spreading + sin(m_angle) * m_distance / 2;
+	double z_theoretic_front_value = p_incline_coef.A*(x_distance_front + HALF_LENGTH) +
+									 p_incline_coef.B*(y_distance_all + side.get_side_coef()*HALF_WIDTH_MIN) +
 									 p_incline_coef.C;
-	double z_theoretic_middle_value =p_incline_coef.A*(m_paw_position.middle[coord_x]) +
-									 p_incline_coef.B*(m_paw_position.middle[coord_y] + side.get_side_coef()*HALF_WIDTH_MAX) +
+	double z_theoretic_middle_value =p_incline_coef.A*(x_distance_middle) +
+									 p_incline_coef.B*(y_distance_all + side.get_side_coef()*HALF_WIDTH_MAX) +
 									 p_incline_coef.C;
-	double z_theoretic_back_value =  p_incline_coef.A*(m_paw_position.back[coord_x] - HALF_LENGTH) +
-									 p_incline_coef.B*(m_paw_position.back[coord_y] + side.get_side_coef()*HALF_WIDTH_MIN) +
+	double z_theoretic_back_value =  p_incline_coef.A*(x_distance_back - HALF_LENGTH) +
+									 p_incline_coef.B*(y_distance_all + side.get_side_coef()*HALF_WIDTH_MIN) +
 									 p_incline_coef.C;
 
 	if(sequence_number == 0)
@@ -216,6 +219,7 @@ double complete_linear_movement::determine_real_distance(Side &side)
 
 Paw_position complete_linear_movement::determine_paws_position(Side &side, int sequence_number, Incline_coef_t p_incline_coef, double paw_spreading)
 {
+	m_paw_spreading = paw_spreading;
 	determine_x_paws_position(side, sequence_number);
 	determine_y_paws_position(side, sequence_number, paw_spreading);
 	determine_z_paws_position(side, sequence_number, p_incline_coef);

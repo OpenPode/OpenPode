@@ -87,15 +87,18 @@ void Linear_movement::determine_z_paws_position(Side &side, int sequence_number,
 {
 	compute_z_value_for_standard_paw(side, p_incline_coef);
 
-	//TODO : verify if it's ok
-	double z_theoretic_front_value = p_incline_coef.A*(m_paw_position.front[coord_x]+ HALF_LENGTH) +
-									 p_incline_coef.B*(m_paw_position.front[coord_y] + side.get_side_coef()*HALF_WIDTH_MIN) +
+	double x_distance_front  = side.get_front_paw().m_x_center + m_direction * m_distance / 2;
+	double x_distance_middle = side.get_middle_paw().m_x_center + m_direction * m_distance / 2;
+	double x_distance_back   = side.get_back_paw().m_x_center + m_direction * m_distance / 2;
+	double y_distance_all = side.get_side_coef() * m_paw_spreading;
+	double z_theoretic_front_value = p_incline_coef.A*(x_distance_front + HALF_LENGTH) +
+									 p_incline_coef.B*(y_distance_all + side.get_side_coef()*HALF_WIDTH_MIN) +
 									 p_incline_coef.C;
-	double z_theoretic_middle_value =p_incline_coef.A*(m_paw_position.middle[coord_x]) +
-									 p_incline_coef.B*(m_paw_position.middle[coord_y] + side.get_side_coef()*HALF_WIDTH_MAX) +
+	double z_theoretic_middle_value =p_incline_coef.A*(x_distance_middle) +
+									 p_incline_coef.B*(y_distance_all + side.get_side_coef()*HALF_WIDTH_MAX) +
 									 p_incline_coef.C;
-	double z_theoretic_back_value =  p_incline_coef.A*(m_paw_position.back[coord_x] - HALF_LENGTH) +
-									 p_incline_coef.B*(m_paw_position.back[coord_y] + side.get_side_coef()*HALF_WIDTH_MIN) +
+	double z_theoretic_back_value =  p_incline_coef.A*(x_distance_back - HALF_LENGTH) +
+									 p_incline_coef.B*(y_distance_all + side.get_side_coef()*HALF_WIDTH_MIN) +
 									 p_incline_coef.C;
 
 	if(sequence_number == 0)
