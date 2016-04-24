@@ -34,12 +34,12 @@ void PS4Controller::process_input()
 	m_rd_ev = read( m_fd_ev, &m_ev, sizeof(input_event) );
 	m_rd_js = read( m_fd_js, &m_js, sizeof(js_event) );
 
-	if( m_rd_ev < (ssize_t)sizeof(input_event) )
+	if( m_rd_ev < sizeof(input_event) )//(ssize_t)
 	{
 		printf("Error reading %s\n", device_ev.c_str());
 		exit(-1);
 	}
-	if( m_rd_js < (ssize_t)sizeof(js_event) )
+	if( m_rd_js < sizeof(js_event) )//(ssize_t)
 	{
 		printf("Error reading %s\n", device_js.c_str());
 		exit(-1);

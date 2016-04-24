@@ -37,7 +37,7 @@ const double MIN_STEP_NUMBER = 12.;
 
 const double DEFAULT_DISTANCE = 40.;
 
-const double SPREADING_STEP = 0.5;
+const double SPREADING_STEP = 1.;
 const double HEIGHT_STEP = 0.5;
 
 //default position

@@ -16,6 +16,6 @@ const double TIBIA_LENGTH 			= 100.0;
 const double FEMUR_LENGTH 			= 70.0;
 const double TIBIA_ORIGIN_OFFSET 	= 44.1;
 
-const double CENTER_TO_GROUND_OFFSET = 30.0;
+const double CENTER_TO_GROUND_OFFSET = 40.0;
 
 #endif /* HEXAPODE_DIMENSIONS_H_ */
