@@ -34,7 +34,7 @@ Hexapode::~Hexapode()
 void Hexapode::run()
 {
 	m_timer.reset();
-	move(m_controller.m_movement);
+	move(m_controller.get_movement());
 	toggle();
 
 	while(1)
@@ -46,7 +46,7 @@ void Hexapode::run()
 
 			if(m_controller.get_new_movement(m_current_step_number, m_step_number))
 			{
-				move(m_controller.m_movement);
+				move(m_controller.get_movement());
 			}
 
 			m_movement->memorize_parameters(m_current_sequence_number, m_controller.get_incline_coef(), m_controller.get_paw_spreading());

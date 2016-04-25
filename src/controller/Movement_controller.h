@@ -29,7 +29,13 @@ public:
 	bool get_new_movement(int current_step_number, int step_number);
 	void run_controller();
 
-public:
+	double get_paw_spreading() const { return m_paw_spreading; }
+	Incline_coef_t get_incline_coef() const { return m_incline_coef; }
+	double get_center_height() const { return m_center_height; }
+
+	Movement* get_movement() { return m_movement; }
+
+private:
 
 	Movement *m_movement;
 
@@ -38,10 +44,6 @@ public:
 
 	int m_current_step_number;
 	int m_step_number;
-
-	double get_paw_spreading() const { return m_paw_spreading; }
-	double get_center_height() const { return m_center_height; }
-	Incline_coef_t get_incline_coef() const { return m_incline_coef; }
 
 	double make_more_linear(int stick_value); //out between [-1 ; 1]
 	void make_sticks_more_linear();
