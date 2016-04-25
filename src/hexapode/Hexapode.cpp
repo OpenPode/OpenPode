@@ -16,7 +16,7 @@
 const int SEQUENCE_NUMBER = 3;
 
 Hexapode::Hexapode() : m_i2c(new i2cdev),
-					   m_left_side(side_left, m_i2c), m_right_side(side_right, m_i2c),
+					   m_left_side(side_left, m_i2c, &m_error_detection), m_right_side(side_right, m_i2c, &m_error_detection),
 					   m_movement(nullptr), // init to no_movement
 					   m_current_sequence_number(0), //remettre -1
 					   m_current_step_number(0),
@@ -122,6 +122,7 @@ void Hexapode::move(Movement *mvt)
 int Hexapode::update()
 {
 	int sequence_end_right, sequence_end_left;
+	m_error_detection.reset();
 	sequence_end_right = m_right_side.update();
 	sequence_end_left  = m_left_side.update();
 

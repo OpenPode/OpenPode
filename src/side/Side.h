@@ -25,7 +25,7 @@ class Side
 {
 public:
 
-	Side(Side_enum side, i2cdev *i2c);
+	Side(Side_enum side, i2cdev *i2c, Error_detection* p_error_detection);
 
 	void memorize_movement(Movement *mvt);
 	int update();

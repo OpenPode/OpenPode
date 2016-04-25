@@ -9,16 +9,18 @@
 #include "hexapode_dimensions.h"
 #include "config.h"
 #include "bcm2835.h"
+#include "Error_detection.h"
 
 #include <iostream>
 #include <math.h>
 
-Paw::Paw(Side_enum side, Paw_position_enum position) :
+Paw::Paw(Side_enum side, Paw_position_enum position, Error_detection* p_error_detection) :
 	Paw_math_model(side),
 	m_side(side), m_position(position),
 	m_coxa(side, position, position_coxa),
 	m_femur(side, position, position_femur),
-	m_tibia(side, position, position_tibia)
+	m_tibia(side, position, position_tibia),
+	m_error_detection(p_error_detection)
 {
 	//init paws at default position
 	m_prepare_coords = {0,0,0};
@@ -69,6 +71,8 @@ void Paw::prepare_to_move(double position[3])
 	m_servo_angles = compute_angles({position[coord_x], position[coord_y], position[coord_z]});
 	//use Paw_math_model to get servos angles
 	determine_servos_paw_time();
+
+	m_error_detection->set_paw(*this);
 }
 
 void Paw::valid_move()

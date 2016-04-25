@@ -12,6 +12,7 @@
 #include "Side.h"
 #include "timer_t.hpp"
 #include "Movement_controller.h"
+#include "Error_detection.h"
 
 class Movement;
 
@@ -48,6 +49,7 @@ public:
 	int m_step_number;
 
 	Movement_controller m_controller;
+	Error_detection m_error_detection;
 };
 
 #endif /* HEXAPODE_H_ */

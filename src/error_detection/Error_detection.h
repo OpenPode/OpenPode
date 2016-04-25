@@ -51,7 +51,7 @@ public:
 	void set_paw(Paw &p_paw);
 
 
-protected:
+//protected:
 
 	char error_code;
 	char error_location;

@@ -18,10 +18,10 @@ const Channel_t Side::channel_table[3][3] =
 		{channel6, channel7, channel8}
 };
 
-Side::Side(Side_enum side, i2cdev *i2c) : m_side(side),
-										  m_front_paw(side, position_front),
-										  m_middle_paw(side, position_middle),
-										  m_back_paw(side, position_back),
+Side::Side(Side_enum side, i2cdev *i2c, Error_detection* p_error_detection) : m_side(side),
+										  m_front_paw(side, position_front, p_error_detection),
+										  m_middle_paw(side, position_middle, p_error_detection),
+										  m_back_paw(side, position_back, p_error_detection),
 										  m_movement(nullptr)
 {
 	if(m_side == side_left)

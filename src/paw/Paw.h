@@ -13,11 +13,13 @@
 
 #include "PCA9685.h"
 
+class Error_detection;
+
 class Paw : public Paw_math_model
 {
 public:
 
-	Paw(Side_enum side, Paw_position_enum paw_position);
+	Paw(Side_enum side, Paw_position_enum paw_position, Error_detection* p_error_detection);
 
 	void prepare_to_move(double position[3]);
 	void valid_move();
@@ -40,6 +42,8 @@ public:
 	Angles m_servo_angles;
 
 	double m_x_center;
+
+	Error_detection* m_error_detection;
 
 	void determine_servos_paw_time();
 };
