@@ -24,10 +24,6 @@ public:
 
 	Coords get_current_position() const;
 
-	bool test_machenical_stop_limit(int tibias_value, int femur_value, int coxa_value);
-	bool test_model_limit(int tibias_angle, int femur_angle, int coxa_angle);
-	bool is_position_available(int tibias_value, int femur_value, int coxa_value);
-
 public:
 
 	Side_enum m_side;

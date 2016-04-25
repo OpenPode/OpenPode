@@ -81,42 +81,6 @@ Coords Paw::get_current_position() const
 	return m_current_coords;
 }
 
-bool Paw::test_machenical_stop_limit(int tibias_value, int femur_value, int coxa_value)
-{
-	if(!m_tibia.is_value_in_the_range(tibias_value))
-		return false;
-	else if(!m_femur.is_value_in_the_range(femur_value))
-		return false;
-	else if(!m_coxa.is_value_in_the_range(coxa_value))
-		return false;
-	else
-		return true;
-}
-
-bool Paw::test_model_limit(int tibias_angle, int femur_angle, int coxa_angle)
-{
-	if(tibias_angle != tibias_angle)
-		return false;
-	else if(femur_angle != femur_angle)
-		return false;
-	else if(coxa_angle != coxa_angle)
-		return false;
-	else
-		return true;
-}
-
-bool Paw::is_position_available(int tibias_value, int femur_value, int coxa_value)
-{
-	if(!m_tibia.is_value_in_the_range(tibias_value))
-		return false;
-	else if(!m_femur.is_value_in_the_range(femur_value))
-		return false;
-	else if(!m_coxa.is_value_in_the_range(coxa_value))
-		return false;
-	else
-		return true;
-}
-
 void Paw::determine_servos_paw_time()
 {
 	servos_time_table[position_tibia] = (int)(- m_side_coef * (m_servo_angles.theta3*(180./M_PI)+90.) * Servo::resolution + m_tibia.get_offset());

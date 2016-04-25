@@ -8,35 +8,35 @@
 #ifndef ERROR_DETECTION_ERROR_DETECTION_H_
 #define ERROR_DETECTION_ERROR_DETECTION_H_
 
-#include "Side.h"
+#include "Paw.h"
 
 //mask for error_code
-#define ERROR 		0x01;
-#define SIDE  		0x06;
-#define SIDE_LEFT 	0x04;
-#define SIDE_RIGHT 	0x02;
-#define ERROR_TYPE  0x18;
-#define MECA_LIMIT	0x08;
-#define MODEL		0x10;
-#define SEQUENCE	0x60;
-#define IN_SEQ		0x20;
-#define STANDARD	0x40;
+const char ERROR 		=0x01;
+const char SIDE  		=0x06;
+const char SIDE_LEFT 	=0x04;
+const char SIDE_RIGHT 	=0x02;
+const char ERROR_TYPE  	=0x18;
+const char MECA_LIMIT	=0x08;
+const char MODEL		=0x10;
+const char SEQUENCE		=0x60;
+const char IN_SEQ		=0x20;
+const char STANDARD		=0x40;
 
 //mask for error_location
-#define FRONT 		0x01;
-#define MIDDLE 		0x02;
-#define BACK 		0x04;
+const char FRONT 		=0x01;
+const char MIDDLE 		=0x02;
+const char BACK 		=0x04;
 //shift for error_location
-#define RIGHT_SHIFT	0;
-#define LEFT_SHIFT	4;
+const char RIGHT_SHIFT	=0;
+const char LEFT_SHIFT	=4;
 
 //mask for error_paw_X_X
-#define TIBIA		0x01;
-#define	FEMUR		0x02;
-#define	COXA		0x04;
+const char TIBIA 		=0x01;
+const char FEMUR 		=0x02;
+const char COXA  		=0x04;
 //shift for error_paw_X_X
-#define MECA_LIMIT_SHIFT 	0;
-#define MODEL_LIMIT_SHIFT 	4;
+const char MECA_LIMIT_SHIFT   =0;
+const char MODEL_LIMIT_SHIFT  =4;
 
 class Error_detection
 {
@@ -48,7 +48,8 @@ public:
 	void reset();
 
 	void set_error();
-	void set_paw(Paw p_paw);
+	void set_paw(Paw &p_paw);
+
 
 protected:
 
@@ -60,6 +61,14 @@ protected:
 	char error_paw_L_F;
 	char error_paw_L_M;
 	char error_paw_L_B;
+
+	void set_error_location(Paw &p_paw);
+	void set_error_model_type();
+	void set_error_mecanical_type();
+
+	void test_machenical_stop_limit(Paw &p_paw, char* p_error_paw);
+	void test_model_limit(Paw &p_paw, char* p_error_paw);
+	char* select_paw_code(Paw &p_paw);
 
 };
 
