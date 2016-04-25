@@ -139,6 +139,11 @@ void Movement::update_current_step_number(int p_current_step_number)
 	m_current_step_number = p_current_step_number;
 }
 
+void Movement::update_sequence_number(int p_sequence_number)
+{
+	m_sequence_number = p_sequence_number;
+}
+
 void Movement::increase_current_step_number()
 {
 	m_current_step_number++;

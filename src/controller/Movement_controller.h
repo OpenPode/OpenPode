@@ -20,7 +20,8 @@ public:
 	Movement_controller();
 	~Movement_controller();
 
-	bool get_new_movement(int current_step_number, int step_number);
+	void get_new_movement(int current_step_number, int step_number);
+	bool is_a_new_movement();
 	void run_controller();
 
 	double get_paw_spreading() const { return m_paw_spreading; }
@@ -38,6 +39,8 @@ private:
 
 	int m_current_step_number;
 	int m_step_number;
+
+	bool new_movement;
 
 	double make_more_linear(int stick_value); //out between [-1 ; 1]
 	void make_sticks_more_linear();

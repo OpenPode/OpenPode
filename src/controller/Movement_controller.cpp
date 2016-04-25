@@ -19,7 +19,7 @@
 
 Movement_controller::Movement_controller() : m_movement(nullptr), // init to no_movement
 					   m_paw_spreading(DEFAULT_PAW_SPREADING), m_center_height(DEFAULT_HEIGHT),
-					   m_current_step_number(0), m_step_number(0),
+					   m_current_step_number(0), m_step_number(0), new_movement(0),
 					   m_movement_x_value(0), m_movement_y_value(0),
 					   m_incline_pitch_value(0), m_incline_roll_value(0),
 					   m_movement_x_lin_value(0), m_movement_y_lin_value(0),
@@ -80,9 +80,14 @@ void Movement_controller::get_control_values()
 	m_turn_back_default_pressed = m_PS4_controller.is_key_press(PS4_Key::KEY_OPTIONS);
 }
 
-bool Movement_controller::get_new_movement(int current_step_number, int step_number)
+bool Movement_controller::is_a_new_movement()
 {
-	bool have_changed = false;
+	return new_movement;
+}
+
+void Movement_controller::get_new_movement(int current_step_number, int step_number)
+{
+	new_movement = false;
 
 	m_current_step_number = current_step_number;
 	m_step_number = step_number;
@@ -97,7 +102,7 @@ bool Movement_controller::get_new_movement(int current_step_number, int step_num
 			delete m_movement;
 
 		m_movement = new No_movement();
-		have_changed = true;
+		new_movement = true;
 	}
 	else if(((m_current_step_number <= 1) && (m_movement->m_type == no_movement)) || (m_movement->m_type != no_movement))
 	{
@@ -109,7 +114,7 @@ bool Movement_controller::get_new_movement(int current_step_number, int step_num
 			delete m_movement;
 
 		m_movement = new complete_linear_movement(  atan2(m_movement_x_lin_value, m_movement_y_lin_value)*180/M_PI, DEFAULT_DISTANCE, step_number);
-		have_changed = true;
+		new_movement = true;
 	}
 
 	//PAW SPREADING
@@ -151,6 +156,4 @@ bool Movement_controller::get_new_movement(int current_step_number, int step_num
 	m_incline_coef.A = ((m_center_height + CENTER_TO_GROUND_OFFSET) / (-HALF_LENGTH)) * m_incline_pitch_lin_value * std::abs(m_incline_pitch_lin_value) / incline_coef;
 	m_incline_coef.B = ((m_center_height + CENTER_TO_GROUND_OFFSET) / (-HALF_WIDTH_MAX)) * m_incline_roll_lin_value * std::abs(m_incline_roll_lin_value) / incline_coef;;
 	m_incline_coef.C = m_center_height;
-
-	return have_changed;
 }

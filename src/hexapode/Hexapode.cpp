@@ -44,12 +44,13 @@ void Hexapode::run()
 		{
 			m_timer.reset();
 
-			if(m_controller.get_new_movement(m_current_step_number, m_step_number))
+			m_controller.get_new_movement(m_current_step_number, m_step_number);
+			m_movement->memorize_parameters(m_current_sequence_number, m_controller.get_incline_coef(), m_controller.get_paw_spreading());
+			if(m_controller.is_a_new_movement())
 			{
 				move(m_controller.get_movement());
 			}
 
-			m_movement->memorize_parameters(m_current_sequence_number, m_controller.get_incline_coef(), m_controller.get_paw_spreading());
 			if(!update())
 			{
 				toggle(); //if sequence is finished
@@ -64,8 +65,8 @@ void Hexapode::determine_real_distance_for_movement()
 	double real_distance_right = m_right_side.get_real_distance();
 	double min_distance = min(real_distance_left, real_distance_right);
 
-	if(min_distance != (m_movement->m_distance / 2))
-		m_movement->m_corrected_distance = min_distance;
+	if(min_distance > (m_movement->m_distance / 2))
+		m_movement->m_corrected_distance = min_distance*2;
 	else
 		m_movement->m_corrected_distance = m_movement->m_distance;
 }
@@ -78,6 +79,7 @@ void Hexapode::update_sequence_number()
 
 	m_current_step_number = 0;
 	m_movement->raz_current_step_number();
+	m_movement->update_sequence_number(m_current_sequence_number);
 }
 
 void Hexapode::toggle()

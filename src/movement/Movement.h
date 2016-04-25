@@ -46,6 +46,7 @@ public:
 	void memorize_parameters(int sequence_number, Incline_coef_t p_incline_coef, double paw_spreading);
 	void raz_current_step_number();
 	void update_current_step_number(int p_current_step_number);
+	void update_sequence_number(int p_sequence_number);
 	void increase_current_step_number();
 
 	virtual double determine_real_distance(Side &side) = 0;

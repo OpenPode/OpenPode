@@ -124,27 +124,27 @@ void Linear_movement::determine_z_paws_position(Side &side)
 double Linear_movement::determine_real_distance(Side &side)
 {
 	double real_distance[3];
-	real_distance[position_front]  = (side.get_paws_position().front_paw.x - m_direction * (side.get_front_paw().m_x_center - m_distance / 2));
-	real_distance[position_middle] = (side.get_paws_position().middle_paw.x - m_direction * (side.get_middle_paw().m_x_center - m_distance / 2));
-	real_distance[position_back]   = (side.get_paws_position().back_paw.x - m_direction * (side.get_back_paw().m_x_center - m_distance / 2));
+	real_distance[position_front]  = m_direction*(side.get_paws_position().front_paw.x  - side.get_front_paw().m_x_center)  + m_distance / 2;
+	real_distance[position_middle] = m_direction*(side.get_paws_position().middle_paw.x - side.get_middle_paw().m_x_center) + m_distance / 2;
+	real_distance[position_back]   = m_direction*(side.get_paws_position().back_paw.x   - side.get_back_paw().m_x_center)   + m_distance / 2;
 
 	if(side.get_side_id() == side_left)
 	{
 		if(m_sequence_number == 0)
-			real_distance[position_front]  = m_direction * m_distance;
+			real_distance[position_front]  = m_distance/2;
 		else if(m_sequence_number == 1)
-			real_distance[position_middle] = m_direction * m_distance;
+			real_distance[position_middle] = m_distance/2;
 		else if(m_sequence_number == 2)
-			real_distance[position_back]   = m_direction * m_distance;
+			real_distance[position_back]   = m_distance/2;
 	}
 	else
 	{
 		if(m_sequence_number == 0)
-			real_distance[position_back]   = m_direction * m_distance;
+			real_distance[position_back]   = m_distance/2;
 		else if(m_sequence_number == 1)
-			real_distance[position_middle] = m_direction * m_distance;
+			real_distance[position_middle] = m_distance/2;
 		else if(m_sequence_number == 2)
-			real_distance[position_front]  = m_direction * m_distance;
+			real_distance[position_front]  = m_distance/2;
 	}
 
 	if(m_direction * real_distance[position_front] < 0)
