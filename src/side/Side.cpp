@@ -36,12 +36,12 @@ Side::Side(Side_enum side, i2cdev *i2c) : m_side(side),
 	}
 }
 
-int Side::update() //ax+by+c for height
+int Side::update()
 {
 	Paw_position paw_position = m_movement->determine_paws_position(*this);
-	determine_servos_paw_time(m_front_paw, paw_position.front);
-	determine_servos_paw_time(m_middle_paw, paw_position.middle);
-	determine_servos_paw_time(m_back_paw, paw_position.back);
+	m_front_paw.prepare_to_move(paw_position.front);
+	m_middle_paw.prepare_to_move(paw_position.middle);
+	m_back_paw.prepare_to_move(paw_position.back);
 
 	move_paw(m_front_paw);
 	move_paw(m_middle_paw);
@@ -53,24 +53,12 @@ int Side::update() //ax+by+c for height
 		return 1;
 }
 
-bool Side::determine_servos_paw_time(Paw &paw, double coords[3])
-{
-	Angles angles = paw.move(coords[coord_x], coords[coord_y], coords[coord_z]);
-
-	servos_time_table[paw.m_position][position_tibia] = (int)(- m_side_coef * (angles.theta3*(180./M_PI)+90.) * Servo::resolution + paw.m_tibia.get_offset());
-	servos_time_table[paw.m_position][position_femur] = (int)(  m_side_coef *  angles.theta2*(180./M_PI) * Servo::resolution      + paw.m_femur.get_offset());
-	servos_time_table[paw.m_position][position_coxa]  = (int)(-(angles.theta1*(180./M_PI) - m_side_coef*90.) * Servo::resolution  + paw.m_coxa.get_offset());
-
-	return (paw.is_position_available(servos_time_table[paw.m_position][position_tibia],
-									  servos_time_table[paw.m_position][position_femur],
-									  servos_time_table[paw.m_position][position_coxa]));
-}
-
 void Side::move_paw(Paw &paw)
 {
-	m_module.set_off_time(channel_table[paw.m_position][position_tibia], servos_time_table[paw.m_position][position_tibia]);
-	m_module.set_off_time(channel_table[paw.m_position][position_femur], servos_time_table[paw.m_position][position_femur]);
-	m_module.set_off_time(channel_table[paw.m_position][position_coxa], servos_time_table[paw.m_position][position_coxa]);
+	paw.valid_move();
+	m_module.set_off_time(channel_table[paw.m_position][position_tibia], paw.servos_time_table[position_tibia]);
+	m_module.set_off_time(channel_table[paw.m_position][position_femur], paw.servos_time_table[position_femur]);
+	m_module.set_off_time(channel_table[paw.m_position][position_coxa],  paw.servos_time_table[position_coxa]);
 }
 
 void Side::memorize_current_paw_position()

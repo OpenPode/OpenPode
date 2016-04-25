@@ -46,7 +46,6 @@ public:
 private:
 
 	void move_paw(Paw &paw);
-	bool determine_servos_paw_time(Paw &paw, double coords[3]);
 
 	//TODO: Change side_enum place
 	Side_enum m_side;
