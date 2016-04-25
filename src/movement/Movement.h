@@ -8,9 +8,8 @@
 #ifndef MOVEMENT_H_
 #define MOVEMENT_H_
 
-#include "Movement_controller.h"
+#include "Incline_coef.h"
 #include "hexapode_dimensions.h"
-#include "Side.h"
 
 class Side;
 class Paw;

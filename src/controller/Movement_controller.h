@@ -9,15 +9,9 @@
 #define CONTROLLER_MOVEMENT_CONTROLLER_H_
 
 #include "PS4Controller.h"
+#include "Incline_coef.h"
 
 class Movement;
-
-struct Incline_coef_t
-{
-	double A;
-	double B;
-	double C;
-};
 
 class Movement_controller
 {

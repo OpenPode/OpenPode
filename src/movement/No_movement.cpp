@@ -6,6 +6,7 @@
  */
 
 #include "No_movement.h"
+#include "Side.h"
 
 No_movement::No_movement() : Movement(no_movement, direction_front, 0, 0, 30), m_z_good_position(0), m_xy_good_position(0)
 {
