@@ -95,9 +95,12 @@ void Hexapode::standard_action()
 
 void Hexapode::error_action()
 {
-	m_error_actions.resolve_error(m_movement->m_type);
-	//m_movement->memorize_parameters(m_current_sequence_number, m_controller.get_incline_coef(), m_controller.get_paw_spreading());
-	//prepare_update();
+	do
+	{
+		m_error_actions.resolve_error(m_movement->m_type, m_error_detection.is_on_error());
+		m_movement->memorize_parameters(m_current_sequence_number, m_controller.get_incline_coef(), m_controller.get_paw_spreading());
+		prepare_update();
+	} while(m_error_actions.is_resolving());
 	//update();
 }
 

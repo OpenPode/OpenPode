@@ -39,6 +39,7 @@ struct parameters_t
 
 enum step_of_solution
 {
+	wait,
 	stop_sequence,
 	cancel_incline,
 	reduce_incline,
@@ -58,9 +59,10 @@ public :
 	void valid_parameters();
 	void purpose_new_parameters(double x_stick_incline, double y_stick_incline, double height, double paw_spreading);
 
-	void resolve_error(Movement_type p_movement_type);
+	void resolve_error(Movement_type p_movement_type, bool on_error);
 
-	bool have_finished_to_corrected_error() const { return finished_to_corrected_error; }
+	bool have_finished_to_corrected_error() const { return m_finished_to_corrected_error; }
+	bool is_resolving() const { return m_resolving; }
 
 protected:
 
@@ -70,13 +72,25 @@ protected:
 	parameters_t m_new_parameters;
 	parameters_t m_saved_parameters;
 
-	bool finished_to_corrected_error;
+	bool m_finished_to_corrected_error;
+	bool m_resolving;
 
+	step_of_solution m_current_step;
+
+	bool m_on_error;
+	int find_solution;
+
+	//no_movement
 	void action_no_movement_no_changement();
+	void action_no_movement_reduce_incline();
 	void action_no_movement_changement();
 
 	void reinit(double pitch_stick, double roll_stick, double height, double paw_spreading);
+	void set_parameters_on_movement_controller();
+	void set_end_of_solving();
 
+	//solving algo
+	void find_stable_incline();
 };
 
 #endif /* ERROR_MANAGEMENT_ERROR_ACTIONS_H_ */
