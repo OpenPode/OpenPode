@@ -144,3 +144,8 @@ char* Error_detection::select_paw_code(Paw &p_paw)
 	}
 	return nullptr;
 }
+
+bool Error_detection::is_on_error()
+{
+	return (error_code&ERROR);
+}

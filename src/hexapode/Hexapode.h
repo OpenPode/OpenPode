@@ -13,6 +13,7 @@
 #include "timer_t.hpp"
 #include "Movement_controller.h"
 #include "Error_detection.h"
+#include "Error_actions.h"
 
 class Movement;
 
@@ -51,6 +52,12 @@ public:
 
 	Movement_controller m_controller;
 	Error_detection m_error_detection;
+	Error_actions m_error_actions;
+
+	void init();
+	void determine_movement();
+	void standard_action();
+	void error_action();
 };
 
 #endif /* HEXAPODE_H_ */

@@ -27,6 +27,8 @@ public:
 	double get_paw_spreading() const { return m_paw_spreading; }
 	Incline_coef_t get_incline_coef() const { return m_incline_coef; }
 	double get_center_height() const { return m_center_height; }
+	double get_x_stick_incline() const { return m_incline_pitch_lin_value; }
+	double get_y_stick_incline() const { return m_incline_roll_lin_value; }
 
 	Movement* get_movement() { return m_movement; }
 

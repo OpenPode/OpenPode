@@ -7,7 +7,7 @@
 
 #include "Error_actions.h"
 
-Error_actions::Error_actions()
+Error_actions::Error_actions() : finished_to_corrected_error(true)
 {
 
 }
@@ -22,12 +22,12 @@ void Error_actions::valid_parameters()
 	m_precedent_parameters = m_new_parameters;
 }
 
-void Error_actions::set_new_parameters(double x_stick_incline, double y_stick_incline, double height, double paw_spreading)
+void Error_actions::purpose_new_parameters(double x_stick_incline, double y_stick_incline, double height, double paw_spreading)
 {
-	m_new_parameters.center_height = height;
-	m_new_parameters.paw_spreading = paw_spreading;
-	m_new_parameters.incline_values.x_stick = x_stick_incline;
-	m_new_parameters.incline_values.y_stick = y_stick_incline;
+	m_purpose_parameters.center_height = height;
+	m_purpose_parameters.paw_spreading = paw_spreading;
+	m_purpose_parameters.incline_values.x_stick = x_stick_incline;
+	m_purpose_parameters.incline_values.y_stick = y_stick_incline;
 }
 
 void Error_actions::resolve_error(Movement_type p_movement_type)

@@ -31,14 +31,19 @@ public :
 	~Error_actions();
 
 	void valid_parameters();
-	void set_new_parameters(double x_stick_incline, double y_stick_incline, double height, double paw_spreading);
+	void purpose_new_parameters(double x_stick_incline, double y_stick_incline, double height, double paw_spreading);
 
 	void resolve_error(Movement_type p_movement_type);
+
+	bool have_finished_to_corrected_error() const { return finished_to_corrected_error; }
 
 protected:
 
 	parameters_t m_precedent_parameters;
+	parameters_t m_purpose_parameters;
 	parameters_t m_new_parameters;
+
+	bool finished_to_corrected_error;
 
 };
 

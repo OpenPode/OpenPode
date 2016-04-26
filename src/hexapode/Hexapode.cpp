@@ -33,9 +33,7 @@ Hexapode::~Hexapode()
 
 void Hexapode::run()
 {
-	m_timer.reset();
-	move(m_controller.get_movement());
-	toggle();
+	init();
 
 	while(1)
 	{
@@ -44,21 +42,61 @@ void Hexapode::run()
 		{
 			m_timer.reset();
 
-			m_controller.get_new_movement(m_current_step_number, m_step_number);
-			m_movement->memorize_parameters(m_current_sequence_number, m_controller.get_incline_coef(), m_controller.get_paw_spreading());
-			if(m_controller.is_a_new_movement())
-			{
-				move(m_controller.get_movement());
-			}
+			if(m_error_actions.have_finished_to_corrected_error())
+				determine_movement();
 
 			prepare_update();
-			if(!update())
+
+			if(!m_error_detection.is_on_error())
 			{
-				toggle(); //if sequence is finished
+				standard_action();
 			}
-			std::cout <<m_timer.elapsed().millis()<<std::endl;
+			else
+			{
+				error_action();
+			}
+			m_error_actions.valid_parameters();
+
 		}
 	}
+}
+
+void Hexapode::init()
+{
+	move(m_controller.get_movement());
+	toggle();
+	m_timer.reset();
+}
+
+void Hexapode::determine_movement()
+{
+	m_controller.get_new_movement(m_current_step_number, m_step_number);
+
+	//distibute parameters
+	m_error_actions.purpose_new_parameters(m_controller.get_x_stick_incline(), m_controller.get_y_stick_incline(),
+										   m_controller.get_center_height(), m_controller.get_paw_spreading());
+	m_movement->memorize_parameters(m_current_sequence_number, m_controller.get_incline_coef(), m_controller.get_paw_spreading());
+
+	if(m_controller.is_a_new_movement())
+	{
+		move(m_controller.get_movement());
+	}
+}
+
+void Hexapode::standard_action()
+{
+	if(!update())
+	{
+		toggle(); //if sequence is finished
+	}
+}
+
+void Hexapode::error_action()
+{
+	m_error_actions.resolve_error(m_movement->m_type);
+	m_movement->memorize_parameters(m_current_sequence_number, m_controller.get_incline_coef(), m_controller.get_paw_spreading());
+	prepare_update();
+	update();
 }
 
 void Hexapode::determine_real_distance_for_movement()

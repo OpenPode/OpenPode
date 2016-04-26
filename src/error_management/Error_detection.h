@@ -50,6 +50,7 @@ public:
 	void set_error();
 	void set_paw(Paw &p_paw);
 
+	bool is_on_error();
 
 protected:
 
