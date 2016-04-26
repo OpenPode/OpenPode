@@ -51,10 +51,12 @@ void Hexapode::run()
 				move(m_controller.get_movement());
 			}
 
+			prepare_update();
 			if(!update())
 			{
 				toggle(); //if sequence is finished
 			}
+			std::cout <<m_timer.elapsed().millis()<<std::endl;
 		}
 	}
 }
@@ -119,10 +121,16 @@ void Hexapode::move(Movement *mvt)
 
 }
 
+void Hexapode::prepare_update()
+{
+	m_error_detection.reset();
+	m_right_side.prepare_update();
+	m_left_side.prepare_update();
+}
+
 int Hexapode::update()
 {
 	int sequence_end_right, sequence_end_left;
-	m_error_detection.reset();
 	sequence_end_right = m_right_side.update();
 	sequence_end_left  = m_left_side.update();
 

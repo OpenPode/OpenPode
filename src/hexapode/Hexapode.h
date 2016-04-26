@@ -28,6 +28,7 @@ public:
 
 	void move(Movement *mvt);
 
+	void prepare_update();
 	int update();
 
 	void determine_real_distance_for_movement();

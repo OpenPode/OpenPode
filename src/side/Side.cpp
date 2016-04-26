@@ -36,13 +36,16 @@ Side::Side(Side_enum side, i2cdev *i2c, Error_detection* p_error_detection) : m_
 	}
 }
 
-int Side::update()
+void Side::prepare_update()
 {
 	Paw_position paw_position = m_movement->determine_paws_position(*this);
 	m_front_paw.prepare_to_move(paw_position.front);
 	m_middle_paw.prepare_to_move(paw_position.middle);
 	m_back_paw.prepare_to_move(paw_position.back);
+}
 
+int Side::update()
+{
 	move_paw(m_front_paw);
 	move_paw(m_middle_paw);
 	move_paw(m_back_paw);

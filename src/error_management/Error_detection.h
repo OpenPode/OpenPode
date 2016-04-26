@@ -5,8 +5,8 @@
  *      Author: Sarthou
  */
 
-#ifndef ERROR_DETECTION_ERROR_DETECTION_H_
-#define ERROR_DETECTION_ERROR_DETECTION_H_
+#ifndef ERROR_MANAGEMENT_ERROR_DETECTION_H_
+#define ERROR_MANAGEMENT_ERROR_DETECTION_H_
 
 #include "Paw.h"
 
@@ -51,7 +51,7 @@ public:
 	void set_paw(Paw &p_paw);
 
 
-//protected:
+protected:
 
 	char error_code;
 	char error_location;
@@ -72,4 +72,4 @@ public:
 
 };
 
-#endif /* ERROR_DETECTION_ERROR_DETECTION_H_ */
+#endif /* ERROR_MANAGEMENT_ERROR_DETECTION_H_ */

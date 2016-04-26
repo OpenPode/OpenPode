@@ -28,6 +28,7 @@ public:
 	Side(Side_enum side, i2cdev *i2c, Error_detection* p_error_detection);
 
 	void memorize_movement(Movement *mvt);
+	void prepare_update();
 	int update();
 	double get_real_distance();
 	void memorize_current_paw_position();
