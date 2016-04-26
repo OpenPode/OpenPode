@@ -13,6 +13,17 @@
 
 class Movement;
 
+class Movement_controller_delegate
+{
+
+public :
+
+  virtual ~Movement_controller_delegate(){}
+
+  virtual void reinit(double x_stick_incline, double y_stick_incline, double height, double paw_spreading) = 0;
+
+};
+
 class Movement_controller
 {
 public:
@@ -35,9 +46,14 @@ public:
 	void set_new_paw_spreading(double p_paw_spreading);
 	void set_new_center_height(double p_center_height);
 	void set_new_incline(double p_pitch_stick, double p_rool_stick);
+	void go_back_to_default_position();
+
+	//delegate
+	void set_delegate(Movement_controller_delegate* p_delegate);
 
 private:
 
+	Movement_controller_delegate* m_delegate;
 	Movement *m_movement;
 
 	double m_paw_spreading;
@@ -69,6 +85,7 @@ private:
 	bool m_tighten_pressed;
 
 	bool m_turn_back_default_pressed;
+	bool m_turn_back_default_last_state;
 	Incline_coef_t m_incline_coef;
 
 	void get_control_values();
@@ -77,7 +94,6 @@ private:
 	void update_paw_spreading();
 	void update_center_height();
 	void update_incline();
-	void go_back_to_default_position();
 
 	PS4Controller m_PS4_controller;
 };

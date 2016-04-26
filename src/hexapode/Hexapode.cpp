@@ -20,7 +20,8 @@ Hexapode::Hexapode() : m_i2c(new i2cdev),
 					   m_movement(nullptr), // init to no_movement
 					   m_current_sequence_number(0), //remettre -1
 					   m_current_step_number(0),
-					   m_step_number(1)
+					   m_step_number(1),
+					   m_error_actions(&m_controller)
 {
 	bcm2835_gpio_clr(7);
 }
@@ -47,7 +48,7 @@ void Hexapode::run()
 
 			prepare_update();
 
-			if(!m_error_detection.is_on_error())
+			if(true/*!m_error_detection.is_on_error()*/)
 			{
 				standard_action();
 			}
@@ -63,6 +64,7 @@ void Hexapode::run()
 
 void Hexapode::init()
 {
+	m_controller.go_back_to_default_position();
 	move(m_controller.get_movement());
 	toggle();
 	m_timer.reset();

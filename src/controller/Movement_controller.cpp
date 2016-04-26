@@ -17,7 +17,7 @@
 #include <cmath>
 #include <stdlib.h>
 
-Movement_controller::Movement_controller() : m_movement(nullptr), // init to no_movement
+Movement_controller::Movement_controller() : m_movement(nullptr), m_delegate(nullptr),
 					   m_paw_spreading(DEFAULT_PAW_SPREADING), m_center_height(DEFAULT_HEIGHT),
 					   m_current_step_number(0), m_step_number(0), new_movement(0),
 					   m_movement_x_value(0), m_movement_y_value(0),
@@ -26,7 +26,7 @@ Movement_controller::Movement_controller() : m_movement(nullptr), // init to no_
 					   m_incline_pitch_lin_value(0), m_incline_roll_lin_value(0),
 					   m_up_pressed(false), m_down_pressed(false),
 					   m_move_apart_pressed(false), m_tighten_pressed(false),
-					   m_turn_back_default_pressed(false)
+					   m_turn_back_default_pressed(false), m_turn_back_default_last_state(false)
 
 {
 	m_movement = new No_movement();
@@ -77,6 +77,7 @@ void Movement_controller::get_control_values()
 	m_down_pressed = m_PS4_controller.is_key_press(PS4_Key::KEY_R1);
 	m_move_apart_pressed = m_PS4_controller.is_key_press(PS4_Key::KEY_L2);
 	m_tighten_pressed = m_PS4_controller.is_key_press(PS4_Key::KEY_L1);
+	m_turn_back_default_last_state = m_turn_back_default_pressed;
 	m_turn_back_default_pressed = m_PS4_controller.is_key_press(PS4_Key::KEY_OPTIONS);
 }
 
@@ -101,7 +102,7 @@ void Movement_controller::get_new_movement(int current_step_number, int step_num
 
 	update_center_height();
 
-	if((m_turn_back_default_pressed == true) and (m_movement->m_type == no_movement))
+	if((m_turn_back_default_pressed == true) and (m_turn_back_default_last_state == false) and (m_movement->m_type == no_movement))
 		go_back_to_default_position();
 
 	update_incline();
@@ -174,6 +175,8 @@ void Movement_controller::go_back_to_default_position()
 {
 	m_paw_spreading = DEFAULT_PAW_SPREADING;
 	m_center_height = DEFAULT_HEIGHT;
+	if(m_delegate != nullptr)
+		m_delegate->reinit(m_incline_pitch_lin_value, m_incline_roll_lin_value, m_center_height, m_paw_spreading);
 }
 
 void Movement_controller::set_new_paw_spreading(double p_paw_spreading)
@@ -191,4 +194,9 @@ void Movement_controller::set_new_incline(double p_pitch_stick, double p_rool_st
 	m_incline_roll_lin_value = p_rool_stick;
 	m_incline_pitch_lin_value = p_pitch_stick;
 	update_incline();
+}
+
+void Movement_controller::set_delegate(Movement_controller_delegate* p_delegate)
+{
+	m_delegate = p_delegate;
 }

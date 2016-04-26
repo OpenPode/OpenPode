@@ -7,9 +7,10 @@
 
 #include "Error_actions.h"
 
-Error_actions::Error_actions() : finished_to_corrected_error(true)
+Error_actions::Error_actions(Movement_controller* p_movement_controller) : finished_to_corrected_error(true)
 {
-
+	m_movement_controller = p_movement_controller;
+	m_movement_controller->set_delegate(this);
 }
 
 Error_actions::~Error_actions()
@@ -55,5 +56,10 @@ void Error_actions::resolve_error(Movement_type p_movement_type)
 		}
 		break;
 	}
+
+}
+
+void Error_actions::reinit(double x_stick_incline, double y_stick_incline, double height, double paw_spreading)
+{
 
 }

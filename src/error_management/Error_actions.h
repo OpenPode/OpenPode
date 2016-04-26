@@ -9,6 +9,7 @@
 #define ERROR_MANAGEMENT_ERROR_ACTIONS_H_
 
 #include "Movement.h"
+#include "Movement_controller.h"
 
 struct sticks_values_t
 {
@@ -23,11 +24,11 @@ struct parameters_t
 	double center_height;
 };
 
-class Error_actions
+class Error_actions : public Movement_controller_delegate
 {
 public :
 
-	Error_actions();
+	Error_actions(Movement_controller* p_movement_controller);
 	~Error_actions();
 
 	void valid_parameters();
@@ -39,11 +40,14 @@ public :
 
 protected:
 
+	Movement_controller* m_movement_controller;
 	parameters_t m_precedent_parameters;
 	parameters_t m_purpose_parameters;
 	parameters_t m_new_parameters;
 
 	bool finished_to_corrected_error;
+
+	void reinit(double x_stick_incline, double y_stick_incline, double height, double paw_spreading);
 
 };
 
