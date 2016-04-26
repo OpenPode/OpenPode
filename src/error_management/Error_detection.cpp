@@ -9,7 +9,8 @@
 
 Error_detection::Error_detection() : error_code(0), error_location(0),
 									 error_paw_R_F(0), error_paw_R_M(0), error_paw_R_B(0),
-									 error_paw_L_F(0), error_paw_L_M(0), error_paw_L_B(0)
+									 error_paw_L_F(0), error_paw_L_M(0), error_paw_L_B(0),
+									 m_sequence_number(0)
 {
 
 }
@@ -29,6 +30,11 @@ void Error_detection::reset()
 	error_paw_L_F = 0;
 	error_paw_L_M = 0;
 	error_paw_L_B = 0;
+}
+
+void Error_detection::set_sequence_number(int p_sequence_number)
+{
+	m_sequence_number = p_sequence_number;
 }
 
 void Error_detection::set_error()
@@ -51,6 +57,9 @@ void Error_detection::set_paw(Paw &p_paw)
 
 	test_machenical_stop_limit(p_paw, error_paw);
 	test_model_limit(p_paw, error_paw);
+
+	if(error_paw != 0)//error on the paw
+		set_sequence(p_paw);
 }
 
 void Error_detection::set_error_location(Paw &p_paw)
@@ -97,6 +106,32 @@ void Error_detection::test_machenical_stop_limit(Paw &p_paw, char* p_error_paw)
 		*p_error_paw |= (COXA << MECA_LIMIT_SHIFT);
 		set_error_location(p_paw);
 		set_error_mecanical_type();
+	}
+}
+
+void Error_detection::set_sequence(Paw &p_paw)
+{
+	if(p_paw.m_side == side_left)
+	{
+		if((m_sequence_number == 0) && (p_paw.m_position == position_front))
+			error_code |= IN_SEQ;
+		else if((m_sequence_number == 1) && (p_paw.m_position == position_middle))
+			error_code |= IN_SEQ;
+		else if((m_sequence_number == 2) && (p_paw.m_position == position_back))
+			error_code |= IN_SEQ;
+		else
+			error_code |= STANDARD;
+	}
+	else
+	{
+		if((m_sequence_number == 0) && (p_paw.m_position == position_back))
+			error_code |= IN_SEQ;
+		else if((m_sequence_number == 1) && (p_paw.m_position == position_middle))
+			error_code |= IN_SEQ;
+		else if((m_sequence_number == 2) && (p_paw.m_position == position_front))
+			error_code |= IN_SEQ;
+		else
+			error_code |= STANDARD;
 	}
 }
 

@@ -120,6 +120,7 @@ void Hexapode::update_sequence_number()
 	m_current_step_number = 0;
 	m_movement->raz_current_step_number();
 	m_movement->update_sequence_number(m_current_sequence_number);
+	m_error_detection.set_sequence_number(m_current_sequence_number);
 }
 
 void Hexapode::toggle()

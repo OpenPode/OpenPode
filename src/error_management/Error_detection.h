@@ -46,6 +46,7 @@ public:
 	~Error_detection();
 
 	void reset();
+	void set_sequence_number(int p_sequence_number);
 
 	void set_error();
 	void set_paw(Paw &p_paw);
@@ -62,10 +63,12 @@ protected:
 	char error_paw_L_F;
 	char error_paw_L_M;
 	char error_paw_L_B;
+	int m_sequence_number;
 
 	void set_error_location(Paw &p_paw);
 	void set_error_model_type();
 	void set_error_mecanical_type();
+	void set_sequence(Paw &p_paw);
 
 	void test_machenical_stop_limit(Paw &p_paw, char* p_error_paw);
 	void test_model_limit(Paw &p_paw, char* p_error_paw);
