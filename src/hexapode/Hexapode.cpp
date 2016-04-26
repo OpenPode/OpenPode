@@ -48,7 +48,7 @@ void Hexapode::run()
 
 			prepare_update();
 
-			if(true/*!m_error_detection.is_on_error()*/)//in progress
+			if(!m_error_detection.is_on_error())//in progress
 			{
 				standard_action();
 			}

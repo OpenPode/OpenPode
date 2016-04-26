@@ -11,6 +11,8 @@
 #include "Movement.h"
 #include "Movement_controller.h"
 
+const double DEFAULT_STEP = 10;
+
 struct sticks_values_t
 {
 	double pitch;
@@ -43,7 +45,8 @@ enum step_of_solution
 	stop_sequence,
 	cancel_incline,
 	reduce_incline,
-	find_stable_parameters_direction,
+	find_paw_spreading_stable_direction,
+	find_height_stable_direction,
 	find_stable_parameters,
 	test_one_shot,
 	save_parameters
@@ -80,9 +83,14 @@ protected:
 	bool m_on_error;
 	int find_solution;
 
+	int paw_speading_direction;
+	int height_direction;
+
 	//no_movement
 	void action_no_movement_no_changement();
 	void action_no_movement_reduce_incline();
+	void action_no_movement_find_paw_spreadind_direction();
+	void action_no_movement_find_height_direction();
 	void action_no_movement_changement();
 
 	void reinit(double pitch_stick, double roll_stick, double height, double paw_spreading);
@@ -91,6 +99,8 @@ protected:
 
 	//solving algo
 	void find_stable_incline();
+	void find_paw_spreadind_direction();
+	void find_height_direction();
 };
 
 #endif /* ERROR_MANAGEMENT_ERROR_ACTIONS_H_ */

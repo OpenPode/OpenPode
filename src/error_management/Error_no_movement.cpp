@@ -19,11 +19,31 @@ void Error_actions::action_no_movement_no_changement()
 		m_new_parameters.paw_spreading = m_purpose_parameters.paw_spreading;
 		m_current_step = reduce_incline;
 		find_solution = false;
+		std::cout << "cancel_incline" << std::endl;
 	}
 	break;
 	case reduce_incline:
 	{
 		action_no_movement_reduce_incline();
+		std::cout << "reduce_incline" << std::endl;
+	}
+	break;
+	case find_paw_spreading_stable_direction:
+	{
+		action_no_movement_find_paw_spreadind_direction();
+		std::cout << "find_paw_spreading_stable_direction " << std::endl;
+	}
+	break;
+	case find_height_stable_direction:
+	{
+		std::cout << "find_height_stable_direction" << std::endl;
+		action_no_movement_find_height_direction();
+	}
+	break;
+	case find_stable_parameters:
+	{
+		std::cout << height_direction << std::endl;
+		while(1);
 	}
 	break;
 	default:
@@ -41,7 +61,7 @@ void Error_actions::action_no_movement_reduce_incline()
 	{
 		if(find_solution == 0)
 		{
-			m_current_step = find_stable_parameters_direction;
+			m_current_step = find_paw_spreading_stable_direction;
 			m_new_parameters = m_purpose_parameters;
 		}
 		else
@@ -62,6 +82,56 @@ void Error_actions::action_no_movement_reduce_incline()
 			find_solution ++;
 			find_stable_incline();
 		}
+	}
+}
+
+void Error_actions::action_no_movement_find_paw_spreadind_direction()
+{
+	if(m_on_error)
+	{
+		if(find_solution > 17*2)
+		{
+			find_solution = 0;
+			paw_speading_direction = 0;
+			m_new_parameters.paw_spreading = m_purpose_parameters.paw_spreading;
+			m_current_step = find_height_stable_direction;
+		}
+		else
+		{
+			find_paw_spreadind_direction();
+			find_solution ++;
+		}
+	}
+	else
+	{
+		find_solution = 0;
+		m_new_parameters.paw_spreading = m_purpose_parameters.paw_spreading;
+		m_current_step = find_height_stable_direction;
+	}
+}
+
+void Error_actions::action_no_movement_find_height_direction()
+{
+	if(m_on_error)
+	{
+		if(find_solution > 17*2)
+		{
+			find_solution = 0;
+			height_direction = 0;
+			m_new_parameters.center_height = m_purpose_parameters.center_height;
+			m_current_step = find_stable_parameters;
+		}
+		else
+		{
+			find_height_direction();
+			find_solution ++;
+		}
+	}
+	else
+	{
+		find_solution = 0;
+		m_new_parameters.center_height = m_purpose_parameters.center_height;
+		m_current_step = find_stable_parameters;
 	}
 }
 
