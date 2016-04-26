@@ -20,7 +20,7 @@ public :
 
   virtual ~Movement_controller_delegate(){}
 
-  virtual void reinit(double x_stick_incline, double y_stick_incline, double height, double paw_spreading) = 0;
+  virtual void reinit(double pitch_stick, double roll_stick, double height, double paw_spreading) = 0;
 
 };
 
@@ -38,14 +38,14 @@ public:
 	double get_paw_spreading() const { return m_paw_spreading; }
 	Incline_coef_t get_incline_coef() const { return m_incline_coef; }
 	double get_center_height() const { return m_center_height; }
-	double get_x_stick_incline() const { return m_incline_pitch_lin_value; }
-	double get_y_stick_incline() const { return m_incline_roll_lin_value; }
+	double get_pitch_stick() const { return m_incline_pitch_lin_value; }
+	double get_roll_stick() const { return m_incline_roll_lin_value; }
 
 	Movement* get_movement() { return m_movement; }
 
 	void set_new_paw_spreading(double p_paw_spreading);
 	void set_new_center_height(double p_center_height);
-	void set_new_incline(double p_pitch_stick, double p_rool_stick);
+	void set_new_incline(double p_pitch_stick, double p_roll_stick);
 	void go_back_to_default_position();
 
 	//delegate
@@ -53,8 +53,8 @@ public:
 
 private:
 
-	Movement_controller_delegate* m_delegate;
 	Movement *m_movement;
+	Movement_controller_delegate* m_delegate;
 
 	double m_paw_spreading;
 	double m_center_height;

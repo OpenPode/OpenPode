@@ -177,6 +177,8 @@ void Movement_controller::go_back_to_default_position()
 	m_center_height = DEFAULT_HEIGHT;
 	if(m_delegate != nullptr)
 		m_delegate->reinit(m_incline_pitch_lin_value, m_incline_roll_lin_value, m_center_height, m_paw_spreading);
+
+
 }
 
 void Movement_controller::set_new_paw_spreading(double p_paw_spreading)
@@ -189,9 +191,9 @@ void Movement_controller::set_new_center_height(double p_center_height)
 	m_center_height = p_center_height;
 }
 
-void Movement_controller::set_new_incline(double p_pitch_stick, double p_rool_stick)
+void Movement_controller::set_new_incline(double p_pitch_stick, double p_roll_stick)
 {
-	m_incline_roll_lin_value = p_rool_stick;
+	m_incline_roll_lin_value = p_roll_stick;
 	m_incline_pitch_lin_value = p_pitch_stick;
 	update_incline();
 }

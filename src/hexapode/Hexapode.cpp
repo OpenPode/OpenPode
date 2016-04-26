@@ -48,7 +48,7 @@ void Hexapode::run()
 
 			prepare_update();
 
-			if(true/*!m_error_detection.is_on_error()*/)
+			if(true/*!m_error_detection.is_on_error()*/)//in progress
 			{
 				standard_action();
 			}
@@ -75,7 +75,7 @@ void Hexapode::determine_movement()
 	m_controller.get_new_movement(m_current_step_number, m_step_number);
 
 	//distibute parameters
-	m_error_actions.purpose_new_parameters(m_controller.get_x_stick_incline(), m_controller.get_y_stick_incline(),
+	m_error_actions.purpose_new_parameters(m_controller.get_pitch_stick(), m_controller.get_roll_stick(),
 										   m_controller.get_center_height(), m_controller.get_paw_spreading());
 	m_movement->memorize_parameters(m_current_sequence_number, m_controller.get_incline_coef(), m_controller.get_paw_spreading());
 
@@ -96,9 +96,9 @@ void Hexapode::standard_action()
 void Hexapode::error_action()
 {
 	m_error_actions.resolve_error(m_movement->m_type);
-	m_movement->memorize_parameters(m_current_sequence_number, m_controller.get_incline_coef(), m_controller.get_paw_spreading());
-	prepare_update();
-	update();
+	//m_movement->memorize_parameters(m_current_sequence_number, m_controller.get_incline_coef(), m_controller.get_paw_spreading());
+	//prepare_update();
+	//update();
 }
 
 void Hexapode::determine_real_distance_for_movement()

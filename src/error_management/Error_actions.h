@@ -13,8 +13,13 @@
 
 struct sticks_values_t
 {
-	double x_stick;
-	double y_stick;
+	double pitch;
+	double roll;
+	bool operator==(const sticks_values_t &c)
+	{
+		return ((int)(c.pitch * 1000) == (int)(pitch * 1000))
+			&& ((int)(c.roll * 1000) == (int)(roll * 1000));
+	}
 };
 
 struct parameters_t
@@ -22,6 +27,25 @@ struct parameters_t
 	sticks_values_t incline_values;
 	double paw_spreading;
 	double center_height;
+	bool operator==(const parameters_t &c)
+	{
+		return (incline_values == c.incline_values) &&
+	           ((int)(c.paw_spreading * 1000) == (int)(paw_spreading * 1000)) &&
+			   ((int)(c.center_height * 1000) == (int)(center_height * 1000));
+	}
+};
+
+
+
+enum step_of_solution
+{
+	stop_sequence,
+	cancel_incline,
+	reduce_incline,
+	find_stable_parameters_direction,
+	find_stable_parameters,
+	test_one_shot,
+	save_parameters
 };
 
 class Error_actions : public Movement_controller_delegate
@@ -44,10 +68,14 @@ protected:
 	parameters_t m_precedent_parameters;
 	parameters_t m_purpose_parameters;
 	parameters_t m_new_parameters;
+	parameters_t m_saved_parameters;
 
 	bool finished_to_corrected_error;
 
-	void reinit(double x_stick_incline, double y_stick_incline, double height, double paw_spreading);
+	void action_no_movement_no_changement();
+	void action_no_movement_changement();
+
+	void reinit(double pitch_stick, double roll_stick, double height, double paw_spreading);
 
 };
 
