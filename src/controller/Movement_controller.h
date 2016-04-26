@@ -32,6 +32,10 @@ public:
 
 	Movement* get_movement() { return m_movement; }
 
+	void set_new_paw_spreading(double p_paw_spreading);
+	void set_new_center_height(double p_center_height);
+	void set_new_incline(double p_pitch_stick, double p_rool_stick);
+
 private:
 
 	Movement *m_movement;
@@ -68,6 +72,12 @@ private:
 	Incline_coef_t m_incline_coef;
 
 	void get_control_values();
+
+	void update_movement();
+	void update_paw_spreading();
+	void update_center_height();
+	void update_incline();
+	void go_back_to_default_position();
 
 	PS4Controller m_PS4_controller;
 };

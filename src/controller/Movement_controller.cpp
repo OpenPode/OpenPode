@@ -95,7 +95,20 @@ void Movement_controller::get_new_movement(int current_step_number, int step_num
 	get_control_values();
 	make_sticks_more_linear();
 
-	//MOVEMENT
+	update_movement();
+
+	update_paw_spreading();
+
+	update_center_height();
+
+	if((m_turn_back_default_pressed == true) and (m_movement->m_type == no_movement))
+		go_back_to_default_position();
+
+	update_incline();
+}
+
+void Movement_controller::update_movement()
+{
 	if((m_movement_x_lin_value == 0) and (m_movement_y_lin_value == 0))
 	{
 		if(m_movement != nullptr)
@@ -116,8 +129,10 @@ void Movement_controller::get_new_movement(int current_step_number, int step_num
 		m_movement = new complete_linear_movement(  atan2(m_movement_x_lin_value, m_movement_y_lin_value)*180/M_PI, DEFAULT_DISTANCE, step_number);
 		new_movement = true;
 	}
+}
 
-	//PAW SPREADING
+void Movement_controller::update_paw_spreading()
+{
 	if(m_move_apart_pressed)
 	{
 		if(m_paw_spreading <= (TIBIA_LENGTH + FEMUR_LENGTH))
@@ -128,8 +143,10 @@ void Movement_controller::get_new_movement(int current_step_number, int step_num
 		if(m_paw_spreading >= TIBIA_ORIGIN_OFFSET)
 		m_paw_spreading -= SPREADING_STEP;
 	}
+}
 
-	//HEIGHT
+void Movement_controller::update_center_height()
+{
 	if(m_up_pressed)
 	{
 		if(m_center_height <= 0)
@@ -140,15 +157,10 @@ void Movement_controller::get_new_movement(int current_step_number, int step_num
 		if(m_center_height >= (-TIBIA_LENGTH - FEMUR_LENGTH))
 			m_center_height -= HEIGHT_STEP;
 	}
+}
 
-	//TURN BACK TO DEFAULT POSITION
-	if((m_turn_back_default_pressed == true) and (m_movement->m_type == no_movement))
-	{
-		m_paw_spreading = DEFAULT_PAW_SPREADING;
-		m_center_height = DEFAULT_HEIGHT;
-	}
-
-	//INCLINE
+void Movement_controller::update_incline()
+{
 	double incline_coef = std::abs(m_incline_roll_lin_value) + std::abs(m_incline_pitch_lin_value);
 	if(incline_coef == 0)
 		incline_coef = 1.;
@@ -156,4 +168,27 @@ void Movement_controller::get_new_movement(int current_step_number, int step_num
 	m_incline_coef.A = ((m_center_height + CENTER_TO_GROUND_OFFSET) / (-HALF_LENGTH)) * m_incline_pitch_lin_value * std::abs(m_incline_pitch_lin_value) / incline_coef;
 	m_incline_coef.B = ((m_center_height + CENTER_TO_GROUND_OFFSET) / (-HALF_WIDTH_MAX)) * m_incline_roll_lin_value * std::abs(m_incline_roll_lin_value) / incline_coef;;
 	m_incline_coef.C = m_center_height;
+}
+
+void Movement_controller::go_back_to_default_position()
+{
+	m_paw_spreading = DEFAULT_PAW_SPREADING;
+	m_center_height = DEFAULT_HEIGHT;
+}
+
+void Movement_controller::set_new_paw_spreading(double p_paw_spreading)
+{
+	m_paw_spreading = p_paw_spreading;
+}
+
+void Movement_controller::set_new_center_height(double p_center_height)
+{
+	m_center_height = p_center_height;
+}
+
+void Movement_controller::set_new_incline(double p_pitch_stick, double p_rool_stick)
+{
+	m_incline_roll_lin_value = p_rool_stick;
+	m_incline_pitch_lin_value = p_pitch_stick;
+	update_incline();
 }
