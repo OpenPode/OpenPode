@@ -53,7 +53,7 @@ public:
 
 	bool is_on_error();
 
-protected:
+//protected:
 
 	char error_code;
 	char error_location;

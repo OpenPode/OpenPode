@@ -57,9 +57,6 @@ void Error_detection::set_paw(Paw &p_paw)
 
 	test_machenical_stop_limit(p_paw, error_paw);
 	test_model_limit(p_paw, error_paw);
-
-	if(error_paw != 0)//error on the paw
-		set_sequence(p_paw);
 }
 
 void Error_detection::set_error_location(Paw &p_paw)
@@ -94,18 +91,21 @@ void Error_detection::test_machenical_stop_limit(Paw &p_paw, char* p_error_paw)
 		*p_error_paw |= (TIBIA << MECA_LIMIT_SHIFT);
 		set_error_location(p_paw);
 		set_error_mecanical_type();
+		set_sequence(p_paw);
 	}
 	if(!p_paw.m_femur.is_value_in_the_range(p_paw.servos_time_table[position_femur]))
 	{
 		*p_error_paw |= (FEMUR << MECA_LIMIT_SHIFT);
 		set_error_location(p_paw);
 		set_error_mecanical_type();
+		set_sequence(p_paw);
 	}
 	if(!p_paw.m_coxa.is_value_in_the_range(p_paw.servos_time_table[position_coxa]))
 	{
 		*p_error_paw |= (COXA << MECA_LIMIT_SHIFT);
 		set_error_location(p_paw);
 		set_error_mecanical_type();
+		set_sequence(p_paw);
 	}
 }
 
@@ -142,18 +142,21 @@ void Error_detection::test_model_limit(Paw &p_paw, char* p_error_paw)
 		*p_error_paw |= (TIBIA << MODEL_LIMIT_SHIFT);
 		set_error_location(p_paw);
 		set_error_model_type();
+		set_sequence(p_paw);
 	}
 	if(p_paw.m_servo_angles.theta2 != p_paw.m_servo_angles.theta2)//femur
 	{
 		*p_error_paw |= (FEMUR << MODEL_LIMIT_SHIFT);
 		set_error_location(p_paw);
 		set_error_model_type();
+		set_sequence(p_paw);
 	}
 	if(p_paw.m_servo_angles.theta1 != p_paw.m_servo_angles.theta1)//coxa
 	{
 		*p_error_paw |= (COXA << MODEL_LIMIT_SHIFT);
 		set_error_location(p_paw);
 		set_error_model_type();
+		set_sequence(p_paw);
 	}
 }
 

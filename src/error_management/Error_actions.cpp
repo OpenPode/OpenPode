@@ -26,6 +26,11 @@ void Error_actions::valid_parameters()
 	m_precedent_parameters = m_new_parameters;
 }
 
+void Error_actions::valid_parameters_no_error()
+{
+	m_precedent_parameters = m_purpose_parameters;
+}
+
 void Error_actions::purpose_new_parameters(double pitch_stick, double roll_stick, double height, double paw_spreading)
 {
 	m_purpose_parameters.center_height = height;
@@ -54,7 +59,6 @@ void Error_actions::resolve_error(Movement_type p_movement_type, bool on_error)
 		{
 			if(m_current_step == wait)//init no_movement resolve
 			{
-				m_current_step = cancel_incline;
 				m_resolving = true;
 				m_finished_to_corrected_error = false;
 				find_solution = 0;
@@ -101,42 +105,21 @@ void Error_actions::set_end_of_solving()
 	height_direction = 0;
 }
 
-void Error_actions::find_stable_incline()
+double Error_actions::dichotomie(bool condition, double last_new, double purpose)
 {
-	if(m_on_error)
-	{
-		m_new_parameters.incline_values.pitch = m_new_parameters.incline_values.pitch/2.;
-		m_new_parameters.incline_values.roll = m_new_parameters.incline_values.roll/2.;
-	}
+	if(condition)
+		return((purpose - last_new)/2.);
 	else
-	{
-		m_new_parameters.incline_values.pitch = m_new_parameters.incline_values.pitch*3./2.;
-		m_new_parameters.incline_values.roll = m_new_parameters.incline_values.roll*3./2.;
-	}
+		return(last_new / 2.);
 }
 
-void Error_actions::find_paw_spreadind_direction()
+void Error_actions::find_direction(int &cpt, double &direction, double &new_parameters, int step)
 {
-	if(find_solution == 0)
-		m_new_parameters.paw_spreading = m_purpose_parameters.paw_spreading;
-
-	if(find_solution % 2)
-		paw_speading_direction = DEFAULT_STEP*(find_solution/2 + 1);
+	if(cpt % 2)
+		direction = step*(cpt/2 + 1);
 	else
-		paw_speading_direction = - DEFAULT_STEP*((find_solution+1)/2);
+		direction = - step*((cpt+1)/2);
 
-	m_new_parameters.paw_spreading = m_new_parameters.paw_spreading + paw_speading_direction;
-}
-
-void Error_actions::find_height_direction()
-{
-	if(find_solution == 0)
-		m_new_parameters.center_height = m_purpose_parameters.center_height;
-
-	if(find_solution % 2)
-		height_direction = DEFAULT_STEP*(find_solution/2 + 1);
-	else
-		height_direction = - DEFAULT_STEP*((find_solution+1)/2);
-
-	m_new_parameters.center_height = m_new_parameters.center_height + height_direction;
+	new_parameters = new_parameters + direction;
+	cpt++;
 }

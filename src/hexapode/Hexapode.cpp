@@ -18,7 +18,7 @@ const int SEQUENCE_NUMBER = 3;
 Hexapode::Hexapode() : m_i2c(new i2cdev),
 					   m_left_side(side_left, m_i2c, &m_error_detection), m_right_side(side_right, m_i2c, &m_error_detection),
 					   m_movement(nullptr), // init to no_movement
-					   m_current_sequence_number(0), //remettre -1
+					   m_current_sequence_number(1), //remettre -1
 					   m_current_step_number(0),
 					   m_step_number(1),
 					   m_error_actions(&m_controller)
@@ -43,7 +43,7 @@ void Hexapode::run()
 		{
 			m_timer.reset();
 
-			if(m_error_actions.have_finished_to_corrected_error())
+			//if(m_error_actions.have_finished_to_corrected_error())
 				determine_movement();
 
 			prepare_update();
@@ -56,8 +56,6 @@ void Hexapode::run()
 			{
 				error_action();
 			}
-			m_error_actions.valid_parameters();
-
 		}
 	}
 }
@@ -87,6 +85,8 @@ void Hexapode::determine_movement()
 
 void Hexapode::standard_action()
 {
+	std::cout << "ok" << std::endl;
+	m_error_actions.valid_parameters_no_error();
 	if(!update())
 	{
 		toggle(); //if sequence is finished
@@ -98,10 +98,14 @@ void Hexapode::error_action()
 	do
 	{
 		m_error_actions.resolve_error(m_movement->m_type, m_error_detection.is_on_error());
+		m_error_actions.set_parameters_on_movement_controller();
 		m_movement->memorize_parameters(m_current_sequence_number, m_controller.get_incline_coef(), m_controller.get_paw_spreading());
 		prepare_update();
 	} while(m_error_actions.is_resolving());
-	//update();
+	std::cout << "solve " << std::endl;
+	std::cout << "error code " << (int)(m_error_detection.error_code) << std::endl;
+	m_error_actions.valid_parameters();
+	update();
 }
 
 void Hexapode::determine_real_distance_for_movement()
