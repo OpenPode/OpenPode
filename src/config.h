@@ -22,9 +22,14 @@ const std::string pid_filename = "/tmp/ds4drv.pid";
 // Controller
 const std::string ps4_controller_mac_addr = "1C:96:5A:D2:D2:74";
 
+
+//default position
+const double DEFAULT_PAW_SPREADING = 80;
+const double DEFAULT_HEIGHT		   = -50;
+
 //paw position
-const double DEFAULT_Y 	= 80;
-const double DEFAULT_Z 	= -70;
+const double DEFAULT_Y 	= DEFAULT_PAW_SPREADING;
+const double DEFAULT_Z 	= DEFAULT_HEIGHT;
 
 const double DEFAULT_X_CENTER_FRONT = 0;
 const double DEFAULT_X_CENTER_MIDDLE = -20;
@@ -39,9 +44,5 @@ const double DEFAULT_DISTANCE = 40.;
 
 const double SPREADING_STEP = 1.;
 const double HEIGHT_STEP = 0.5;
-
-//default position
-const double DEFAULT_PAW_SPREADING = 80;
-const double DEFAULT_HEIGHT		   = -50;
 
 #endif /* CONFIG_H_ */
