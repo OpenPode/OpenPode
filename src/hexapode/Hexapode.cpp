@@ -21,7 +21,10 @@ Hexapode::Hexapode() : m_i2c(new i2cdev),
 					   m_current_sequence_number(1), //remettre -1
 					   m_current_step_number(0),
 					   m_step_number(1),
-					   m_error_actions(&m_controller)
+					   m_error_actions(&m_controller),
+					   m_led_right(RPI_BPLUS_GPIO_J8_40,RPI_BPLUS_GPIO_J8_38,RPI_BPLUS_GPIO_J8_36, BLUE),
+					   m_led_left(RPI_BPLUS_GPIO_J8_15,RPI_BPLUS_GPIO_J8_13,RPI_BPLUS_GPIO_J8_11, BLUE),
+					   last_led(0)
 {
 	bcm2835_gpio_clr(7);
 }
@@ -56,7 +59,9 @@ void Hexapode::run()
 			{
 				error_action();
 			}
-			std::cout << m_timer.elapsed().millis() << std::endl;
+			//std::cout << m_timer.elapsed().millis() << std::endl;
+
+			manage_led();
 		}
 	}
 }
@@ -195,6 +200,23 @@ int Hexapode::update()
 	m_movement->increase_current_step_number();
 
 	return sequence_end_right & sequence_end_left; //if both sequence are finished
+}
+
+void Hexapode::manage_led()
+{
+	int led = m_controller.get_led();
+	if((led == 2) && (last_led == 0))
+	{
+		m_led_right--;
+		m_led_left--;
+	}
+	else if ((led == 1) && (last_led == 0))
+	{
+		m_led_right++;
+		m_led_left++;
+	}
+
+	last_led = led;
 }
 
 //for calibration

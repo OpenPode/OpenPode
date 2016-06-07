@@ -40,6 +40,7 @@ public:
 	float get_center_height() const { return m_center_height; }
 	float get_pitch_stick() const { return m_incline_pitch_lin_value; }
 	float get_roll_stick() const { return m_incline_roll_lin_value; }
+	int get_led();
 
 	Movement* get_movement() { return m_movement; }
 
@@ -87,6 +88,9 @@ private:
 	bool m_turn_back_default_pressed;
 	bool m_turn_back_default_last_state;
 	Incline_coef_t m_incline_coef;
+
+	bool m_square_pressed;
+	bool m_circle_pressed;
 
 	void get_control_values();
 

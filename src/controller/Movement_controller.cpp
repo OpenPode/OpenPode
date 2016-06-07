@@ -25,7 +25,8 @@ Movement_controller::Movement_controller() : m_movement(nullptr), m_delegate(nul
 					   m_incline_pitch_lin_value(0), m_incline_roll_lin_value(0),
 					   m_up_pressed(false), m_down_pressed(false),
 					   m_move_apart_pressed(false), m_tighten_pressed(false),
-					   m_turn_back_default_pressed(false), m_turn_back_default_last_state(false)
+					   m_turn_back_default_pressed(false), m_turn_back_default_last_state(false),
+					   m_square_pressed(false), m_circle_pressed(false)
 
 {
 	m_movement = new No_movement();
@@ -78,6 +79,18 @@ void Movement_controller::get_control_values()
 	m_tighten_pressed = m_PS4_controller.is_key_press(PS4_Key::KEY_L1);
 	m_turn_back_default_last_state = m_turn_back_default_pressed;
 	m_turn_back_default_pressed = m_PS4_controller.is_key_press(PS4_Key::KEY_OPTIONS);
+	m_square_pressed = m_PS4_controller.is_key_press(PS4_Key::KEY_SQUARE);
+	m_circle_pressed = m_PS4_controller.is_key_press(PS4_Key::KEY_CIRCLE);
+}
+
+int Movement_controller::get_led()
+{
+	if((m_square_pressed) && (not m_circle_pressed))
+		return 2;
+	else if((m_circle_pressed) && (not m_square_pressed))
+		return 1;
+	else
+		return 0;
 }
 
 bool Movement_controller::is_a_new_movement()
