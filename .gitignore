@@ -40,3 +40,7 @@ Debug/*
 # STL modeling files
 *.stl
 *.STL
+*.cproject
+.cproject
+*.xml
+.settings/org.eclipse.cdt.core.prefs
