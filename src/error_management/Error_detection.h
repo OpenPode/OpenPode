@@ -8,7 +8,7 @@
 #ifndef ERROR_MANAGEMENT_ERROR_DETECTION_H_
 #define ERROR_MANAGEMENT_ERROR_DETECTION_H_
 
-#include "Paw.h"
+#include "paw/Paw.h"
 
 //mask for error_code
 const char ERROR 		=0x01;

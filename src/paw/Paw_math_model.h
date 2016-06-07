@@ -8,7 +8,7 @@
 #ifndef PAW_MATH_MODEL_H_
 #define PAW_MATH_MODEL_H_
 
-#include "Servo.h"
+#include "servo/Servo.h"
 
 struct Coords
 {

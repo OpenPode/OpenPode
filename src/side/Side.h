@@ -8,8 +8,8 @@ c * Side.h
 #ifndef SIDE_H_
 #define SIDE_H_
 
-#include "Paw.h"
-#include "PCA9685.h"
+#include "paw/Paw.h"
+#include "PCAmodule/PCA9685.h"
 
 class i2cdev;
 class Movement;

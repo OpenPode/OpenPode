@@ -5,11 +5,11 @@
  *      Author: Julien
  */
 
-#include "Paw.h"
-#include "hexapode_dimensions.h"
+#include "paw/Paw.h"
+#include "hexapode/hexapode_dimensions.h"
 #include "config.h"
-#include "bcm2835.h"
-#include "Error_detection.h"
+#include "i2c/bcm2835.h"
+#include "error_management/Error_detection.h"
 
 #include <iostream>
 #include <math.h>

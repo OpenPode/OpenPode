@@ -6,9 +6,9 @@
  */
 
 
-#include "Side.h"
-#include "hexapode_dimensions.h"
-#include "Movement.h"
+#include "side/Side.h"
+#include "hexapode/hexapode_dimensions.h"
+#include "movement/Movement.h"
 #include <cmath>
 
 const Channel_t Side::channel_table[3][3] =

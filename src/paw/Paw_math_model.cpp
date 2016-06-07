@@ -6,7 +6,7 @@
  */
 
 #include "Paw_math_model.h"
-#include "hexapode_dimensions.h"
+#include "hexapode/hexapode_dimensions.h"
 #include <cmath>
 
 Paw_math_model::Paw_math_model(Side_enum side)

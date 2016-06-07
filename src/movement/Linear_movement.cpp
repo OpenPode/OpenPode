@@ -5,9 +5,9 @@
  *      Author: Julien
  */
 
-#include "Linear_movement.h"
-#include "hexapode_dimensions.h"
-#include "Side.h"
+#include "movement/Linear_movement.h"
+#include "hexapode/hexapode_dimensions.h"
+#include "side/Side.h"
 #include <cmath>
 
 Linear_movement::Linear_movement(Movement_direction direction, double distance, int step_number) :

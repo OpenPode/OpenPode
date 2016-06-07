@@ -5,8 +5,8 @@
  *      Author: Julien
  */
 
-#include "Movement.h"
-#include "Side.h"
+#include "movement/Movement.h"
+#include "side/Side.h"
 #include "config.h"
 #include <cmath>
 

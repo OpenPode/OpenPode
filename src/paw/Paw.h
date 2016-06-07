@@ -8,10 +8,10 @@
 #ifndef PAW_H_
 #define PAW_H_
 
-#include "Paw_math_model.h"
-#include "Servo.h"
+#include "paw/Paw_math_model.h"
+#include "servo/Servo.h"
 
-#include "PCA9685.h"
+#include "PCAmodule/PCA9685.h"
 
 class Error_detection;
 

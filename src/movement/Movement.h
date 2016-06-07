@@ -9,7 +9,7 @@
 #define MOVEMENT_H_
 
 #include "Incline_coef.h"
-#include "hexapode_dimensions.h"
+#include "hexapode/hexapode_dimensions.h"
 
 #define NO_MOVEMENT_STEP_DIST 2
 

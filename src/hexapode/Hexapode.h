@@ -8,12 +8,12 @@
 #ifndef HEXAPODE_H_
 #define HEXAPODE_H_
 
-#include "i2cdev.h"
-#include "Side.h"
-#include "timer_t.hpp"
-#include "Movement_controller.h"
-#include "Error_detection.h"
-#include "Error_actions.h"
+#include "i2c/i2cdev.h"
+#include "side/Side.h"
+#include "utility/time/timer_t.hpp"
+#include "controller/Movement_controller.h"
+#include "error_management/Error_detection.h"
+#include "error_management/Error_actions.h"
 
 class Movement;
 

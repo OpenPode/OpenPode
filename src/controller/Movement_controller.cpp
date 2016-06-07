@@ -6,14 +6,13 @@
 // Description : Hello World in C++, Ansi-style
 //============================================================================
 
-#include "Movement_controller.h"
-#include "bcm2835.h"
-#include "hexapode_dimensions.h"
+#include "controller/Movement_controller.h"
+#include "i2c/bcm2835.h"
+#include "hexapode/hexapode_dimensions.h"
 #include "config.h"
-
-#include "Linear_movement.h"
-#include "No_movement.h"
-#include "complete_linear_movement.h"
+#include "movement/Linear_movement.h"
+#include "movement/No_movement.h"
+#include "movement/complete_linear_movement.h"
 #include <cmath>
 #include <stdlib.h>
 

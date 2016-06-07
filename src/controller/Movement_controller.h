@@ -8,8 +8,8 @@
 #ifndef CONTROLLER_MOVEMENT_CONTROLLER_H_
 #define CONTROLLER_MOVEMENT_CONTROLLER_H_
 
-#include "PS4Controller.h"
-#include "Incline_coef.h"
+#include "controller/PS4Controller.h"
+#include "movement/Incline_coef.h"
 
 class Movement;
 

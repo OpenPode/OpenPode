@@ -5,9 +5,9 @@
  *      Author: Guillaume
  */
 
-#include "complete_linear_movement.h"
-#include "hexapode_dimensions.h"
-#include "Side.h"
+#include "movement/complete_linear_movement.h"
+#include "hexapode/hexapode_dimensions.h"
+#include "side/Side.h"
 #include <cmath>
 
 complete_linear_movement::complete_linear_movement(int angle, double distance, int step_number) :

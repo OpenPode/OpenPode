@@ -8,8 +8,8 @@
 #ifndef ERROR_MANAGEMENT_ERROR_ACTIONS_H_
 #define ERROR_MANAGEMENT_ERROR_ACTIONS_H_
 
-#include "Movement.h"
-#include "Movement_controller.h"
+#include "movement/Movement.h"
+#include "controller/Movement_controller.h"
 #include "config.h"
 
 const double DEFAULT_STEP = 10;

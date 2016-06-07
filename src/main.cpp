@@ -10,9 +10,10 @@
 #include <unistd.h>
 #include <ctime>
 #include <signal.h>
+#include <string>
 
-#include "Hexapode.h"
-#include "bcm2835.h"
+#include "hexapode/Hexapode.h"
+#include "i2c/bcm2835.h"
 #include "exec.h"
 #include "config.h"
 

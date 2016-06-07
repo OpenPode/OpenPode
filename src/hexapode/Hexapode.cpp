@@ -6,11 +6,11 @@
 // Description : Hello World in C++, Ansi-style
 //============================================================================
 
-#include "Hexapode.h"
-#include "bcm2835.h"
-#include "Linear_movement.h"
-#include "No_movement.h"
-#include "complete_linear_movement.h"
+#include "hexapode/Hexapode.h"
+#include "i2c/bcm2835.h"
+#include "movement/Linear_movement.h"
+#include "movement/No_movement.h"
+#include "movement/complete_linear_movement.h"
 #include <cmath>
 
 const int SEQUENCE_NUMBER = 3;
