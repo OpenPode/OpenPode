@@ -43,8 +43,8 @@ public:
 
 	static const int min_ratio = 205;
 	static const int max_ratio = 441;
-	static constexpr double excursion_deg = 120.0;
-	static constexpr double resolution = double(max_ratio-min_ratio)/excursion_deg;
+	static constexpr float excursion_deg = 120.0f;
+	static constexpr float resolution = float(max_ratio-min_ratio)/excursion_deg;
 
 	int get_offset() const;
 	bool is_value_in_the_range(int value);

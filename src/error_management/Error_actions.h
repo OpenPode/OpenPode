@@ -12,12 +12,12 @@
 #include "controller/Movement_controller.h"
 #include "config.h"
 
-const double DEFAULT_STEP = 10;
+constexpr float DEFAULT_STEP = 10.f;
 
 struct sticks_values_t
 {
-	double pitch;
-	double roll;
+	float pitch;
+	float roll;
 	bool operator==(const sticks_values_t &c)
 	{
 		return ((int)(c.pitch * 1000) == (int)(pitch * 1000))
@@ -28,8 +28,8 @@ struct sticks_values_t
 struct parameters_t
 {
 	sticks_values_t incline_values;
-	double paw_spreading;
-	double center_height;
+	float paw_spreading;
+	float center_height;
 	bool operator==(const parameters_t &c)
 	{
 		return (incline_values == c.incline_values) &&
@@ -37,8 +37,6 @@ struct parameters_t
 			   ((int)(c.center_height * 1000) == (int)(center_height * 1000));
 	}
 };
-
-
 
 enum step_of_solution
 {
@@ -61,7 +59,7 @@ public :
 
 	void valid_parameters();
 	void valid_parameters_no_error();
-	void purpose_new_parameters(double x_stick_incline, double y_stick_incline, double height, double paw_spreading);
+	void purpose_new_parameters(float x_stick_incline, float y_stick_incline, float height, float paw_spreading);
 
 	void resolve_error(Movement_type p_movement_type, bool on_error);
 	void set_parameters_on_movement_controller();
@@ -85,8 +83,8 @@ protected:
 	bool m_on_error;
 	int find_solution;
 
-	double paw_speading_direction;
-	double height_direction;
+	float paw_speading_direction;
+	float height_direction;
 
 	//no_movement
 	void action_no_movement_no_changement();
@@ -97,12 +95,12 @@ protected:
 	void action_no_movement_changement();
 	void action_no_movement_get_closer_stop_sequence();
 
-	void reinit(double pitch_stick, double roll_stick, double height, double paw_spreading);
+	void reinit(float pitch_stick, float roll_stick, float height, float paw_spreading);
 	void set_end_of_solving();
 
 	//solving algo
-	double dichotomie(bool condition, double last_new, double purpose);
-	void find_direction(int &cpt, double &direction, double &new_parameters, int step = DEFAULT_STEP);
+	float dichotomie(bool condition, float last_new, float purpose);
+	void find_direction(int &cpt, float &direction, float &new_parameters, int step = DEFAULT_STEP);
 };
 
 #endif /* ERROR_MANAGEMENT_ERROR_ACTIONS_H_ */

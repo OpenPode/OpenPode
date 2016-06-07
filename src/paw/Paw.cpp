@@ -10,7 +10,7 @@
 #include "config.h"
 #include "i2c/bcm2835.h"
 #include "error_management/Error_detection.h"
-
+#include "utility/math_utils.h"
 #include <iostream>
 #include <math.h>
 
@@ -23,7 +23,7 @@ Paw::Paw(Side_enum side, Paw_position_enum position, Error_detection* p_error_de
 	m_error_detection(p_error_detection)
 {
 	//init paws at default position
-	m_prepare_coords = {0,0,0};
+	m_prepare_coords = {0.f,0.f,0.f};
 	if(side == Side_enum::side_left)
 	{
 		m_side_coef = +1;
@@ -64,7 +64,7 @@ Paw::Paw(Side_enum side, Paw_position_enum position, Error_detection* p_error_de
 	}
 }
 
-void Paw::prepare_to_move(double position[3])
+void Paw::prepare_to_move(float position[3])
 {
 	m_prepare_coords = {position[coord_x], position[coord_y], position[coord_z]};
 
@@ -87,7 +87,7 @@ Coords Paw::get_current_position() const
 
 void Paw::determine_servos_paw_time()
 {
-	servos_time_table[position_tibia] = (int)(- m_side_coef * (m_servo_angles.theta3*(180./M_PI)+90.) * Servo::resolution + m_tibia.get_offset());
-	servos_time_table[position_femur] = (int)(  m_side_coef *  m_servo_angles.theta2*(180./M_PI) * Servo::resolution      + m_femur.get_offset());
-	servos_time_table[position_coxa]  = (int)(-(m_servo_angles.theta1*(180./M_PI) - m_side_coef*90.) * Servo::resolution  + m_coxa.get_offset());
+	servos_time_table[position_tibia] = (int)(- m_side_coef * (util::to_deg(m_servo_angles.theta3)+90.f) * Servo::resolution + m_tibia.get_offset());
+	servos_time_table[position_femur] = (int)(  m_side_coef * (util::to_deg(m_servo_angles.theta2)) * Servo::resolution      + m_femur.get_offset());
+	servos_time_table[position_coxa]  = (int)(-(util::to_deg(m_servo_angles.theta1) - m_side_coef*90.f) * Servo::resolution  + m_coxa.get_offset());
 }

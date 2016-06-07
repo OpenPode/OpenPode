@@ -21,7 +21,7 @@ public:
 
 	Paw(Side_enum side, Paw_position_enum paw_position, Error_detection* p_error_detection);
 
-	void prepare_to_move(double position[3]);
+	void prepare_to_move(float position[3]);
 	void valid_move();
 
 	Coords get_current_position() const;
@@ -41,7 +41,7 @@ public:
 	Coords m_current_coords;
 	Angles m_servo_angles;
 
-	double m_x_center;
+	float m_x_center;
 
 	Error_detection* m_error_detection;
 

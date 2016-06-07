@@ -15,34 +15,33 @@
  **********************************************************************************/
 
 // Driver
-const std::string ds4_driver_launch_command = "ds4drv";
-const std::string bluetooth_scan_command = "hcitool -i hci0 con";
-const std::string pid_filename = "/tmp/ds4drv.pid";
+constexpr auto ds4_driver_launch_command = "ds4drv";
+constexpr auto bluetooth_scan_command = "hcitool -i hci0 con";
+constexpr auto pid_filename = "/tmp/ds4drv.pid";
 
 // Controller
-const std::string ps4_controller_mac_addr = "1C:96:5A:D2:D2:74";
-
+constexpr auto ps4_controller_mac_addr = "1C:96:5A:D2:D2:74";
 
 //default position
-const double DEFAULT_PAW_SPREADING = 80;
-const double DEFAULT_HEIGHT		   = -50;
+constexpr float DEFAULT_PAW_SPREADING =  80.f;
+constexpr float DEFAULT_HEIGHT		  = -50.f;
 
 //paw position
-const double DEFAULT_Y 	= DEFAULT_PAW_SPREADING;
-const double DEFAULT_Z 	= DEFAULT_HEIGHT;
+constexpr float DEFAULT_Y 	= DEFAULT_PAW_SPREADING;
+constexpr float DEFAULT_Z 	= DEFAULT_HEIGHT;
 
-const double DEFAULT_X_CENTER_FRONT = 0;
-const double DEFAULT_X_CENTER_MIDDLE = -20;
-const double DEFAULT_X_CENTER_BACK = -44.1;
+constexpr float DEFAULT_X_CENTER_FRONT  =  0.f;
+constexpr float DEFAULT_X_CENTER_MIDDLE = -20.f;
+constexpr float DEFAULT_X_CENTER_BACK   = -44.1f;
 
 //movement
-const double MAX_HEIGHT_GET_UP = -30;
-const double MAX_STEP_NUMBER = 140.;
-const double MIN_STEP_NUMBER = 12.;
+constexpr float MAX_HEIGHT_GET_UP = -30.f;
+constexpr float MAX_STEP_NUMBER   = 140.f;
+constexpr float MIN_STEP_NUMBER   = 12.f;
 
-const double DEFAULT_DISTANCE = 40.;
+constexpr float DEFAULT_DISTANCE = 40.f;
 
-const double SPREADING_STEP = 1.;
-const double HEIGHT_STEP = 0.5;
+constexpr float SPREADING_STEP = 1.f;
+constexpr float HEIGHT_STEP    = 0.5f;
 
 #endif /* CONFIG_H_ */

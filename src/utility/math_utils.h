@@ -10,17 +10,27 @@
 
 #include <cmath>
 
-namespace utils
+namespace util
 {
 
-inline double to_rad(double deg)
+constexpr float PI = float(M_PI);
+
+namespace
 {
-	return deg * M_PI / 180.0;
+
+constexpr float to_rad_coef = PI/180.0f;
+constexpr float to_deg_coef = 180.0f/PI;
+
 }
 
-inline double to_deg(double rad)
+inline float to_rad(float deg)
 {
-	return rad * 180.0 / M_PI;
+	return deg * to_rad_coef;
+}
+
+inline float to_deg(float rad)
+{
+	return rad * to_deg_coef;
 }
 
 }

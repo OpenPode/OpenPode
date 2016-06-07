@@ -8,7 +8,7 @@
 #include "movement/No_movement.h"
 #include "side/Side.h"
 
-No_movement::No_movement() : Movement(no_movement, direction_front, 0, 0, 30), m_z_good_position(0), m_xy_good_position(0)
+No_movement::No_movement() : Movement(no_movement, direction_front, 0.f, 0.f, 30), m_z_good_position(0), m_xy_good_position(0)
 {
 
 }
@@ -215,7 +215,7 @@ bool No_movement::test_for_get_up_sequence2(Side &side)
 			return 1;
 }
 
-double No_movement::determine_real_distance(Side &side)
+float No_movement::determine_real_distance(Side &side)
 {
 	return 0;
 }

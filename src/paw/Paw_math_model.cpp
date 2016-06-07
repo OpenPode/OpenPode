@@ -24,24 +24,24 @@ Angles Paw_math_model::compute_angles(Coords coords)
 {
 	Angles result;
 
-	double eps1 = 1 , eps3 = -1;
+	float eps1 = 1 , eps3 = -1;
 
-	double F1 = coords.x*coords.x + coords.y*coords.y;
-	double s1 = ( coords.x*r4 + eps1*coords.y*sqrt( F1-r4*r4 ) ) / F1;
-	double c1 = (-coords.y*r4 + eps1*coords.x*sqrt( F1-r4*r4 ) ) / F1;
+	float F1 = coords.x*coords.x + coords.y*coords.y;
+	float s1 = ( coords.x*r4 + eps1*coords.y*sqrtf( F1-r4*r4 ) ) / F1;
+	float c1 = (-coords.y*r4 + eps1*coords.x*sqrtf( F1-r4*r4 ) ) / F1;
 
-	double F2 = c1*coords.x + s1*coords.y;
-	double c3 = ( F2*F2 + coords.z*coords.z - a2*a2 - a3*a3 ) / ( 2.0*a2*a3 );
-	double s3 = eps3*sqrt( 1 - c3*c3 );
+	float F2 = c1*coords.x + s1*coords.y;
+	float c3 = ( F2*F2 + coords.z*coords.z - a2*a2 - a3*a3 ) / ( 2.0*a2*a3 );
+	float s3 = eps3*sqrtf( 1 - c3*c3 );
 
-	double F3 = a2 + a3*c3;
-	double F4 =      a3*s3;
-	double c2 = ( F2*F3 + coords.z*F4 ) / ( F2*F2 + coords.z*coords.z );
-	double s2 = (-F2*F4 + coords.z*F3 ) / ( F2*F2 + coords.z*coords.z );
+	float F3 = a2 + a3*c3;
+	float F4 =      a3*s3;
+	float c2 = ( F2*F3 + coords.z*F4 ) / ( F2*F2 + coords.z*coords.z );
+	float s2 = (-F2*F4 + coords.z*F3 ) / ( F2*F2 + coords.z*coords.z );
 
-	result.theta1 = atan2(s1,c1);
-	result.theta2 = atan2(s2,c2);
-	result.theta3 = atan2(s3,c3);
+	result.theta1 = atan2f(s1,c1);
+	result.theta2 = atan2f(s2,c2);
+	result.theta3 = atan2f(s3,c3);
 
 	return result;
 }

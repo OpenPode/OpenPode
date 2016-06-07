@@ -11,7 +11,7 @@
 #include "Incline_coef.h"
 #include "hexapode/hexapode_dimensions.h"
 
-#define NO_MOVEMENT_STEP_DIST 2
+constexpr int NO_MOVEMENT_STEP_DIST = 2;
 
 class Side;
 class Paw;
@@ -33,51 +33,51 @@ enum Movement_direction
 
 struct Paw_position
 {
-	double front[3];
-	double middle[3];
-	double back[3];
+	float front[3];
+	float middle[3];
+	float back[3];
 };
 
 class Movement
 {
 public:
-	Movement(Movement_type type, Movement_direction direction, double distance, double angle, int step_number);
+	Movement(Movement_type type, Movement_direction direction, float distance, float angle, int step_number);
 	virtual ~Movement() {}
 
 	void compute_z_value_for_standard_paw(Side &side, Incline_coef_t p_incline_coef);
-	void memorize_parameters(int sequence_number, Incline_coef_t p_incline_coef, double paw_spreading);
+	void memorize_parameters(int sequence_number, Incline_coef_t p_incline_coef, float paw_spreading);
 	void raz_current_step_number();
 	void update_current_step_number(int p_current_step_number);
 	void update_sequence_number(int p_sequence_number);
 	void increase_current_step_number();
 
-	virtual double determine_real_distance(Side &side) = 0;
+	virtual float determine_real_distance(Side &side) = 0;
 	virtual void compute_variables() = 0;
 	virtual Paw_position determine_paws_position(Side &side) = 0;
 	virtual bool is_sequence_finished(Side &side) = 0;
 
-	double reproach_position(double present, double futur, double p_step_distance);
-	double get_up_paw(double final_height, Paw &paw, double p_step_distance);
-	double just_get_up_paw(Paw &paw, double p_step_distance);
-	double just_get_down_paw(double final_height, Paw &paw, double p_step_distance);
-	double goto_position(double present, double futur, double nb_step);
+	float reproach_position(float present, float futur, float p_step_distance);
+	float get_up_paw(float final_height, Paw &paw, float p_step_distance);
+	float just_get_up_paw(Paw &paw, float p_step_distance);
+	float just_get_down_paw(float final_height, Paw &paw, float p_step_distance);
+	float goto_position(float present, float futur, float nb_step);
 
 	void set_paw_spreading_step(int step = NO_MOVEMENT_STEP_DIST);
 
 	Movement_type m_type;
 	Movement_direction m_direction;
-	double m_distance;
-	double m_corrected_distance;
+	float m_distance;
+	float m_corrected_distance;
 
 	int m_sequence_number;
 	int m_step_number;
 	int m_current_step_number;
 
-	double m_step_distance_x;
-	double m_step_distance_y;
-	double m_step_distance_z;
+	float m_step_distance_x;
+	float m_step_distance_y;
+	float m_step_distance_z;
 
-	double m_angle;
+	float m_angle;
 	int m_paw_spreading;
 	int m_paw_spreading_step;
 	Incline_coef_t m_incline_coef;

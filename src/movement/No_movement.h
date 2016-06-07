@@ -16,7 +16,7 @@ public:
 	No_movement();
 	virtual ~No_movement() {}
 
-	virtual double determine_real_distance(Side &side);
+	virtual float determine_real_distance(Side &side);
 	virtual void compute_variables();
 	virtual Paw_position determine_paws_position(Side &side);
 	virtual bool is_sequence_finished(Side &side);

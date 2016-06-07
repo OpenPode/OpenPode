@@ -12,16 +12,16 @@
 
 struct Coords
 {
-	double x;
-	double y;
-	double z;
+	float x;
+	float y;
+	float z;
 };
 
 struct Angles
 {
-	double theta1;
-	double theta2;
-	double theta3;
+	float theta1;
+	float theta2;
+	float theta3;
 };
 
 class Paw_math_model
@@ -34,9 +34,9 @@ protected:
 
 	Angles compute_angles(Coords coords);
 
-	double r4;
-	double a2;
-	double a3;
+	float r4;
+	float a2;
+	float a3;
 };
 
 

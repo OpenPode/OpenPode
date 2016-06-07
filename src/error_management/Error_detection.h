@@ -11,32 +11,32 @@
 #include "paw/Paw.h"
 
 //mask for error_code
-const char ERROR 		=0x01;
-const char SIDE  		=0x06;
-const char SIDE_LEFT 	=0x04;
-const char SIDE_RIGHT 	=0x02;
-const char ERROR_TYPE  	=0x18;
-const char MECA_LIMIT	=0x08;
-const char MODEL		=0x10;
-const char SEQUENCE		=0x60;
-const char IN_SEQ		=0x20;
-const char STANDARD		=0x40;
+constexpr char ERROR 		=0x01;
+constexpr char SIDE  		=0x06;
+constexpr char SIDE_LEFT 	=0x04;
+constexpr char SIDE_RIGHT 	=0x02;
+constexpr char ERROR_TYPE  	=0x18;
+constexpr char MECA_LIMIT	=0x08;
+constexpr char MODEL		=0x10;
+constexpr char SEQUENCE		=0x60;
+constexpr char IN_SEQ		=0x20;
+constexpr char STANDARD		=0x40;
 
 //mask for error_location
-const char FRONT 		=0x01;
-const char MIDDLE 		=0x02;
-const char BACK 		=0x04;
+constexpr char FRONT 		=0x01;
+constexpr char MIDDLE 		=0x02;
+constexpr char BACK 		=0x04;
 //shift for error_location
-const char RIGHT_SHIFT	=0;
-const char LEFT_SHIFT	=4;
+constexpr char RIGHT_SHIFT	=0;
+constexpr char LEFT_SHIFT	=4;
 
 //mask for error_paw_X_X
-const char TIBIA 		=0x01;
-const char FEMUR 		=0x02;
-const char COXA  		=0x04;
+constexpr char TIBIA 		=0x01;
+constexpr char FEMUR 		=0x02;
+constexpr char COXA  		=0x04;
 //shift for error_paw_X_X
-const char MECA_LIMIT_SHIFT   =0;
-const char MODEL_LIMIT_SHIFT  =4;
+constexpr char MECA_LIMIT_SHIFT   =0;
+constexpr char MODEL_LIMIT_SHIFT  =4;
 
 class Error_detection
 {

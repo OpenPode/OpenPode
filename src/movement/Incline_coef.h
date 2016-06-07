@@ -10,9 +10,9 @@
 
 struct Incline_coef_t
 {
-	double A;
-	double B;
-	double C;
+	float A;
+	float B;
+	float C;
 };
 
 #endif /* MOVEMENT_INCLINE_COEF_H_ */

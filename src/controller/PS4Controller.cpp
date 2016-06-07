@@ -10,8 +10,8 @@
 const std::string PS4Controller::device_ev("/dev/input/event0");
 const std::string PS4Controller::device_js("/dev/input/js0");
 
-const double PS4Controller::stick_offset = 12000.;
-const double PS4Controller::max_stick_value = 32767.;
+const float PS4Controller::stick_offset = 12000.f;
+const float PS4Controller::max_stick_value = 32767.f;
 
 PS4Controller::PS4Controller() :
 		m_is_cross_press(false), m_is_square_press(false),

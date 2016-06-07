@@ -8,14 +8,14 @@
 #ifndef HEXAPODE_DIMENSIONS_H_
 #define HEXAPODE_DIMENSIONS_H_
 
-const double HALF_WIDTH_MIN 		= 65.0;
-const double HALF_WIDTH_MAX 		= 75.0;
-const double HALF_LENGTH 			= 110.0;
+constexpr float HALF_WIDTH_MIN 			= 65.0f;
+constexpr float HALF_WIDTH_MAX 			= 75.0f;
+constexpr float HALF_LENGTH 			= 110.0f;
 
-const double TIBIA_LENGTH 			= 100.0;
-const double FEMUR_LENGTH 			= 70.0;
-const double TIBIA_ORIGIN_OFFSET 	= 44.1;
+constexpr float TIBIA_LENGTH 			= 100.0f;
+constexpr float FEMUR_LENGTH 			= 70.0f;
+constexpr float TIBIA_ORIGIN_OFFSET 	= 44.1f;
 
-const double CENTER_TO_GROUND_OFFSET = 40.0;
+constexpr float CENTER_TO_GROUND_OFFSET = 40.0f;
 
 #endif /* HEXAPODE_DIMENSIONS_H_ */

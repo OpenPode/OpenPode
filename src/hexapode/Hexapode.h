@@ -25,7 +25,7 @@ public:
 	~Hexapode();
 
 	void run();
-	void calibrate_servomotors(double x, double y, double z);
+	void calibrate_servomotors(float x, float y, float z);
 
 	void move(Movement *mvt);
 

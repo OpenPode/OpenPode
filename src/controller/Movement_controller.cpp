@@ -36,7 +36,7 @@ Movement_controller::~Movement_controller()
 	delete m_movement;
 }
 
-double Movement_controller::make_more_linear(int stick_value) //out between [-1 ; 1]
+float Movement_controller::make_more_linear(int stick_value) //out between [-1 ; 1]
 {
 	if(stick_value > 0)
 	{
@@ -161,7 +161,7 @@ void Movement_controller::update_center_height()
 
 void Movement_controller::update_incline()
 {
-	double incline_coef = std::abs(m_incline_roll_lin_value) + std::abs(m_incline_pitch_lin_value);
+	float incline_coef = std::abs(m_incline_roll_lin_value) + std::abs(m_incline_pitch_lin_value);
 	if(incline_coef == 0)
 		incline_coef = 1.;
 
@@ -180,17 +180,17 @@ void Movement_controller::go_back_to_default_position()
 
 }
 
-void Movement_controller::set_new_paw_spreading(double p_paw_spreading)
+void Movement_controller::set_new_paw_spreading(float p_paw_spreading)
 {
 	m_paw_spreading = p_paw_spreading;
 }
 
-void Movement_controller::set_new_center_height(double p_center_height)
+void Movement_controller::set_new_center_height(float p_center_height)
 {
 	m_center_height = p_center_height;
 }
 
-void Movement_controller::set_new_incline(double p_pitch_stick, double p_roll_stick)
+void Movement_controller::set_new_incline(float p_pitch_stick, float p_roll_stick)
 {
 	m_incline_roll_lin_value = p_roll_stick;
 	m_incline_pitch_lin_value = p_pitch_stick;

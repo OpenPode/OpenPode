@@ -42,7 +42,7 @@ int main()
 #ifndef CALIBRATION
 	doris.run();
 #else
-	doris.calibrate_servomotors(-44.1, 70, -100);
+	doris.calibrate_servomotors(-44.1f, 70.f, -100.f);
 #endif
 
 	/*********************************************************/
@@ -172,7 +172,7 @@ void launch_ds4drv()
 	if(not pid_file.is_open())
 	{
 		cout << "Launch ds4drv" << endl;
-		system(ds4_driver_launch_command.c_str());
+		system(ds4_driver_launch_command);
 		sleep(2);
 	}
 	else
@@ -181,7 +181,6 @@ void launch_ds4drv()
 	}
 
 	pid_file.close();
-
 }
 
 

@@ -69,8 +69,8 @@ public:
 	static const std::string device_ev;
 	static const std::string device_js;
 
-	static const double max_stick_value;
-	static const double stick_offset;
+	static const float max_stick_value;
+	static const float stick_offset;
 
 private:
 

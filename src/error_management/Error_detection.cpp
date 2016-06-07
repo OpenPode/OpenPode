@@ -61,7 +61,7 @@ void Error_detection::set_paw(Paw &p_paw)
 
 void Error_detection::set_error_location(Paw &p_paw)
 {
-	char shift;
+	char shift = 0;
 
 	if(p_paw.m_side == side_left)
 	{

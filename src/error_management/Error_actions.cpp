@@ -31,7 +31,7 @@ void Error_actions::valid_parameters_no_error()
 	m_precedent_parameters = m_purpose_parameters;
 }
 
-void Error_actions::purpose_new_parameters(double pitch_stick, double roll_stick, double height, double paw_spreading)
+void Error_actions::purpose_new_parameters(float pitch_stick, float roll_stick, float height, float paw_spreading)
 {
 	m_purpose_parameters.center_height = height;
 	m_purpose_parameters.paw_spreading = paw_spreading;
@@ -79,7 +79,7 @@ void Error_actions::resolve_error(Movement_type p_movement_type, bool on_error)
 	set_parameters_on_movement_controller();
 }
 
-void Error_actions::reinit(double pitch_stick, double roll_stick, double height, double paw_spreading)
+void Error_actions::reinit(float pitch_stick, float roll_stick, float height, float paw_spreading)
 {
 	m_precedent_parameters.center_height = height;
 	m_precedent_parameters.paw_spreading = paw_spreading;
@@ -105,20 +105,20 @@ void Error_actions::set_end_of_solving()
 	height_direction = 0;
 }
 
-double Error_actions::dichotomie(bool condition, double last_new, double purpose)
+float Error_actions::dichotomie(bool condition, float last_new, float purpose)
 {
 	if(condition)
-		return((purpose - last_new)/2.);
+		return((purpose - last_new)/2.f);
 	else
-		return(last_new / 2.);
+		return(last_new / 2.f);
 }
 
-void Error_actions::find_direction(int &cpt, double &direction, double &new_parameters, int step)
+void Error_actions::find_direction(int &cpt, float &direction, float &new_parameters, int step)
 {
 	if((cpt % 2) == 0)
-		direction = step*(cpt/2 + 1);
+		direction = step*(cpt/2.f + 1);
 	else
-		direction = - step*((cpt+1)/2);
+		direction = - step*((cpt+1)/2.f);
 
 	new_parameters = new_parameters + direction;
 	cpt++;
