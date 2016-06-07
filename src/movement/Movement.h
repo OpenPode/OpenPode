@@ -11,6 +11,8 @@
 #include "Incline_coef.h"
 #include "hexapode_dimensions.h"
 
+#define NO_MOVEMENT_STEP_DIST 2
+
 class Side;
 class Paw;
 
@@ -60,6 +62,8 @@ public:
 	double just_get_down_paw(double final_height, Paw &paw, double p_step_distance);
 	double goto_position(double present, double futur, double nb_step);
 
+	void set_paw_spreading_step(int step = NO_MOVEMENT_STEP_DIST);
+
 	Movement_type m_type;
 	Movement_direction m_direction;
 	double m_distance;
@@ -75,6 +79,7 @@ public:
 
 	double m_angle;
 	int m_paw_spreading;
+	int m_paw_spreading_step;
 	Incline_coef_t m_incline_coef;
 
 	Paw_position m_paw_position;

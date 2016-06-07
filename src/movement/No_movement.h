@@ -10,8 +10,6 @@
 
 #include "Movement.h"
 
-#define NO_MOVEMENT_STEP_DIST 2
-
 class No_movement : public Movement
 {
 public:

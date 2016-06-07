@@ -107,11 +107,13 @@ void Error_actions::action_no_movement_find_paw_spreadind_direction()
 	{
 		find_solution = 0;
 		m_current_step = find_height_stable_direction;
+		m_on_error = true;
 	}
 }
 
 void Error_actions::action_no_movement_find_height_direction()
 {
+
 	if(m_on_error)
 	{
 		if(find_solution > 17*2)
@@ -131,6 +133,7 @@ void Error_actions::action_no_movement_find_height_direction()
 	{
 		find_solution = 0;
 		m_current_step = get_closer_stable_parameters;
+		m_on_error = true;
 		m_resolving = false;
 	}
 }
@@ -138,14 +141,14 @@ void Error_actions::action_no_movement_find_height_direction()
 void Error_actions::action_no_movement_get_closer_stable_parameters()
 {
 	if(paw_speading_direction != 0)
-		m_new_parameters.paw_spreading = m_precedent_parameters.paw_spreading + paw_speading_direction/std::abs(paw_speading_direction)*SPREADING_STEP;
+		m_new_parameters.paw_spreading = m_purpose_parameters.paw_spreading + paw_speading_direction/std::abs(paw_speading_direction)*SPREADING_STEP;
 	else
-		m_new_parameters.paw_spreading = m_precedent_parameters.paw_spreading;
+		m_new_parameters.paw_spreading = m_purpose_parameters.paw_spreading;
 
 	if(height_direction != 0)
-		m_new_parameters.center_height = m_precedent_parameters.center_height + height_direction/std::abs(height_direction)*HEIGHT_STEP;
+		m_new_parameters.center_height = m_purpose_parameters.center_height + height_direction/std::abs(height_direction)*HEIGHT_STEP;
 	else
-		m_new_parameters.paw_spreading = m_precedent_parameters.paw_spreading;
+		m_new_parameters.center_height = m_purpose_parameters.center_height;
 
 	if((height_direction == 0) && (paw_speading_direction == 0))
 		m_new_parameters = m_precedent_parameters;
@@ -189,6 +192,11 @@ void Error_actions::action_no_movement_get_closer_stop_sequence()
 			{
 				m_new_parameters.paw_spreading = m_precedent_parameters.paw_spreading;
 				find_solution++;
+			}
+			else
+			{
+				find_solution = 0;
+				m_current_step = cancel_incline;
 			}
 		}
 		else if((paw_spreading_pressed == true) and (find_solution == 0))

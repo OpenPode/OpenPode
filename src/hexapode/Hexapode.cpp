@@ -56,6 +56,7 @@ void Hexapode::run()
 			{
 				error_action();
 			}
+			std::cout << m_timer.elapsed().millis() << std::endl;
 		}
 	}
 }
@@ -75,7 +76,7 @@ void Hexapode::determine_movement()
 	//distibute parameters
 	m_error_actions.purpose_new_parameters(m_controller.get_pitch_stick(), m_controller.get_roll_stick(),
 										   m_controller.get_center_height(), m_controller.get_paw_spreading());
-	m_movement->memorize_parameters(m_current_sequence_number, m_controller.get_incline_coef(), m_controller.get_paw_spreading());
+	set_parameters_on_movement();
 
 	if(m_controller.is_a_new_movement())
 	{
@@ -83,9 +84,13 @@ void Hexapode::determine_movement()
 	}
 }
 
+void Hexapode::set_parameters_on_movement()
+{
+	m_movement->memorize_parameters(m_current_sequence_number, m_controller.get_incline_coef(), m_controller.get_paw_spreading());
+}
+
 void Hexapode::standard_action()
 {
-	std::cout << "ok" << std::endl;
 	m_error_actions.valid_parameters_no_error();
 	if(!update())
 	{
@@ -95,15 +100,19 @@ void Hexapode::standard_action()
 
 void Hexapode::error_action()
 {
+	m_movement->set_paw_spreading_step(180);
 	do
 	{
 		m_error_actions.resolve_error(m_movement->m_type, m_error_detection.is_on_error());
 		m_error_actions.set_parameters_on_movement_controller();
 		m_movement->memorize_parameters(m_current_sequence_number, m_controller.get_incline_coef(), m_controller.get_paw_spreading());
+		set_parameters_on_movement();
 		prepare_update();
 	} while(m_error_actions.is_resolving());
-	std::cout << "solve " << std::endl;
-	std::cout << "error code " << (int)(m_error_detection.error_code) << std::endl;
+	m_movement->set_paw_spreading_step();
+	set_parameters_on_movement();
+	prepare_update();
+	//std::cout << "error code " << (int)(m_error_detection.error_code) << std::endl;
 	m_error_actions.valid_parameters();
 	update();
 }

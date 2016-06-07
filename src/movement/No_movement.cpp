@@ -50,23 +50,23 @@ void No_movement::determine_y_paws_position(Side &side)
 	if(m_sequence_number == 0)
 	{
 		if(side.get_side_id() == side_left)
-			m_paw_position.front[coord_y]  = reproach_position(side.get_front_paw().m_current_coords.y, side.get_side_coef() * m_paw_spreading, NO_MOVEMENT_STEP_DIST);
+			m_paw_position.front[coord_y]  = reproach_position(side.get_front_paw().m_current_coords.y, side.get_side_coef() * m_paw_spreading, m_paw_spreading_step);
 		else
-			m_paw_position.back[coord_y]   = reproach_position(side.get_back_paw().m_current_coords.y, side.get_side_coef() * m_paw_spreading, NO_MOVEMENT_STEP_DIST);
+			m_paw_position.back[coord_y]   = reproach_position(side.get_back_paw().m_current_coords.y, side.get_side_coef() * m_paw_spreading, m_paw_spreading_step);
 	}
 	else if(m_sequence_number == 1)
 	{
 		if(side.get_side_id() == side_left)
-			m_paw_position.middle[coord_y] = reproach_position(side.get_middle_paw().m_current_coords.y, side.get_side_coef() * m_paw_spreading, NO_MOVEMENT_STEP_DIST);
+			m_paw_position.middle[coord_y] = reproach_position(side.get_middle_paw().m_current_coords.y, side.get_side_coef() * m_paw_spreading, m_paw_spreading_step);
 		else
-			m_paw_position.middle[coord_y] = reproach_position(side.get_middle_paw().m_current_coords.y, side.get_side_coef() * m_paw_spreading, NO_MOVEMENT_STEP_DIST);
+			m_paw_position.middle[coord_y] = reproach_position(side.get_middle_paw().m_current_coords.y, side.get_side_coef() * m_paw_spreading, m_paw_spreading_step);
 	}
 	else if(m_sequence_number == 2)
 	{
 		if(side.get_side_id() == side_left)
-			m_paw_position.back[coord_y]   = reproach_position(side.get_back_paw().m_current_coords.y, side.get_side_coef() * m_paw_spreading, NO_MOVEMENT_STEP_DIST);
+			m_paw_position.back[coord_y]   = reproach_position(side.get_back_paw().m_current_coords.y, side.get_side_coef() * m_paw_spreading, m_paw_spreading_step);
 		else
-			m_paw_position.front[coord_y]  = reproach_position(side.get_front_paw().m_current_coords.y, side.get_side_coef() * m_paw_spreading, NO_MOVEMENT_STEP_DIST);
+			m_paw_position.front[coord_y]  = reproach_position(side.get_front_paw().m_current_coords.y, side.get_side_coef() * m_paw_spreading, m_paw_spreading_step);
 	}
 }
 

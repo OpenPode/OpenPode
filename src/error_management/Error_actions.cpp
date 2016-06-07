@@ -115,7 +115,7 @@ double Error_actions::dichotomie(bool condition, double last_new, double purpose
 
 void Error_actions::find_direction(int &cpt, double &direction, double &new_parameters, int step)
 {
-	if(cpt % 2)
+	if((cpt % 2) == 0)
 		direction = step*(cpt/2 + 1);
 	else
 		direction = - step*((cpt+1)/2);

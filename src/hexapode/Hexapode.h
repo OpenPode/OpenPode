@@ -56,6 +56,7 @@ public:
 
 	void init();
 	void determine_movement();
+	void set_parameters_on_movement();
 	void standard_action();
 	void error_action();
 };
