@@ -26,7 +26,8 @@
 *.app
 
 # Target
-Debug/*
+Debug\
+Release\
 
 # Eclipse Core
 .project
