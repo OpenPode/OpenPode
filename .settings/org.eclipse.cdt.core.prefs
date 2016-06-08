@@ -1,6 +1,0 @@
-eclipse.preferences.version=1
-environment/project/cdt.managedbuild.config.gnu.cross.exe.debug.1723856248/PATH/delimiter=;
-environment/project/cdt.managedbuild.config.gnu.cross.exe.debug.1723856248/PATH/operation=replace
-environment/project/cdt.managedbuild.config.gnu.cross.exe.debug.1723856248/PATH/value=C\:\\cygwin64\\bin;D\:\\SysGCC\\raspberry\\bin;C\:/Program Files/Java/jre1.8.0_65/bin/server;C\:/Program Files/Java/jre1.8.0_65/bin;C\:/Program Files/Java/jre1.8.0_65/lib/amd64;C\:\\ProgramData\\Oracle\\Java\\javapath;C\:\\Windows\\system32;C\:\\Windows;C\:\\Windows\\System32\\Wbem;C\:\\Windows\\System32\\WindowsPowerShell\\v1.0\\;C\:\\Program Files (x86)\\AMD\\ATI.ACE\\Core-Static;C\:\\Users\\Sarthou\\Documents\\logiciel\\eclipse
-environment/project/cdt.managedbuild.config.gnu.cross.exe.debug.1723856248/append=true
-environment/project/cdt.managedbuild.config.gnu.cross.exe.debug.1723856248/appendContributed=true
