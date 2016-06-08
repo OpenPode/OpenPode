@@ -5,6 +5,11 @@
 *.obj
 *.d
 
+# Makefiles
+*.mk
+Release/makefile
+Debug/makefile
+
 # Precompiled Headers
 *.gch
 *.pch
@@ -24,16 +29,23 @@
 *.exe
 *.out
 *.app
+Release/Hexapode
+Debug/Hexapode
 
 # Target
-Debug\
-Release\
+Debug/
+Release/
 
 # Eclipse Core
 .project
 
-# Eclipse setting folder
-.settings/*
+# Eclipse setting files
+*.settings/
+.settings/language.settings.xml
+.settings/org.eclipse.cdt.core.prefs
+*.prefs
+.*
+!/.gitignore
 
 # CDT-specific
 .cproject
@@ -41,7 +53,3 @@ Release\
 # STL modeling files
 *.stl
 *.STL
-*.cproject
-.cproject
-*.xml
-.settings/org.eclipse.cdt.core.prefs
