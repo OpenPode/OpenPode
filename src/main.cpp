@@ -17,8 +17,6 @@
 #include "exec.h"
 #include "config.h"
 
-//#define CALIBRATION
-
 using namespace std;
 
 void block_until_ds4_controller_connexion();
@@ -42,7 +40,10 @@ int main()
 #ifndef CALIBRATION
 	doris.run();
 #else
-	doris.calibrate_servomotors(-44.1f, 70.f, -100.f);
+	//while(1)
+	//{
+		doris.calibrate_servomotors(-44.1f, 70.f, -100.f);
+	//}
 #endif
 
 	/*********************************************************/

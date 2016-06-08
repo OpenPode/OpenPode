@@ -6,6 +6,7 @@
  */
 
 #include "PS4Controller.h"
+#include "config.h"
 
 const std::string PS4Controller::device_ev("/dev/input/event0");
 const std::string PS4Controller::device_js("/dev/input/js0");
@@ -25,8 +26,10 @@ PS4Controller::PS4Controller() :
 		m_jsl_x_value(0), m_jsl_y_value(0),
 		m_jsr_x_value(0), m_jsr_y_value(0)
 {
+#ifndef CALIBRATION
 	m_fd_ev = fdopen(device_ev, O_NONBLOCK);
 	m_fd_js = fdopen(device_js, O_NONBLOCK);
+#endif
 }
 
 void PS4Controller::process_input()
