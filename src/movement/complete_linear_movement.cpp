@@ -233,9 +233,18 @@ Paw_position complete_linear_movement::determine_paws_position(Side &side)
 
 void complete_linear_movement::compute_variables()
 {
-	m_step_distance_z = m_distance / 2.0f / (float)m_step_number;
-	m_step_distance_x = abs((m_corrected_distance /2.f) * cosf(m_angle) / m_step_number);
-	m_step_distance_y = abs((m_corrected_distance /2.f) * sinf(m_angle) / m_step_number);
+	if(m_current_step_number <= m_step_number)
+	{
+		m_step_distance_z = m_distance / 2.0f / (float)m_step_number;
+		m_step_distance_x = abs((m_corrected_distance /2.f) * cosf(m_angle) / m_step_number);
+		m_step_distance_y = abs((m_corrected_distance /2.f) * sinf(m_angle) / m_step_number);
+	}
+	else
+	{
+		m_step_distance_z = 0;
+		m_step_distance_y = 0;
+		m_step_distance_x = 0;
+	}
 }
 
 bool complete_linear_movement::is_sequence_finished(Side &side)

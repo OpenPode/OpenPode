@@ -23,6 +23,14 @@ enum color_t
 	WHITE   = RED   | GREEN | BLUE
 };
 
+enum debug_by_color_t
+{
+	ok,
+	error,
+	warning,
+	info
+};
+
 class led_controller
 {
 public:
@@ -30,6 +38,8 @@ public:
 	led_controller(RPiGPIOPin p_red_pin, RPiGPIOPin p_green_pin, RPiGPIOPin p_blue_pin, color_t p_color = NONE);
 	~led_controller();
 
+	void set_debug(debug_by_color_t debug);
+	void set_standard();
 	void change_color(color_t p_color);
 	void update_color(color_t p_color);
 	void increase_color();
@@ -44,6 +54,7 @@ protected:
 	RPiGPIOPin m_green_pin;
 
 	color_t m_color_standard;
+	color_t m_color_debug;
 
 	void set_color(color_t color);
 };

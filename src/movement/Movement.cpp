@@ -93,18 +93,26 @@ float Movement::just_get_down_paw(float final_height, Paw &paw, float p_step_dis
 float Movement::goto_position(float present, float futur, float nb_step)
 {
 	//compute step distance to get a linear movement
-	float step_distance = abs(present - futur) / nb_step;
+	if(nb_step > 0)
+	{
+		float step_distance = abs(present - futur) / nb_step;
 
-	if(futur > present)
-	{
-		return(present + step_distance);
-	}
-	else if(futur < present)
-	{
-		return(present - step_distance);
+		if(futur > present)
+		{
+			return(present + step_distance);
+		}
+		else if(futur < present)
+		{
+			return(present - step_distance);
+		}
+		else
+		{
+			return futur;
+		}
 	}
 	else
 	{
+		std::cout << "error : "<< futur << std::endl;
 		return futur;
 	}
 }

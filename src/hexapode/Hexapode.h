@@ -63,7 +63,7 @@ public:
 	void set_parameters_on_movement();
 	void standard_action();
 	void error_action();
-	void manage_led();
+	void manage_led(char error_code = 0x00);
 };
 
 #endif /* HEXAPODE_H_ */

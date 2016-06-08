@@ -101,6 +101,8 @@ protected:
 	//solving algo
 	float dichotomie(bool condition, float last_new, float purpose);
 	void find_direction(int &cpt, float &direction, float &new_parameters, int step = DEFAULT_STEP);
+
+	void no_action();
 };
 
 #endif /* ERROR_MANAGEMENT_ERROR_ACTIONS_H_ */

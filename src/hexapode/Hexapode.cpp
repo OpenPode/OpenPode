@@ -61,8 +61,9 @@ void Hexapode::run()
 			}
 			//std::cout << m_timer.elapsed().millis() << std::endl;
 
-			manage_led();
+			manage_led(m_error_detection.error_code);
 		}
+		usleep(500);
 	}
 }
 
@@ -202,7 +203,7 @@ int Hexapode::update()
 	return sequence_end_right & sequence_end_left; //if both sequence are finished
 }
 
-void Hexapode::manage_led()
+void Hexapode::manage_led(char error_code)
 {
 	int led = m_controller.get_led();
 	if((led == 2) && (last_led == 0))
@@ -215,6 +216,17 @@ void Hexapode::manage_led()
 		m_led_right++;
 		m_led_left++;
 	}
+	else
+	{
+		m_led_right.set_standard();
+		m_led_left.set_standard();
+	}
+
+	if(error_code&SIDE_LEFT)
+		m_led_left.set_debug(error);
+
+	if(error_code&SIDE_RIGHT)
+		m_led_right.set_debug(error);
 
 	last_led = led;
 }

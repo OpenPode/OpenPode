@@ -47,12 +47,12 @@ void Error_actions::resolve_error(Movement_type p_movement_type, bool on_error)
 	{
 		case linear:
 		{
-
+			no_action();
 		}
 		break;
 		case complete_linear:
 		{
-
+			no_action();
 		}
 		break;
 		case no_movement:
@@ -72,7 +72,7 @@ void Error_actions::resolve_error(Movement_type p_movement_type, bool on_error)
 		break;
 		default:
 		{
-
+			no_action();
 		}
 		break;
 	}
@@ -122,4 +122,10 @@ void Error_actions::find_direction(int &cpt, float &direction, float &new_parame
 
 	new_parameters = new_parameters + direction;
 	cpt++;
+}
+
+void Error_actions::no_action()
+{
+	m_new_parameters = m_purpose_parameters;
+	set_end_of_solving();
 }
