@@ -31,6 +31,7 @@ public:
 	~led_controller();
 
 	void change_color(color_t p_color);
+	void update_color(color_t p_color);
 	void increase_color();
 	void decrease_color();
 
@@ -42,9 +43,9 @@ protected:
 	RPiGPIOPin m_red_pin;
 	RPiGPIOPin m_green_pin;
 
-	color_t m_color;
+	color_t m_color_standard;
 
-	void set_color();
+	void set_color(color_t color);
 };
 
 #endif /* LED_CONTROLLER */
