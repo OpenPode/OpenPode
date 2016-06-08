@@ -24,3 +24,15 @@ changements importants :
 	-dans servo
 	-dans paw
 	-dans side
+	
+Bugs connus
+------------------
+* S'il vous est impossible de connecter la manette à la raspberry, tapez la commande suivante :
+		cat ~/.cache/ds4drv.log
+  Si ce fichier contient le message suivant : 
+		[info][bluetooth] Scanning for devices
+		[info][bluetooth] Found device <Adresse MAC de la manette>
+		[error][bluetooth] Unable to connect to detected device: Failed to set operational mode: [Errno 107] Transport endpoint is not connected
+  tapez la commande suivante :
+		bluez-test-device remove <Adresse MAC de la manette>
+  puis redémarrez la raspberry
