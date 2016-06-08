@@ -8,13 +8,13 @@
 #ifndef HEXAPODE_H_
 #define HEXAPODE_H_
 
-#include "i2c/i2cdev.h"
+#include "drivers/i2c/i2cdev.h"
 #include "side/Side.h"
 #include "utility/time/timer_t.hpp"
 #include "controller/Movement_controller.h"
 #include "error_management/Error_detection.h"
 #include "error_management/Error_actions.h"
-#include "led/led_controller.h"
+#include "drivers/led/led_controller.h"
 
 class Movement;
 
@@ -41,7 +41,7 @@ public:
 
 	i2cdev *m_i2c;
 
-	util::timer_t m_timer;
+	util::timer_t<float> m_timer;
 
 	Side m_left_side;
 	Side m_right_side;

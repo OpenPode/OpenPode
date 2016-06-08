@@ -13,8 +13,8 @@
 #include <string>
 
 #include "hexapode/Hexapode.h"
-#include "i2c/bcm2835.h"
-#include "exec.h"
+#include "drivers/broadcom/bcm2835.h"
+#include "utility/unix/exec.h"
 #include "config.h"
 
 using namespace std;

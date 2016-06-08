@@ -9,7 +9,7 @@ c * Side.h
 #define SIDE_H_
 
 #include "paw/Paw.h"
-#include "PCAmodule/PCA9685.h"
+#include "drivers/pca9685/PCA9685.h"
 
 class i2cdev;
 class Movement;

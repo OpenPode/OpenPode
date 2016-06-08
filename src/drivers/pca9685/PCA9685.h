@@ -8,7 +8,7 @@
 #ifndef PCA9685_H_
 #define PCA9685_H_
 
-#include "i2c/i2cdev.h"
+#include "drivers/i2c/i2cdev.h"
 
 enum Channel_t
 {

@@ -8,7 +8,7 @@
 #include "paw/Paw.h"
 #include "hexapode/hexapode_dimensions.h"
 #include "config.h"
-#include "i2c/bcm2835.h"
+#include "drivers/broadcom/bcm2835.h"
 #include "error_management/Error_detection.h"
 #include "utility/math_utils.h"
 #include <iostream>

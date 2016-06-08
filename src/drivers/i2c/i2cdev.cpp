@@ -5,8 +5,8 @@
  *
  */
 
-#include "i2cdev.h"
-#include "bcm2835.h"
+#include "drivers/i2c/i2cdev.h"
+#include "drivers/broadcom/bcm2835.h"
 
     
 /*

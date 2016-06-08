@@ -7,7 +7,7 @@
 //============================================================================
 
 #include "controller/Movement_controller.h"
-#include "i2c/bcm2835.h"
+#include "drivers/broadcom/bcm2835.h"
 #include "hexapode/hexapode_dimensions.h"
 #include "config.h"
 #include "movement/Linear_movement.h"
@@ -18,11 +18,11 @@
 
 Movement_controller::Movement_controller() : m_movement(nullptr), m_delegate(nullptr),
 					   m_paw_spreading(DEFAULT_PAW_SPREADING), m_center_height(DEFAULT_HEIGHT),
-					   m_current_step_number(0), m_step_number(0), new_movement(0),
+					   m_current_step_number(0), m_step_number(0), new_movement(false),
 					   m_movement_x_value(0), m_movement_y_value(0),
 					   m_incline_pitch_value(0), m_incline_roll_value(0),
-					   m_movement_x_lin_value(0), m_movement_y_lin_value(0),
-					   m_incline_pitch_lin_value(0), m_incline_roll_lin_value(0),
+					   m_movement_x_lin_value(0), m_movement_y_lin_value(0.f),
+					   m_incline_pitch_lin_value(0.f), m_incline_roll_lin_value(0.f),
 					   m_up_pressed(false), m_down_pressed(false),
 					   m_move_apart_pressed(false), m_tighten_pressed(false),
 					   m_turn_back_default_pressed(false), m_turn_back_default_last_state(false),
@@ -122,7 +122,7 @@ void Movement_controller::get_new_movement(int current_step_number, int step_num
 
 void Movement_controller::update_movement()
 {
-	if((m_movement_x_lin_value == 0) and (m_movement_y_lin_value == 0))
+	if((m_movement_x_lin_value == 0.f) and (m_movement_y_lin_value == 0.f))
 	{
 		if(m_movement != nullptr)
 			delete m_movement;
@@ -175,6 +175,7 @@ void Movement_controller::update_center_height()
 void Movement_controller::update_incline()
 {
 	float incline_coef = std::abs(m_incline_roll_lin_value) + std::abs(m_incline_pitch_lin_value);
+	// TODO : cast into int to compare to 0
 	if(incline_coef == 0)
 		incline_coef = 1.;
 

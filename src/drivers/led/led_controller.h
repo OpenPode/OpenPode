@@ -9,7 +9,7 @@
 #define LED_CONTROLLER_H_
 
 #include <cstdint>
-#include "i2c/bcm2835.h"
+#include "drivers/broadcom/bcm2835.h"
 
 enum color_t
 {

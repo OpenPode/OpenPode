@@ -11,7 +11,7 @@
 #include "paw/Paw_math_model.h"
 #include "servo/Servo.h"
 
-#include "PCAmodule/PCA9685.h"
+#include "drivers/pca9685/PCA9685.h"
 
 class Error_detection;
 
