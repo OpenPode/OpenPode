@@ -111,10 +111,7 @@ float Movement::goto_position(float present, float futur, float nb_step)
 		}
 	}
 	else
-	{
-		std::cout << "error : "<< futur << std::endl;
 		return futur;
-	}
 }
 
 void Movement::set_paw_spreading_step(int step)

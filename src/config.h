@@ -11,6 +11,8 @@
 #include <string>
 
 //#define CALIBRATION
+#define ERROR_ACTION
+#define HEAD
 
 /**********************************************************************************
  * DS4 Controller

@@ -21,10 +21,12 @@ Hexapode::Hexapode() : m_i2c(new i2cdev),
 					   m_current_sequence_number(1), //remettre -1
 					   m_current_step_number(0),
 					   m_step_number(1),
-					   m_error_actions(&m_controller),
-					   m_led_right(RPI_BPLUS_GPIO_J8_40,RPI_BPLUS_GPIO_J8_38,RPI_BPLUS_GPIO_J8_36, BLUE),
+					   m_error_actions(&m_controller)
+#ifdef HEAD
+					   ,m_led_right(RPI_BPLUS_GPIO_J8_40,RPI_BPLUS_GPIO_J8_38,RPI_BPLUS_GPIO_J8_36, BLUE),
 					   m_led_left(RPI_BPLUS_GPIO_J8_15,RPI_BPLUS_GPIO_J8_13,RPI_BPLUS_GPIO_J8_11, BLUE),
 					   last_led(0)
+#endif
 {
 	bcm2835_gpio_clr(7);
 }
@@ -46,22 +48,21 @@ void Hexapode::run()
 		{
 			m_timer.reset();
 
-			//if(m_error_actions.have_finished_to_corrected_error())
-				determine_movement();
+			determine_movement();
 
 			prepare_update();
 
-			if(!m_error_detection.is_on_error())//in progress
-			{
-				standard_action();
-			}
-			else
-			{
+#ifdef ERROR_ACTION
+			if(m_error_detection.is_on_error())//in progress
 				error_action();
-			}
+			else
+#endif
+				standard_action();
 			//std::cout << m_timer.elapsed().millis() << std::endl;
 
+#ifdef HEAD
 			manage_led(m_error_detection.error_code);
+#endif
 		}
 		usleep(500);
 	}
@@ -203,6 +204,7 @@ int Hexapode::update()
 	return sequence_end_right & sequence_end_left; //if both sequence are finished
 }
 
+#ifdef HEAD
 void Hexapode::manage_led(char error_code)
 {
 	int led = m_controller.get_led();
@@ -230,6 +232,7 @@ void Hexapode::manage_led(char error_code)
 
 	last_led = led;
 }
+#endif
 
 //for calibration
 void Hexapode::calibrate_servomotors(float x, float y, float z)
@@ -249,10 +252,10 @@ void Hexapode::calibrate_servomotors(float x, float y, float z)
 	m_left_side.get_module().set_off_time(channel1, time2);
 	m_left_side.get_module().set_off_time(channel2, time1);
 
-	m_left_side.get_front_paw().prepare_to_move(position);
-	angles.theta3 = m_left_side.get_front_paw().m_servo_angles.theta3;
-	angles.theta2 = m_left_side.get_front_paw().m_servo_angles.theta2;
-	angles.theta1 = m_left_side.get_front_paw().m_servo_angles.theta1;
+	m_left_side.get_middle_paw().prepare_to_move(position);
+	angles.theta3 = m_left_side.get_middle_paw().m_servo_angles.theta3;
+	angles.theta2 = m_left_side.get_middle_paw().m_servo_angles.theta2;
+	angles.theta1 = m_left_side.get_middle_paw().m_servo_angles.theta1;
 	time3 = static_cast<int>( -(angles.theta3*(180./M_PI)+90)*1.97 + m_left_side.get_middle_paw().m_tibia.get_offset());
 	time2 = static_cast<int>( angles.theta2*(180./M_PI)*1.97     + m_left_side.get_middle_paw().m_femur.get_offset());
 	time1 = static_cast<int>(-(angles.theta1*(180./M_PI)-90)*1.97 + m_left_side.get_middle_paw().m_coxa.get_offset());
@@ -260,10 +263,10 @@ void Hexapode::calibrate_servomotors(float x, float y, float z)
 	m_left_side.get_module().set_off_time(channel4, time2);
 	m_left_side.get_module().set_off_time(channel5, time1);
 
-	m_left_side.get_front_paw().prepare_to_move(position);
-	angles.theta3 = m_left_side.get_front_paw().m_servo_angles.theta3;
-	angles.theta2 = m_left_side.get_front_paw().m_servo_angles.theta2;
-	angles.theta1 = m_left_side.get_front_paw().m_servo_angles.theta1;
+	m_left_side.get_back_paw().prepare_to_move(position);
+	angles.theta3 = m_left_side.get_back_paw().m_servo_angles.theta3;
+	angles.theta2 = m_left_side.get_back_paw().m_servo_angles.theta2;
+	angles.theta1 = m_left_side.get_back_paw().m_servo_angles.theta1;
 	time3 = static_cast<int>( -(angles.theta3*(180./M_PI)+90)*1.97 + m_left_side.get_back_paw().m_tibia.get_offset());
 	time2 = static_cast<int>( angles.theta2*(180./M_PI)*1.97     + m_left_side.get_back_paw().m_femur.get_offset());
 	time1 = static_cast<int>(-(angles.theta1*(180./M_PI)-90)*1.97 + m_left_side.get_back_paw().m_coxa.get_offset());
@@ -274,9 +277,9 @@ void Hexapode::calibrate_servomotors(float x, float y, float z)
 	position[1] = -y;
 
 	m_right_side.get_front_paw().prepare_to_move(position);
-	angles.theta3 = m_left_side.get_front_paw().m_servo_angles.theta3;
-	angles.theta2 = m_left_side.get_front_paw().m_servo_angles.theta2;
-	angles.theta1 = m_left_side.get_front_paw().m_servo_angles.theta1;
+	angles.theta3 = m_right_side.get_front_paw().m_servo_angles.theta3;
+	angles.theta2 = m_right_side.get_front_paw().m_servo_angles.theta2;
+	angles.theta1 = m_right_side.get_front_paw().m_servo_angles.theta1;
 	time3 = static_cast<int>( (angles.theta3*(180./M_PI)+90)*1.97 + m_right_side.get_front_paw().m_tibia.get_offset());
 	time2 = static_cast<int>( -angles.theta2*(180./M_PI)*1.97     + m_right_side.get_front_paw().m_femur.get_offset());
 	time1 = static_cast<int>(-(angles.theta1*(180./M_PI)+90)*1.97 + m_right_side.get_front_paw().m_coxa.get_offset());
@@ -284,10 +287,10 @@ void Hexapode::calibrate_servomotors(float x, float y, float z)
 	m_right_side.get_module().set_off_time(channel1, time2);
 	m_right_side.get_module().set_off_time(channel2, time1);
 
-	m_right_side.get_front_paw().prepare_to_move(position);
-	angles.theta3 = m_left_side.get_front_paw().m_servo_angles.theta3;
-	angles.theta2 = m_left_side.get_front_paw().m_servo_angles.theta2;
-	angles.theta1 = m_left_side.get_front_paw().m_servo_angles.theta1;
+	m_right_side.get_middle_paw().prepare_to_move(position);
+	angles.theta3 = m_right_side.get_middle_paw().m_servo_angles.theta3;
+	angles.theta2 = m_right_side.get_middle_paw().m_servo_angles.theta2;
+	angles.theta1 = m_right_side.get_middle_paw().m_servo_angles.theta1;
 	time3 = static_cast<int>( (angles.theta3*(180./M_PI)+90)*1.97 + m_right_side.get_middle_paw().m_tibia.get_offset());
 	time2 = static_cast<int>( -angles.theta2*(180./M_PI)*1.97     + m_right_side.get_middle_paw().m_femur.get_offset());
 	time1 = static_cast<int>(-(angles.theta1*(180./M_PI)+90)*1.97 + m_right_side.get_middle_paw().m_coxa.get_offset());
@@ -295,10 +298,10 @@ void Hexapode::calibrate_servomotors(float x, float y, float z)
 	m_right_side.get_module().set_off_time(channel4, time2);
 	m_right_side.get_module().set_off_time(channel5, time1);
 
-	m_right_side.get_front_paw().prepare_to_move(position);
-	angles.theta3 = m_left_side.get_front_paw().m_servo_angles.theta3;
-	angles.theta2 = m_left_side.get_front_paw().m_servo_angles.theta2;
-	angles.theta1 = m_left_side.get_front_paw().m_servo_angles.theta1;
+	m_right_side.get_back_paw().prepare_to_move(position);
+	angles.theta3 = m_right_side.get_back_paw().m_servo_angles.theta3;
+	angles.theta2 = m_right_side.get_back_paw().m_servo_angles.theta2;
+	angles.theta1 = m_right_side.get_back_paw().m_servo_angles.theta1;
 	time3 = static_cast<int>( (angles.theta3*(180./M_PI)+90)*1.97 + m_right_side.get_back_paw().m_tibia.get_offset());
 	time2 = static_cast<int>( -angles.theta2*(180./M_PI)*1.97     + m_right_side.get_back_paw().m_femur.get_offset());
 	time1 = static_cast<int>(-(angles.theta1*(180./M_PI)+90)*1.97 + m_right_side.get_back_paw().m_coxa.get_offset());

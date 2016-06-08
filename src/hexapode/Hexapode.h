@@ -15,6 +15,7 @@
 #include "error_management/Error_detection.h"
 #include "error_management/Error_actions.h"
 #include "drivers/led/led_controller.h"
+#include "config.h"
 
 class Movement;
 
@@ -54,16 +55,19 @@ public:
 	Movement_controller m_controller;
 	Error_detection m_error_detection;
 	Error_actions m_error_actions;
+#ifdef HEAD
 	led_controller m_led_right;
 	led_controller m_led_left;
 	int last_led;
+	void manage_led(char error_code = 0x00);
+#endif
 
 	void init();
 	void determine_movement();
 	void set_parameters_on_movement();
 	void standard_action();
 	void error_action();
-	void manage_led(char error_code = 0x00);
+
 };
 
 #endif /* HEXAPODE_H_ */
