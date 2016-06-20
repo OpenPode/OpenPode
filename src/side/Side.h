@@ -25,7 +25,7 @@ class Side
 {
 public:
 
-	Side(Side_enum side, i2cdev *i2c, Error_detection* p_error_detection);
+	Side(Side_enum side, i2cdev *i2c, Error_detection* p_error_detection, const int p_sequence_of_paws[3]);
 
 	void memorize_movement(Movement *mvt);
 	void prepare_update();
@@ -37,6 +37,7 @@ public:
 	Side_enum get_side_id() const { return m_side; }
 	int get_side_coef() const { return m_side_coef; }
 	bool is_paws_positions_available();
+	int get_max_sequence_number();
 
 	// Debug functions
 	Paw& get_front_paw() {return m_front_paw;}

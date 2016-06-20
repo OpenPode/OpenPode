@@ -37,8 +37,9 @@ public:
 	void determine_real_distance_for_movement();
 	void toggle();
 	void update_sequence_number();
+	void define_nb_sequence();
 
-public:
+private:
 
 	i2cdev *m_i2c;
 
@@ -49,6 +50,7 @@ public:
 
 	Movement *m_movement;
 	int m_current_sequence_number;
+	int m_sequence_number;
 	int m_current_step_number;
 	int m_step_number;
 
@@ -61,6 +63,8 @@ public:
 	int last_led;
 	void manage_led(char error_code = 0x00);
 #endif
+
+	static const int sequence_of_paws[2][3];
 
 	void init();
 	void determine_movement();

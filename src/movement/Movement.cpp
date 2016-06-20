@@ -12,10 +12,10 @@
 
 Movement::Movement(Movement_type type, Movement_direction direction, float distance, float angle, int step_number) :
 	m_type(type), m_direction(direction), m_distance(distance), m_corrected_distance(0.f),
-	m_sequence_number(0), m_step_number(step_number), m_current_step_number(0),
+	m_sequence_number(0), m_number_of_sequence(1), m_step_number(step_number), m_current_step_number(0),
 	m_step_distance_x(0.f), m_step_distance_y(0.f), m_step_distance_z(0.f),
-	m_angle(angle), m_paw_spreading(50), m_paw_spreading_step(NO_MOVEMENT_STEP_DIST)
-
+	m_angle(angle), m_paw_spreading(50), m_paw_spreading_step(NO_MOVEMENT_STEP_DIST),
+	find_solution(0)
 {
 
 }
@@ -117,6 +117,11 @@ float Movement::goto_position(float present, float futur, float nb_step)
 void Movement::set_paw_spreading_step(int step)
 {
 	m_paw_spreading_step = step;
+}
+
+void Movement::set_number_of_sequence(int p_nb_of_sequence)
+{
+	m_number_of_sequence = p_nb_of_sequence;
 }
 
 void Movement::compute_z_value_for_standard_paw(Side &side, Incline_coef_t p_incline_coef)

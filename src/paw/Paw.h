@@ -13,18 +13,25 @@
 
 #include "drivers/pca9685/PCA9685.h"
 
+struct Position_on_hexapode
+{
+	float x_offset;
+	float y_offset;
+};
+
 class Error_detection;
 
 class Paw : public Paw_math_model
 {
 public:
 
-	Paw(Side_enum side, Paw_position_enum paw_position, Error_detection* p_error_detection);
+	Paw(Side_enum side, Paw_position_enum paw_position, Error_detection* p_error_detection, float p_x_offset, float p_y_offset, int p_active_sequence_number);
 
 	void prepare_to_move(float position[3]);
 	void valid_move();
 
 	Coords get_current_position() const;
+	int get_active_sequence_number() const {return m_active_sequence_number; }
 
 public:
 
@@ -42,6 +49,8 @@ public:
 	Angles m_servo_angles;
 
 	float m_x_center;
+	Position_on_hexapode m_position_on_hexapode;
+	int m_active_sequence_number;
 
 	Error_detection* m_error_detection;
 

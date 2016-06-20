@@ -11,7 +11,7 @@
 #include <string>
 
 //#define CALIBRATION
-#define ERROR_ACTION
+//#define ERROR_ACTION
 #define HEAD
 
 /**********************************************************************************

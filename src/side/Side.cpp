@@ -18,10 +18,10 @@ const Channel_t Side::channel_table[3][3] =
 		{channel6, channel7, channel8}
 };
 
-Side::Side(Side_enum side, i2cdev *i2c, Error_detection* p_error_detection) : m_side(side),
-										  m_front_paw(side, position_front, p_error_detection),
-										  m_middle_paw(side, position_middle, p_error_detection),
-										  m_back_paw(side, position_back, p_error_detection),
+Side::Side(Side_enum side, i2cdev *i2c, Error_detection* p_error_detection, const int p_sequence_of_paws[3]) : m_side(side),
+										  m_front_paw(side, position_front, p_error_detection, HALF_LENGTH, HALF_WIDTH_MIN, p_sequence_of_paws[0]),
+										  m_middle_paw(side, position_middle, p_error_detection, 0.f, HALF_WIDTH_MAX, p_sequence_of_paws[1]),
+										  m_back_paw(side, position_back, p_error_detection, -HALF_LENGTH, HALF_WIDTH_MIN, p_sequence_of_paws[2]),
 										  m_movement(nullptr)
 {
 	if(m_side == side_left)
@@ -38,10 +38,10 @@ Side::Side(Side_enum side, i2cdev *i2c, Error_detection* p_error_detection) : m_
 
 void Side::prepare_update()
 {
-	Paw_position paw_position = m_movement->determine_paws_position(*this);
-	m_front_paw.prepare_to_move(paw_position.front);
-	m_middle_paw.prepare_to_move(paw_position.middle);
-	m_back_paw.prepare_to_move(paw_position.back);
+		Paw_position paw_position = m_movement->determine_paws_position(*this);
+		m_front_paw.prepare_to_move(paw_position.front);
+		m_middle_paw.prepare_to_move(paw_position.middle);
+		m_back_paw.prepare_to_move(paw_position.back);
 }
 
 int Side::update()
@@ -79,4 +79,15 @@ void Side::memorize_movement(Movement *mvt)
 double Side::get_real_distance()
 {
 	return m_movement->determine_real_distance(*this);
+}
+
+int Side::get_max_sequence_number()
+{
+	int seq_front = m_front_paw.get_active_sequence_number();
+	int seq_middle = m_middle_paw.get_active_sequence_number();
+	int seq_back = m_back_paw.get_active_sequence_number();
+
+	seq_middle = max(seq_front, seq_middle);
+	seq_back = max(seq_middle, seq_back);
+	return(seq_back);
 }

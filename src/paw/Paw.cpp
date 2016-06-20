@@ -14,54 +14,33 @@
 #include <iostream>
 #include <math.h>
 
-Paw::Paw(Side_enum side, Paw_position_enum position, Error_detection* p_error_detection) :
+Paw::Paw(Side_enum side, Paw_position_enum position, Error_detection* p_error_detection, float p_x_offset, float p_y_offset, int p_active_sequence_number) :
 	Paw_math_model(side),
 	m_side(side), m_position(position),
 	m_coxa(side, position, position_coxa),
 	m_femur(side, position, position_femur),
 	m_tibia(side, position, position_tibia),
+	m_active_sequence_number(p_active_sequence_number),
 	m_error_detection(p_error_detection)
 {
 	//init paws at default position
 	m_prepare_coords = {0.f,0.f,0.f};
+	m_position_on_hexapode.x_offset = p_x_offset;
+	m_position_on_hexapode.y_offset = p_y_offset;
+
 	if(side == Side_enum::side_left)
-	{
 		m_side_coef = +1;
-		if(position == Paw_position_enum::position_front)
-		{
-			m_current_coords = {DEFAULT_X_CENTER_FRONT, DEFAULT_Y, DEFAULT_Z};
-			m_x_center = DEFAULT_X_CENTER_FRONT;
-		}
-		else if(position == Paw_position_enum::position_middle)
-		{
-			m_current_coords = {DEFAULT_X_CENTER_MIDDLE, DEFAULT_Y, DEFAULT_Z};
-			m_x_center = DEFAULT_X_CENTER_MIDDLE;
-		}
-		else if(position == Paw_position_enum::position_back)
-		{
-			m_current_coords = {DEFAULT_X_CENTER_BACK, DEFAULT_Y, DEFAULT_Z};
-			m_x_center = DEFAULT_X_CENTER_BACK;
-		}
-	}
 	else
-	{
 		m_side_coef = -1;
-		if(position == Paw_position_enum::position_front)
-		{
-			m_current_coords = {DEFAULT_X_CENTER_FRONT, -DEFAULT_Y, DEFAULT_Z};
-			m_x_center = DEFAULT_X_CENTER_FRONT;
-		}
-		else if(position == Paw_position_enum::position_middle)
-		{
-			m_current_coords = {DEFAULT_X_CENTER_MIDDLE, -DEFAULT_Y, DEFAULT_Z};
-			m_x_center = DEFAULT_X_CENTER_MIDDLE;
-		}
-		else if(position == Paw_position_enum::position_back)
-		{
-			m_current_coords = {DEFAULT_X_CENTER_BACK, -DEFAULT_Y, DEFAULT_Z};
-			m_x_center = DEFAULT_X_CENTER_BACK;
-		}
-	}
+
+	if(position == Paw_position_enum::position_front)
+		m_x_center = DEFAULT_X_CENTER_FRONT;
+	else if(position == Paw_position_enum::position_middle)
+		m_x_center = DEFAULT_X_CENTER_MIDDLE;
+	else if(position == Paw_position_enum::position_back)
+		m_x_center = DEFAULT_X_CENTER_BACK;
+
+	m_current_coords = {m_x_center, m_side_coef*DEFAULT_Y, DEFAULT_Z};
 }
 
 void Paw::prepare_to_move(float position[3])

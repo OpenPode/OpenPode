@@ -63,6 +63,7 @@ public:
 	float goto_position(float present, float futur, float nb_step);
 
 	void set_paw_spreading_step(int step = NO_MOVEMENT_STEP_DIST);
+	void set_number_of_sequence(int p_nb_of_sequence);
 
 	Movement_type m_type;
 	Movement_direction m_direction;
@@ -70,6 +71,7 @@ public:
 	float m_corrected_distance;
 
 	int m_sequence_number;
+	int m_number_of_sequence;
 	int m_step_number;
 	int m_current_step_number;
 
@@ -83,6 +85,8 @@ public:
 	Incline_coef_t m_incline_coef;
 
 	Paw_position m_paw_position;
+
+	int find_solution;
 };
 
 #endif /* MOVEMENT_H_ */

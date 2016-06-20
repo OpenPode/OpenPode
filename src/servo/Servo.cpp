@@ -12,7 +12,7 @@ static const int offset_table[2][3][3] =
 		{// left
 				{370, 280, 260}, // front
 				{375, 330, 240}, // middle
-				{340, 260, 350}  // back
+				{340, 310, 350}  // back
 		},
 		{// right
 				{325, 375, 380}, // front

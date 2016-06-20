@@ -13,14 +13,19 @@
 #include "movement/complete_linear_movement.h"
 #include <cmath>
 
-constexpr int SEQUENCE_NUMBER = 3;
+const int Hexapode::sequence_of_paws[2][3] =
+{
+		{1		, 2		, 3		}, //right
+		{3		, 2		, 1		}  //left
+	   //front	, middle, back
+};
 
 Hexapode::Hexapode() : m_i2c(new i2cdev),
-					   m_left_side(side_left, m_i2c, &m_error_detection), m_right_side(side_right, m_i2c, &m_error_detection),
+					   m_left_side(side_left, m_i2c, &m_error_detection, sequence_of_paws[1]),
+					   m_right_side(side_right, m_i2c, &m_error_detection, sequence_of_paws[0]),
 					   m_movement(nullptr), // init to no_movement
-					   m_current_sequence_number(1), //remettre -1
-					   m_current_step_number(0),
-					   m_step_number(1),
+					   m_current_sequence_number(0), m_sequence_number(0),
+					   m_current_step_number(0), m_step_number(1),
 					   m_error_actions(&m_controller)
 #ifdef HEAD
 					   ,m_led_right(RPI_BPLUS_GPIO_J8_40,RPI_BPLUS_GPIO_J8_38,RPI_BPLUS_GPIO_J8_36, BLUE),
@@ -71,6 +76,7 @@ void Hexapode::run()
 void Hexapode::init()
 {
 	m_controller.go_back_to_default_position();
+	define_nb_sequence();
 	move(m_controller.get_movement());
 	toggle();
 	m_timer.reset();
@@ -139,7 +145,7 @@ void Hexapode::determine_real_distance_for_movement()
 void Hexapode::update_sequence_number()
 {
 	m_current_sequence_number++;
-	if(m_current_sequence_number >= SEQUENCE_NUMBER)
+	if(m_current_sequence_number >= m_sequence_number)
 		m_current_sequence_number = 0;
 
 	m_current_step_number = 0;
@@ -169,6 +175,7 @@ void Hexapode::move(Movement *mvt)
 		m_step_number =  mvt->m_step_number;
 
 	m_movement = mvt;
+	m_movement->set_number_of_sequence(m_sequence_number);
 
 	if(m_step_number != m_movement->m_step_number)//if the previous isn't the same of the new one
 	{
@@ -224,15 +231,25 @@ void Hexapode::manage_led(char error_code)
 		m_led_left.set_standard();
 	}
 
+#ifdef ERROR_ACTION
 	if(error_code&SIDE_LEFT)
 		m_led_left.set_debug(error);
 
 	if(error_code&SIDE_RIGHT)
 		m_led_right.set_debug(error);
+#endif
 
 	last_led = led;
 }
 #endif
+
+void Hexapode::define_nb_sequence()
+{
+	int left_seq_number = m_left_side.get_max_sequence_number();
+	int right_seq_number = m_right_side.get_max_sequence_number();
+	m_sequence_number = max(left_seq_number, right_seq_number);
+	std::cout << m_sequence_number << " sequences" << std::endl;
+}
 
 //for calibration
 void Hexapode::calibrate_servomotors(float x, float y, float z)
