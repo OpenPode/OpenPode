@@ -31,20 +31,13 @@ enum Movement_direction
 	direction_back  = -1
 };
 
-struct Paw_position
-{
-	float front[3];
-	float middle[3];
-	float back[3];
-};
-
 class Movement
 {
 public:
 	Movement(Movement_type type, Movement_direction direction, float distance, float angle, int step_number);
 	virtual ~Movement() {}
 
-	void compute_z_value_for_standard_paw(Side &side, Incline_coef_t p_incline_coef);
+	void compute_z_value_for_standard_paw(Paw &paw, Incline_coef_t p_incline_coef);
 	void memorize_parameters(int sequence_number, Incline_coef_t p_incline_coef, float paw_spreading);
 	void raz_current_step_number();
 	void update_current_step_number(int p_current_step_number);
@@ -53,7 +46,7 @@ public:
 
 	virtual float determine_real_distance(Side &side) = 0;
 	virtual void compute_variables() = 0;
-	virtual Paw_position determine_paws_position(Side &side) = 0;
+	virtual float* determine_paw_position(Paw &paw) = 0;
 	virtual bool is_sequence_finished(Side &side) = 0;
 
 	float reproach_position(float present, float futur, float p_step_distance);
@@ -84,7 +77,7 @@ public:
 	int m_paw_spreading_step;
 	Incline_coef_t m_incline_coef;
 
-	Paw_position m_paw_position;
+	float m_paw_position[3];
 
 	int find_solution;
 };

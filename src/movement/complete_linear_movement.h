@@ -18,14 +18,14 @@ public:
 	complete_linear_movement(int angle, float distance, int step_number);
 	virtual ~complete_linear_movement() {}
 
-	void determine_x_paws_position(Side &side);
-	void determine_y_paws_position(Side &side);
-	void determine_z_paws_position(Side &side);
+	void determine_x_paws_position(Paw &paw);
+	void determine_y_paws_position(Paw &paw);
+	void determine_z_paws_position(Paw &paw);
 
-	virtual float determine_real_distance(Side &side);
+	virtual float determine_real_distance(Paw &paw);
 	virtual void compute_variables();
-	virtual Paw_position determine_paws_position(Side &side);
-	virtual bool is_sequence_finished(Side &side);
+	virtual float* determine_paw_position(Paw &paw);
+	virtual bool is_sequence_finished(Paw &paw);
 };
 
 #endif /* COMPLETE_LINEAR_MOVEMENT_H_ */

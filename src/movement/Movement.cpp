@@ -124,17 +124,11 @@ void Movement::set_number_of_sequence(int p_nb_of_sequence)
 	m_number_of_sequence = p_nb_of_sequence;
 }
 
-void Movement::compute_z_value_for_standard_paw(Side &side, Incline_coef_t p_incline_coef)
+void Movement::compute_z_value_for_standard_paw(Paw &paw, Incline_coef_t p_incline_coef)
 {
-	m_paw_position.front[coord_z]   = p_incline_coef.A*(m_paw_position.front[coord_x] + HALF_LENGTH) +
-									  p_incline_coef.B*(m_paw_position.front[coord_y] + side.get_side_coef()*HALF_WIDTH_MIN) +
-									  p_incline_coef.C;
-	m_paw_position.middle[coord_z] =  p_incline_coef.A*m_paw_position.middle[coord_x] +
-									  p_incline_coef.B*(m_paw_position.middle[coord_y] + side.get_side_coef()*HALF_WIDTH_MAX) +
-									  p_incline_coef.C;
-	m_paw_position.back[coord_z]   =  p_incline_coef.A*(m_paw_position.back[coord_x] - HALF_LENGTH) +
-									  p_incline_coef.B*(m_paw_position.back[coord_y] + side.get_side_coef()*HALF_WIDTH_MIN) +
-									  p_incline_coef.C;
+	m_paw_position[coord_z]   = p_incline_coef.A*(m_paw_position[coord_x] + paw.m_position_on_hexapode.x_offset) +
+								p_incline_coef.B*(m_paw_position[coord_y] + paw.get_side_coef()*paw.m_position_on_hexapode.y_offset) +
+								p_incline_coef.C;
 }
 
 void Movement::memorize_parameters(int sequence_number, Incline_coef_t p_incline_coef, float paw_spreading)

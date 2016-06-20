@@ -41,6 +41,7 @@ Paw::Paw(Side_enum side, Paw_position_enum position, Error_detection* p_error_de
 		m_x_center = DEFAULT_X_CENTER_BACK;
 
 	m_current_coords = {m_x_center, m_side_coef*DEFAULT_Y, DEFAULT_Z};
+	m_last_coords = m_current_coords;
 }
 
 void Paw::prepare_to_move(float position[3])
@@ -56,12 +57,18 @@ void Paw::prepare_to_move(float position[3])
 
 void Paw::valid_move()
 {
+	m_last_coords = m_current_coords;
 	m_current_coords = m_prepare_coords;
 }
 
 Coords Paw::get_current_position() const
 {
 	return m_current_coords;
+}
+
+Coords Paw::get_last_position() const
+{
+	return m_last_coords;
 }
 
 void Paw::determine_servos_paw_time()

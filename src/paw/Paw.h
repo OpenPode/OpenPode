@@ -31,7 +31,9 @@ public:
 	void valid_move();
 
 	Coords get_current_position() const;
+	Coords get_last_position() const;
 	int get_active_sequence_number() const {return m_active_sequence_number; }
+	int get_side_coef() const { return m_side_coef; }
 
 public:
 
@@ -46,6 +48,7 @@ public:
 
 	Coords m_prepare_coords;
 	Coords m_current_coords;
+	Coords m_last_coords;
 	Angles m_servo_angles;
 
 	float m_x_center;

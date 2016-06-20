@@ -16,24 +16,21 @@ public:
 	No_movement();
 	virtual ~No_movement() {}
 
-	virtual float determine_real_distance(Side &side);
+	virtual float determine_real_distance(Paw &paw);
 	virtual void compute_variables();
-	virtual Paw_position determine_paws_position(Side &side);
+	virtual float* determine_paw_position(Paw &paw);
 	virtual bool is_sequence_finished(Side &side);
 
 protected:
 
-	void determine_x_paws_position(Side &side);
-	void determine_y_paws_position(Side &side);
-	void determine_z_paws_position(Side &side);
-	void determine_z_paws_position_not_get_up(Side &side);
+	void determine_x_paws_position(Paw &paw);
+	void determine_y_paws_position(Paw &paw);
+	void determine_z_paws_position(Paw &paw);
+	void determine_z_paws_position_not_get_up(Paw &paw);
 
 private:
-	bool test_for_get_up_sequence0(Side &side);
-	bool test_for_get_up_sequence1(Side &side);
-	bool test_for_get_up_sequence2(Side &side);
-	bool test_for_good_position_xy(Side &side);
-	bool test_for_good_position_z(Side &side);
+	bool test_for_good_position_xy(Paw &paw);
+	bool test_for_good_position_z(Paw &paw);
 
 	bool m_z_good_position;
 	bool m_xy_good_position;

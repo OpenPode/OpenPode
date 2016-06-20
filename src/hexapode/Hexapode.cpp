@@ -15,8 +15,8 @@
 
 const int Hexapode::sequence_of_paws[2][3] =
 {
-		{1		, 2		, 3		}, //right
-		{3		, 2		, 1		}  //left
+		{0		, 1		,2		}, //right
+		{2		, 1		,0		}  //left
 	   //front	, middle, back
 };
 
@@ -247,8 +247,15 @@ void Hexapode::define_nb_sequence()
 {
 	int left_seq_number = m_left_side.get_max_sequence_number();
 	int right_seq_number = m_right_side.get_max_sequence_number();
-	m_sequence_number = max(left_seq_number, right_seq_number);
+	m_sequence_number = max(left_seq_number, right_seq_number) + 1;
 	std::cout << m_sequence_number << " sequences" << std::endl;
+	if(m_sequence_number < 2)
+	{
+		std::cout << "not enough sequences" << std::endl;
+		exit(-1);
+	}
+	else if(m_sequence_number == 2)
+		std::cout << "two sequences can be dangerous for motors" << std::endl;
 }
 
 //for calibration
