@@ -175,8 +175,7 @@ void Movement_controller::update_center_height()
 void Movement_controller::update_incline()
 {
 	float incline_coef = std::abs(m_incline_roll_lin_value) + std::abs(m_incline_pitch_lin_value);
-	// TODO : cast into int to compare to 0
-	if(incline_coef == 0)
+	if((int)incline_coef == 0)
 		incline_coef = 1.;
 
 	m_incline_coef.A = ((m_center_height + CENTER_TO_GROUND_OFFSET) / (-HALF_LENGTH)) * m_incline_pitch_lin_value * std::abs(m_incline_pitch_lin_value) / incline_coef;

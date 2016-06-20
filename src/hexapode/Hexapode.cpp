@@ -136,8 +136,8 @@ void Hexapode::determine_real_distance_for_movement()
 	float real_distance_right = m_right_side.get_real_distance();
 	float min_distance = min(real_distance_left, real_distance_right);
 
-	if(min_distance > (m_movement->m_distance / 2.f))
-		m_movement->m_corrected_distance = min_distance*2.f;
+	if(min_distance > (m_movement->m_distance / (float)(m_sequence_number-1)))
+		m_movement->m_corrected_distance = min_distance*(float)(m_sequence_number-1);
 	else
 		m_movement->m_corrected_distance = m_movement->m_distance;
 }
@@ -163,7 +163,6 @@ void Hexapode::toggle()
 
 	determine_real_distance_for_movement();
 	m_movement->compute_variables();
-
 }
 
 void Hexapode::move(Movement *mvt)
@@ -189,7 +188,6 @@ void Hexapode::move(Movement *mvt)
 
 	determine_real_distance_for_movement();
 	m_movement->compute_variables();
-
 }
 
 void Hexapode::prepare_update()
@@ -208,7 +206,7 @@ int Hexapode::update()
 	m_current_step_number ++;
 	m_movement->increase_current_step_number();
 
-	return sequence_end_right & sequence_end_left; //if both sequence are finished
+	return (sequence_end_right || sequence_end_left); //if both sequence are finished
 }
 
 #ifdef HEAD

@@ -19,7 +19,7 @@ public:
 	virtual float determine_real_distance(Paw &paw);
 	virtual void compute_variables();
 	virtual float* determine_paw_position(Paw &paw);
-	virtual bool is_sequence_finished(Side &side);
+	virtual bool is_sequence_finished(Paw &paw);
 
 protected:
 

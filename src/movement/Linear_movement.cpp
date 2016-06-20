@@ -20,7 +20,7 @@ void Linear_movement::determine_x_paws_position(Paw &paw)
 {
 	if(paw.m_active_sequence_number == m_sequence_number)
 		m_paw_position[coord_x]  = goto_position(paw.m_current_coords.x,
-												 paw.m_x_center + m_direction * m_distance / 2.f,
+												 paw.m_x_center + m_direction * m_distance / (float)(m_number_of_sequence-1),
 												 m_step_number - m_current_step_number);
 	else
 		m_paw_position[coord_x]  = paw.m_current_coords.x  - m_direction * m_step_distance_x;
@@ -38,7 +38,7 @@ void Linear_movement::determine_y_paws_position(Paw &paw)
 
 void Linear_movement::determine_z_paws_position(Paw &paw)
 {
-	float x_distance  = paw.m_x_center + m_direction * m_distance / 2.f;
+	float x_distance  = paw.m_x_center + m_direction * m_distance / (float)(m_number_of_sequence-1);
 	float y_distance = paw.get_side_coef() * m_paw_spreading;
 	float z_theoretic_value = m_incline_coef.A*(x_distance + paw.m_position_on_hexapode.x_offset) +
 							  m_incline_coef.B*(y_distance + paw.get_side_coef()*paw.m_position_on_hexapode.y_offset) +
@@ -55,9 +55,9 @@ float Linear_movement::determine_real_distance(Paw &paw)
 	float real_distance;
 
 	if(paw.m_active_sequence_number == m_sequence_number)
-		real_distance = m_distance/2.f;
+		real_distance = m_distance/(float)(m_number_of_sequence-1);
 	else
-		real_distance  = m_direction*(paw.get_current_position().x  - paw.m_x_center)  + m_distance / 2.f;
+		real_distance  = m_direction*(paw.get_current_position().x  - paw.m_x_center)  + m_distance / (float)(m_number_of_sequence-1);
 
 	if(m_direction * real_distance < 0)
 		real_distance = 0.f;
@@ -67,7 +67,7 @@ float Linear_movement::determine_real_distance(Paw &paw)
 
 void Linear_movement::compute_variables()
 {
-	m_step_distance_z = m_distance / 2.0f / m_step_number;
+	m_step_distance_z = m_distance / (float)(m_number_of_sequence-1) / m_step_number;
 	m_step_distance_x = m_corrected_distance / m_step_number;
 }
 

@@ -44,10 +44,10 @@ public:
 	void update_sequence_number(int p_sequence_number);
 	void increase_current_step_number();
 
-	virtual float determine_real_distance(Side &side) = 0;
+	virtual float determine_real_distance(Paw &paw) = 0;
 	virtual void compute_variables() = 0;
 	virtual float* determine_paw_position(Paw &paw) = 0;
-	virtual bool is_sequence_finished(Side &side) = 0;
+	virtual bool is_sequence_finished(Paw &paw) = 0;
 
 	float reproach_position(float present, float futur, float p_step_distance);
 	float get_up_paw(float final_height, Paw &paw, float p_step_distance);
@@ -78,8 +78,6 @@ public:
 	Incline_coef_t m_incline_coef;
 
 	float m_paw_position[3];
-
-	int find_solution;
 };
 
 #endif /* MOVEMENT_H_ */

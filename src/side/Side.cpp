@@ -38,9 +38,9 @@ Side::Side(Side_enum side, i2cdev *i2c, Error_detection* p_error_detection, cons
 
 void Side::prepare_update()
 {
-		m_front_paw.prepare_to_move(m_movement->determine_paw_position(m_front_paw));
-		m_middle_paw.prepare_to_move(m_movement->determine_paw_position(m_middle_paw));
-		m_back_paw.prepare_to_move(m_movement->determine_paw_position(m_back_paw));
+	m_front_paw.prepare_to_move(m_movement->determine_paw_position(m_front_paw));
+	m_middle_paw.prepare_to_move(m_movement->determine_paw_position(m_middle_paw));
+	m_back_paw.prepare_to_move(m_movement->determine_paw_position(m_back_paw));
 }
 
 int Side::update()
@@ -49,7 +49,9 @@ int Side::update()
 	move_paw(m_middle_paw);
 	move_paw(m_back_paw);
 	// for test purpose
-	if(m_movement->is_sequence_finished(*this))
+	if(m_movement->is_sequence_finished(m_front_paw) &&
+	   m_movement->is_sequence_finished(m_middle_paw) &&
+	   m_movement->is_sequence_finished(m_back_paw))
 		return 0;
 	else
 		return 1;
@@ -77,7 +79,9 @@ void Side::memorize_movement(Movement *mvt)
 
 double Side::get_real_distance()
 {
-	return m_movement->determine_real_distance(*this);
+	float real_dist = std::min(m_movement->determine_real_distance(m_front_paw), m_movement->determine_real_distance(m_middle_paw));
+	real_dist = std::min(real_dist, m_movement->determine_real_distance(m_back_paw));
+	return real_dist;
 }
 
 int Side::get_max_sequence_number()

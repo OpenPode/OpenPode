@@ -14,8 +14,7 @@ Movement::Movement(Movement_type type, Movement_direction direction, float dista
 	m_type(type), m_direction(direction), m_distance(distance), m_corrected_distance(0.f),
 	m_sequence_number(0), m_number_of_sequence(1), m_step_number(step_number), m_current_step_number(0),
 	m_step_distance_x(0.f), m_step_distance_y(0.f), m_step_distance_z(0.f),
-	m_angle(angle), m_paw_spreading(50), m_paw_spreading_step(NO_MOVEMENT_STEP_DIST),
-	find_solution(0)
+	m_angle(angle), m_paw_spreading(50), m_paw_spreading_step(NO_MOVEMENT_STEP_DIST)
 {
 
 }
