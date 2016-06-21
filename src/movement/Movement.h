@@ -10,8 +10,7 @@
 
 #include "Incline_coef.h"
 #include "hexapode/hexapode_dimensions.h"
-
-constexpr int NO_MOVEMENT_STEP_DIST = 2;
+#include "config.h"
 
 class Side;
 class Paw;
@@ -29,6 +28,13 @@ enum Movement_direction
 {
 	direction_front = 1,
 	direction_back  = -1
+};
+
+struct Step_distance
+{
+	float step_distance_x;
+	float step_distance_y;
+	float step_distance_z;
 };
 
 class Movement
@@ -68,9 +74,7 @@ public:
 	int m_step_number;
 	int m_current_step_number;
 
-	float m_step_distance_x;
-	float m_step_distance_y;
-	float m_step_distance_z;
+	Step_distance m_step_distance;
 
 	float m_angle;
 	int m_paw_spreading;

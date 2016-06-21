@@ -23,7 +23,7 @@ void complete_linear_movement::determine_x_paws_position(Paw &paw)
 												  paw.m_x_center + cosf(m_angle) * m_distance / (float)(m_number_of_sequence-1),
 												  m_step_number - m_current_step_number);
 	else
-		m_paw_position[coord_x]  = paw.m_current_coords.x - cosf(m_angle) * m_step_distance_x;
+		m_paw_position[coord_x]  = paw.m_current_coords.x - cosf(m_angle) * m_step_distance.step_distance_x;
 }
 
 void complete_linear_movement::determine_y_paws_position(Paw &paw)
@@ -33,7 +33,7 @@ void complete_linear_movement::determine_y_paws_position(Paw &paw)
 												 paw.get_side_coef() * m_paw_spreading + sinf(m_angle) * m_distance / (float)(m_number_of_sequence-1),
 												 m_step_number - m_current_step_number);
 	else
-		m_paw_position[coord_y]  = paw.m_current_coords.y - sinf(m_angle) * m_step_distance_y;
+		m_paw_position[coord_y]  = paw.m_current_coords.y - sinf(m_angle) * m_step_distance.step_distance_y;
 }
 
 void complete_linear_movement::determine_z_paws_position(Paw &paw)
@@ -45,7 +45,7 @@ void complete_linear_movement::determine_z_paws_position(Paw &paw)
 							  m_incline_coef.C;
 
 	if(paw.m_active_sequence_number == m_sequence_number)
-		m_paw_position[coord_z]  = get_up_paw(z_theoretic_value, paw, m_step_distance_z);
+		m_paw_position[coord_z]  = get_up_paw(z_theoretic_value, paw, m_step_distance.step_distance_z);
 	else
 		compute_z_value_for_standard_paw(paw, m_incline_coef);
 }
@@ -98,23 +98,23 @@ void complete_linear_movement::compute_variables()
 {
 	if(m_current_step_number <= m_step_number)
 	{
-		m_step_distance_z = m_distance / (float)(m_number_of_sequence-1) / (float)m_step_number;
-		m_step_distance_x = abs((m_corrected_distance /(float)(m_number_of_sequence-1)) * cosf(m_angle) / m_step_number);
-		m_step_distance_y = abs((m_corrected_distance /(float)(m_number_of_sequence-1)) * sinf(m_angle) / m_step_number);
+		m_step_distance.step_distance_z = m_distance / (float)(m_number_of_sequence-1) / (float)m_step_number;
+		m_step_distance.step_distance_x = abs((m_corrected_distance /(float)(m_number_of_sequence-1)) * cosf(m_angle) / m_step_number);
+		m_step_distance.step_distance_y = abs((m_corrected_distance /(float)(m_number_of_sequence-1)) * sinf(m_angle) / m_step_number);
 	}
 	else
 	{
-		m_step_distance_z = 0;
-		m_step_distance_y = 0;
-		m_step_distance_x = 0;
+		m_step_distance.step_distance_z = 0.f;
+		m_step_distance.step_distance_y = 0.f;
+		m_step_distance.step_distance_x = 0.f;
 	}
 }
 
 bool complete_linear_movement::is_sequence_finished(Paw &paw)
 {
 	if(m_current_step_number >= (m_step_number - 1))
-		return 1;
+		return SEQUENCE_FINISH;
 	else
-		return 0;
+		return SEQUENCE_IN_PROGRESS;
 }
 

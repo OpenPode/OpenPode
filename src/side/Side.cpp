@@ -52,9 +52,9 @@ int Side::update()
 	if(m_movement->is_sequence_finished(m_front_paw) &&
 	   m_movement->is_sequence_finished(m_middle_paw) &&
 	   m_movement->is_sequence_finished(m_back_paw))
-		return 0;
+		return SEQUENCE_FINISH;
 	else
-		return 1;
+		return SEQUENCE_IN_PROGRESS;
 }
 
 void Side::move_paw(Paw &paw)
@@ -63,13 +63,6 @@ void Side::move_paw(Paw &paw)
 	m_module.set_off_time(channel_table[paw.m_position][position_tibia], paw.servos_time_table[position_tibia]);
 	m_module.set_off_time(channel_table[paw.m_position][position_femur], paw.servos_time_table[position_femur]);
 	m_module.set_off_time(channel_table[paw.m_position][position_coxa],  paw.servos_time_table[position_coxa]);
-}
-
-void Side::memorize_current_paw_position()
-{
-	m_paws_position.front_paw = m_front_paw.get_current_position();
-	m_paws_position.middle_paw = m_middle_paw.get_current_position();
-	m_paws_position.back_paw = m_back_paw.get_current_position();
 }
 
 void Side::memorize_movement(Movement *mvt)

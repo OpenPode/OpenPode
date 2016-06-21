@@ -7,33 +7,27 @@
 
 #include "movement/Movement.h"
 #include "side/Side.h"
-#include "config.h"
 #include <cmath>
 
 Movement::Movement(Movement_type type, Movement_direction direction, float distance, float angle, int step_number) :
 	m_type(type), m_direction(direction), m_distance(distance), m_corrected_distance(0.f),
 	m_sequence_number(0), m_number_of_sequence(1), m_step_number(step_number), m_current_step_number(0),
-	m_step_distance_x(0.f), m_step_distance_y(0.f), m_step_distance_z(0.f),
 	m_angle(angle), m_paw_spreading(50), m_paw_spreading_step(NO_MOVEMENT_STEP_DIST)
 {
-
+	m_step_distance.step_distance_x = 0.f;
+	m_step_distance.step_distance_y = 0.f;
+	m_step_distance.step_distance_z = 0.f;
 }
 
 //try to go to a position
 float Movement::reproach_position(float present, float futur, float p_step_distance)
 {
 	if((present - futur) <= - p_step_distance)
-	{
 		return(present + p_step_distance);
-	}
 	else if((present - futur) >= p_step_distance)
-	{
 		return(present - p_step_distance);
-	}
 	else
-	{
 		return futur;
-	}
 }
 
 //get up and after down the paw to go to the correct height
@@ -44,9 +38,7 @@ float Movement::get_up_paw(float final_height, Paw &paw, float p_step_distance)
 	if(m_current_step_number <= (m_step_number / 2))
 	{
 		if(paw.m_current_coords.z <= MAX_HEIGHT_GET_UP)
-		{
 			z = paw.m_current_coords.z + p_step_distance*2.5f;
-		}
 		else
 			z = paw.m_current_coords.z;
 	}
@@ -75,17 +67,11 @@ float Movement::just_get_up_paw(Paw &paw, float p_step_distance)
 float Movement::just_get_down_paw(float final_height, Paw &paw, float p_step_distance)
 {
 	if((paw.m_current_coords.z - final_height) <= - p_step_distance)
-	{
 		return(paw.m_current_coords.z + p_step_distance);
-	}
 	else if((paw.m_current_coords.z - final_height) >= p_step_distance)
-	{
 		return(paw.m_current_coords.z - p_step_distance);
-	}
 	else
-	{
 		return final_height;
-	}
 }
 
 //must go to the position
@@ -97,17 +83,11 @@ float Movement::goto_position(float present, float futur, float nb_step)
 		float step_distance = abs(present - futur) / nb_step;
 
 		if(futur > present)
-		{
 			return(present + step_distance);
-		}
 		else if(futur < present)
-		{
 			return(present - step_distance);
-		}
 		else
-		{
 			return futur;
-		}
 	}
 	else
 		return futur;

@@ -158,9 +158,6 @@ void Hexapode::toggle()
 {
 	update_sequence_number();
 
-	m_left_side.memorize_current_paw_position();
-	m_right_side.memorize_current_paw_position();
-
 	determine_real_distance_for_movement();
 	m_movement->compute_variables();
 }
@@ -199,14 +196,14 @@ void Hexapode::prepare_update()
 
 int Hexapode::update()
 {
-	int sequence_end_right, sequence_end_left;
+	bool sequence_end_right, sequence_end_left;
 	sequence_end_right = m_right_side.update();
 	sequence_end_left  = m_left_side.update();
 
 	m_current_step_number ++;
 	m_movement->increase_current_step_number();
 
-	return (sequence_end_right || sequence_end_left); //if both sequence are finished
+	return (sequence_end_right && sequence_end_left); //if both sequence are finished
 }
 
 #ifdef HEAD

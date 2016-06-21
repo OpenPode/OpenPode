@@ -31,7 +31,6 @@ public:
 	void prepare_update();
 	int update();
 	double get_real_distance();
-	void memorize_current_paw_position();
 
 	Paws_position get_paws_position() const { return m_paws_position; }
 	Side_enum get_side_id() const { return m_side; }

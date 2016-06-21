@@ -101,9 +101,9 @@ bool No_movement::is_sequence_finished(Paw &paw)
 		m_xy_good_position = test_for_good_position_xy(paw);
 		m_z_good_position = test_for_good_position_z(paw);
 		if(m_xy_good_position && m_z_good_position)
-			return 1;
+			return SEQUENCE_FINISH;
 	}
-	return 0; //movement doesn't finished
+	return SEQUENCE_IN_PROGRESS; //movement doesn't finished
 }
 
 

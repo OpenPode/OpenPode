@@ -23,7 +23,7 @@ void Linear_movement::determine_x_paws_position(Paw &paw)
 												 paw.m_x_center + m_direction * m_distance / (float)(m_number_of_sequence-1),
 												 m_step_number - m_current_step_number);
 	else
-		m_paw_position[coord_x]  = paw.m_current_coords.x  - m_direction * m_step_distance_x;
+		m_paw_position[coord_x]  = paw.m_current_coords.x  - m_direction * m_step_distance.step_distance_x;
 }
 
 void Linear_movement::determine_y_paws_position(Paw &paw)
@@ -31,7 +31,7 @@ void Linear_movement::determine_y_paws_position(Paw &paw)
 	if(paw.m_active_sequence_number == m_sequence_number)
 		m_paw_position[coord_y]  = reproach_position(paw.m_current_coords.y,
 													 paw.get_side_coef() * m_paw_spreading,
-													 m_step_distance_z);
+													 m_step_distance.step_distance_z);
 	else
 		m_paw_position[coord_y] = paw.m_current_coords.y;
 }
@@ -45,7 +45,7 @@ void Linear_movement::determine_z_paws_position(Paw &paw)
 							  m_incline_coef.C;
 
 	if(paw.m_active_sequence_number == m_sequence_number)
-		m_paw_position[coord_z]  = get_up_paw(z_theoretic_value, paw, m_step_distance_z);
+		m_paw_position[coord_z]  = get_up_paw(z_theoretic_value, paw, m_step_distance.step_distance_z);
 	else
 		compute_z_value_for_standard_paw(paw, m_incline_coef);
 }
@@ -67,8 +67,8 @@ float Linear_movement::determine_real_distance(Paw &paw)
 
 void Linear_movement::compute_variables()
 {
-	m_step_distance_z = m_distance / (float)(m_number_of_sequence-1) / m_step_number;
-	m_step_distance_x = m_corrected_distance / m_step_number;
+	m_step_distance.step_distance_z = m_distance / (float)(m_number_of_sequence-1) / m_step_number;
+	m_step_distance.step_distance_x = m_corrected_distance / m_step_number;
 }
 
 float* Linear_movement::determine_paw_position(Paw &paw)
@@ -82,8 +82,8 @@ float* Linear_movement::determine_paw_position(Paw &paw)
 bool Linear_movement::is_sequence_finished(Paw &paw)
 {
 	if(m_current_step_number >= (m_step_number - 1))
-		return 1;
+		return SEQUENCE_FINISH;
 	else
-		return 0;
+		return SEQUENCE_IN_PROGRESS;
 }
 
