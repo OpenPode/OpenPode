@@ -38,7 +38,7 @@ float Movement::get_up_paw(float final_height, Paw &paw, float p_step_distance)
 	if(m_current_step_number <= (m_step_number / 2))
 	{
 		if(paw.m_current_coords.z <= MAX_HEIGHT_GET_UP)
-			z = paw.m_current_coords.z + p_step_distance*2.5f;
+			z = paw.m_current_coords.z + p_step_distance;
 		else
 			z = paw.m_current_coords.z;
 	}
@@ -57,7 +57,7 @@ float Movement::just_get_up_paw(Paw &paw, float p_step_distance)
 	float z;
 
 	if(paw.m_current_coords.z <= MAX_HEIGHT_GET_UP)
-		z = paw.m_current_coords.z + p_step_distance*2.5f;
+		z = paw.m_current_coords.z + p_step_distance;
 	else
 		z = paw.m_current_coords.z;
 

@@ -132,7 +132,7 @@ void Movement_controller::update_movement()
 	}
 	else if(((m_current_step_number <= 1) && (m_movement->m_type == no_movement)) || (m_movement->m_type != no_movement))
 	{
-		int step_number = abs(MAX_STEP_NUMBER - sqrt(m_movement_y_lin_value*m_movement_y_lin_value + m_movement_x_lin_value*m_movement_x_lin_value)*MAX_STEP_NUMBER + MIN_STEP_NUMBER);
+		int step_number = abs((int)(MAX_STEP_NUMBER - sqrtf(m_movement_y_lin_value*m_movement_y_lin_value + m_movement_x_lin_value*m_movement_x_lin_value)*MAX_STEP_NUMBER + MIN_STEP_NUMBER));
 		if(step_number < 12)
 			step_number = 12;
 

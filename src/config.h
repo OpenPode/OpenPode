@@ -48,7 +48,7 @@ constexpr float DEFAULT_DISTANCE = 40.f;
 constexpr float SPREADING_STEP = 1.f;
 constexpr float HEIGHT_STEP    = 0.5f;
 
-constexpr int NO_MOVEMENT_STEP_DIST = 2;
+constexpr float NO_MOVEMENT_STEP_DIST = 4.f;
 
 //utilities
 constexpr bool SEQUENCE_FINISH 		= true;
