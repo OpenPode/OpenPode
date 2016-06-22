@@ -59,7 +59,7 @@ void Hexapode::run()
 			prepare_update();
 
 #ifdef ERROR_ACTION
-			if(m_error_detection.is_on_error())//in progress
+			if(must_do_error_action())//in progress
 				error_action();
 			else
 #endif
@@ -72,6 +72,21 @@ void Hexapode::run()
 		}
 		usleep(500);
 	}
+}
+
+bool Hexapode::must_do_error_action()
+{
+	if(m_error_detection.is_on_error())
+	{
+		if((m_movement->m_type == no_movement) && m_error_detection.is_on_sequence())
+			return true;
+		else if(m_movement->m_type != no_movement)
+			return false;
+		else
+			return false;
+	}
+	else
+		return false;
 }
 
 void Hexapode::init()
@@ -114,6 +129,7 @@ void Hexapode::standard_action()
 
 void Hexapode::error_action()
 {
+	m_movement->in_correction = true;
 	m_movement->set_paw_spreading_step(180);
 	do
 	{
@@ -123,12 +139,14 @@ void Hexapode::error_action()
 		set_parameters_on_movement();
 		prepare_update();
 	} while(m_error_actions.is_resolving());
+	m_movement->in_correction = false;
 	m_movement->set_paw_spreading_step();
 	set_parameters_on_movement();
 	prepare_update();
 	//std::cout << "error code " << (int)(m_error_detection.error_code) << std::endl;
 	m_error_actions.valid_parameters();
 	update();
+
 }
 
 void Hexapode::determine_real_distance_for_movement()
@@ -193,6 +211,7 @@ void Hexapode::prepare_update()
 	m_error_detection.reset();
 	m_right_side.prepare_update();
 	m_left_side.prepare_update();
+	m_error_detection.test_error();
 }
 
 int Hexapode::update()

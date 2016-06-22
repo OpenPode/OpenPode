@@ -69,6 +69,7 @@ private:
 	void init();
 	void determine_movement();
 	void set_parameters_on_movement();
+	bool must_do_error_action();
 	void standard_action();
 	void error_action();
 	void calibrate_one_paw(Paw &paw, int time[3]);

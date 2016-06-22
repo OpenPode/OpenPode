@@ -34,9 +34,11 @@ constexpr char LEFT_SHIFT	=4;
 constexpr char TIBIA 		=0x01;
 constexpr char FEMUR 		=0x02;
 constexpr char COXA  		=0x04;
+constexpr char IN_SEQUENCE	=0x08;
 //shift for error_paw_X_X
 constexpr char MECA_LIMIT_SHIFT   =0;
 constexpr char MODEL_LIMIT_SHIFT  =4;
+
 
 class Error_detection
 {
@@ -49,9 +51,11 @@ public:
 	void set_sequence_number(int p_sequence_number);
 
 	void set_error();
+	void test_error();
 	void set_paw(Paw &p_paw);
 
 	bool is_on_error();
+	bool is_on_sequence();
 
 //protected:
 
@@ -65,7 +69,6 @@ public:
 	char error_paw_L_B;
 	int m_sequence_number;
 
-	void set_error_location(Paw &p_paw);
 	void set_error_model_type();
 	void set_error_mecanical_type();
 	void set_sequence(Paw &p_paw);

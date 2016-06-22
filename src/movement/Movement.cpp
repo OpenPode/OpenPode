@@ -12,7 +12,11 @@
 Movement::Movement(Movement_type type, Movement_direction direction, float distance, float angle, int step_number) :
 	m_type(type), m_direction(direction), m_distance(distance), m_corrected_distance(0.f),
 	m_sequence_number(0), m_number_of_sequence(1), m_step_number(step_number), m_current_step_number(0),
-	m_angle(angle), m_paw_spreading(50), m_paw_spreading_step(NO_MOVEMENT_STEP_DIST)
+	m_angle(angle), m_paw_spreading(50), m_paw_spreading_step(NO_MOVEMENT_STEP_DIST),
+	in_correction(false)
+#ifdef ERROR_ACTION
+	,nb_of_solve(0)
+#endif
 {
 	m_step_distance.step_distance_x = 0.f;
 	m_step_distance.step_distance_y = 0.f;
@@ -37,10 +41,32 @@ float Movement::get_up_paw(float final_height, Paw &paw, float p_step_distance)
 
 	if(m_current_step_number <= (m_step_number / 2))
 	{
-		if(paw.m_current_coords.z <= MAX_HEIGHT_GET_UP)
-			z = paw.m_current_coords.z + p_step_distance;
-		else
-			z = paw.m_current_coords.z;
+#ifdef ERROR_ACTION
+		if(nb_of_solve == 0)
+		{
+#endif
+			if(paw.m_current_coords.z <= MAX_HEIGHT_GET_UP)
+				z = paw.m_current_coords.z + p_step_distance;
+			else
+				z = paw.m_current_coords.z;
+#ifdef ERROR_ACTION
+		}
+		else if(nb_of_solve == 1)
+		{
+			if(final_height < paw.m_current_coords.z)
+				z = paw.m_current_coords.z;
+		}
+		else if(nb_of_solve == 2)
+		{
+			if(final_height < paw.m_current_coords.z - p_step_distance)
+				z = paw.m_current_coords.z - p_step_distance;
+		}
+		else if(nb_of_solve == 3)
+		{
+			if(final_height < paw.m_current_coords.z - 2*p_step_distance)
+				z = paw.m_current_coords.z - 2*p_step_distance;
+		}
+#endif
 	}
 	else
 	{
@@ -52,15 +78,36 @@ float Movement::get_up_paw(float final_height, Paw &paw, float p_step_distance)
 	return z;
 }
 
-float Movement::just_get_up_paw(Paw &paw, float p_step_distance)
+float Movement::just_get_up_paw(Paw &paw, float p_step_distance, float normal_height)
 {
 	float z;
 
-	if(paw.m_current_coords.z <= MAX_HEIGHT_GET_UP)
-		z = paw.m_current_coords.z + p_step_distance;
-	else
-		z = paw.m_current_coords.z;
-
+#ifdef ERROR_ACTION
+		if(nb_of_solve == 0)
+		{
+#endif
+			if(paw.m_current_coords.z <= MAX_HEIGHT_GET_UP)
+				z = paw.m_current_coords.z + p_step_distance;
+			else
+				z = paw.m_current_coords.z;
+#ifdef ERROR_ACTION
+		}
+		else if(nb_of_solve == 1)
+		{
+			if(normal_height < paw.m_current_coords.z)
+				z = paw.m_current_coords.z;
+		}
+		else if(nb_of_solve == 2)
+		{
+			if(normal_height < paw.m_current_coords.z - p_step_distance)
+				z = paw.m_current_coords.z - p_step_distance;
+		}
+		else if(nb_of_solve == 3)
+		{
+			if(normal_height < paw.m_current_coords.z - 2*p_step_distance)
+				z = paw.m_current_coords.z - 2*p_step_distance;
+		}
+#endif
 	return z;
 }
 
@@ -136,3 +183,15 @@ void Movement::increase_current_step_number()
 {
 	m_current_step_number++;
 }
+
+#ifdef ERROR_ACTION
+void Movement::set_nb_of_solve(int nb)
+{
+	nb_of_solve = nb;
+}
+
+void Movement::reset_nb_of_solve()
+{
+	nb_of_solve = 0;
+}
+#endif

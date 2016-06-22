@@ -25,7 +25,7 @@ void No_movement::determine_x_paws_position(Paw &paw)
 void No_movement::determine_y_paws_position(Paw &paw)
 {
 	//remember try to go to the position: reproach_position(present, futur, step_dist);
-	if(paw.m_active_sequence_number == m_sequence_number)
+	if((paw.m_active_sequence_number == m_sequence_number) || in_correction)
 		m_paw_position[coord_y]  = reproach_position(paw.m_current_coords.y, paw.get_side_coef() * m_paw_spreading, m_paw_spreading_step);
 	else
 		m_paw_position[coord_y] = paw.get_last_position().y;
@@ -33,10 +33,10 @@ void No_movement::determine_y_paws_position(Paw &paw)
 
 void No_movement::determine_z_paws_position(Paw &paw)
 {
+	compute_z_value_for_standard_paw(paw, m_incline_coef);
+
 	if(paw.m_active_sequence_number == m_sequence_number)
-		m_paw_position[coord_z]  = just_get_up_paw(paw, NO_MOVEMENT_STEP_DIST);
-	else
-		compute_z_value_for_standard_paw(paw, m_incline_coef);
+		m_paw_position[coord_z]  = just_get_up_paw(paw, NO_MOVEMENT_STEP_DIST, m_paw_position[coord_z]);
 }
 
 void No_movement::determine_z_paws_position_not_get_up(Paw &paw)

@@ -9,6 +9,7 @@ c * Side.h
 #define SIDE_H_
 
 #include "paw/Paw.h"
+#include "error_management/Error_detection.h"
 #include "drivers/pca9685/PCA9685.h"
 
 class i2cdev;
@@ -47,6 +48,7 @@ public:
 private:
 
 	void move_paw(Paw &paw);
+	void prepare_one_paw(Paw &paw);
 
 	//TODO: Change side_enum place
 	Side_enum m_side;
@@ -66,6 +68,7 @@ private:
 	PCA9685 m_module;
 
 	Movement *m_movement;
+	Error_detection* m_error_detection;
 };
 
 

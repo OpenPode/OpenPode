@@ -47,8 +47,6 @@ void complete_linear_movement::determine_z_paws_position(Paw &paw)
 	if(paw.m_active_sequence_number == m_sequence_number)
 	{
 		m_paw_position[coord_z]  = get_up_paw(z_theoretic_value, paw, m_step_distance.step_distance_z);
-		if(paw.m_active_sequence_number == 5)
-			std::cout << m_paw_position[coord_z] << " : " << m_step_distance.step_distance_z << std::endl;
 	}
 	else
 		compute_z_value_for_standard_paw(paw, m_incline_coef);

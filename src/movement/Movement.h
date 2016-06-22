@@ -57,7 +57,7 @@ public:
 
 	float reproach_position(float present, float futur, float p_step_distance);
 	float get_up_paw(float final_height, Paw &paw, float p_step_distance);
-	float just_get_up_paw(Paw &paw, float p_step_distance);
+	float just_get_up_paw(Paw &paw, float p_step_distance, float normal_height);
 	float just_get_down_paw(float final_height, Paw &paw, float p_step_distance);
 	float goto_position(float present, float futur, float nb_step);
 
@@ -82,6 +82,14 @@ public:
 	Incline_coef_t m_incline_coef;
 
 	float m_paw_position[3];
+
+	bool in_correction;
+#ifdef ERROR_ACTION
+	int nb_of_solve;
+
+	void set_nb_of_solve(int nb);
+	void reset_nb_of_solve();
+#endif
 };
 
 #endif /* MOVEMENT_H_ */

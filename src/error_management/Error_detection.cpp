@@ -42,6 +42,38 @@ void Error_detection::set_error()
 	error_code |= ERROR;
 }
 
+void Error_detection::test_error()
+{
+	if(error_paw_L_B | error_paw_L_M | error_paw_L_F | error_paw_R_B | error_paw_R_M | error_paw_R_F)
+	{
+		set_error();
+		if((error_paw_L_B&IN_SEQUENCE) | (error_paw_L_M&IN_SEQUENCE) | (error_paw_L_F&IN_SEQUENCE) |
+		   (error_paw_R_B&IN_SEQUENCE) | (error_paw_R_M&IN_SEQUENCE) | (error_paw_R_F&IN_SEQUENCE))
+			error_code |= IN_SEQ;
+
+		if(error_paw_L_F)
+			error_location |= (FRONT << LEFT_SHIFT);
+		else if(error_paw_L_M)
+			error_location |= (MIDDLE << LEFT_SHIFT);
+		else if(error_paw_L_B)
+			error_location |= (BACK << LEFT_SHIFT);
+		else if(error_paw_R_F)
+			error_location |= (FRONT << RIGHT_SHIFT);
+		else if(error_paw_R_M)
+			error_location |= (MIDDLE << RIGHT_SHIFT);
+		else if(error_paw_R_B)
+			error_location |= (BACK << RIGHT_SHIFT);
+
+		if(error_paw_L_B | error_paw_L_M | error_paw_L_F)
+			error_code |= SIDE_LEFT;
+
+		if(error_paw_R_B | error_paw_R_M | error_paw_R_F)
+			error_code |= SIDE_RIGHT;
+	}
+	else
+		reset();
+}
+
 void Error_detection::set_error_model_type()
 {
 	error_code |= MODEL;
@@ -54,34 +86,9 @@ void Error_detection::set_error_mecanical_type()
 void Error_detection::set_paw(Paw &p_paw)
 {
 	char* error_paw = select_paw_code(p_paw);
-
+	* error_paw = 0;
 	test_machenical_stop_limit(p_paw, error_paw);
 	test_model_limit(p_paw, error_paw);
-}
-
-void Error_detection::set_error_location(Paw &p_paw)
-{
-	char shift = 0;
-
-	if(p_paw.m_side == side_left)
-	{
-		error_code |= SIDE_LEFT;
-		shift = LEFT_SHIFT;
-	}
-	else if(p_paw.m_side == side_right)
-	{
-		error_code |= SIDE_RIGHT;
-		shift = RIGHT_SHIFT;
-	}
-
-	if(p_paw.m_position == position_front)
-		error_location |= (FRONT << shift);
-	else if(p_paw.m_position == position_middle)
-		error_location |= (MIDDLE << shift);
-	else if(p_paw.m_position == position_back)
-		error_location |= (BACK << shift);
-
-	set_error();
 }
 
 void Error_detection::test_machenical_stop_limit(Paw &p_paw, char* p_error_paw)
@@ -89,21 +96,18 @@ void Error_detection::test_machenical_stop_limit(Paw &p_paw, char* p_error_paw)
 	if(!p_paw.m_tibia.is_value_in_the_range(p_paw.servos_time_table[position_tibia]))
 	{
 		*p_error_paw |= (TIBIA << MECA_LIMIT_SHIFT);
-		set_error_location(p_paw);
 		set_error_mecanical_type();
 		set_sequence(p_paw);
 	}
 	if(!p_paw.m_femur.is_value_in_the_range(p_paw.servos_time_table[position_femur]))
 	{
 		*p_error_paw |= (FEMUR << MECA_LIMIT_SHIFT);
-		set_error_location(p_paw);
 		set_error_mecanical_type();
 		set_sequence(p_paw);
 	}
 	if(!p_paw.m_coxa.is_value_in_the_range(p_paw.servos_time_table[position_coxa]))
 	{
 		*p_error_paw |= (COXA << MECA_LIMIT_SHIFT);
-		set_error_location(p_paw);
 		set_error_mecanical_type();
 		set_sequence(p_paw);
 	}
@@ -111,28 +115,13 @@ void Error_detection::test_machenical_stop_limit(Paw &p_paw, char* p_error_paw)
 
 void Error_detection::set_sequence(Paw &p_paw)
 {
-	if(p_paw.m_side == side_left)
+	if(m_sequence_number == p_paw.m_active_sequence_number)
 	{
-		if((m_sequence_number == 0) && (p_paw.m_position == position_front))
-			error_code |= IN_SEQ;
-		else if((m_sequence_number == 1) && (p_paw.m_position == position_middle))
-			error_code |= IN_SEQ;
-		else if((m_sequence_number == 2) && (p_paw.m_position == position_back))
-			error_code |= IN_SEQ;
-		else
-			error_code |= STANDARD;
+		char* error_paw = select_paw_code(p_paw);
+		(*error_paw) |= IN_SEQUENCE;
 	}
 	else
-	{
-		if((m_sequence_number == 0) && (p_paw.m_position == position_back))
-			error_code |= IN_SEQ;
-		else if((m_sequence_number == 1) && (p_paw.m_position == position_middle))
-			error_code |= IN_SEQ;
-		else if((m_sequence_number == 2) && (p_paw.m_position == position_front))
-			error_code |= IN_SEQ;
-		else
-			error_code |= STANDARD;
-	}
+		error_code |= STANDARD;
 }
 
 void Error_detection::test_model_limit(Paw &p_paw, char* p_error_paw)
@@ -140,21 +129,18 @@ void Error_detection::test_model_limit(Paw &p_paw, char* p_error_paw)
 	if(p_paw.m_servo_angles.theta3 != p_paw.m_servo_angles.theta3)//tibia
 	{
 		*p_error_paw |= (TIBIA << MODEL_LIMIT_SHIFT);
-		set_error_location(p_paw);
 		set_error_model_type();
 		set_sequence(p_paw);
 	}
 	if(p_paw.m_servo_angles.theta2 != p_paw.m_servo_angles.theta2)//femur
 	{
 		*p_error_paw |= (FEMUR << MODEL_LIMIT_SHIFT);
-		set_error_location(p_paw);
 		set_error_model_type();
 		set_sequence(p_paw);
 	}
 	if(p_paw.m_servo_angles.theta1 != p_paw.m_servo_angles.theta1)//coxa
 	{
 		*p_error_paw |= (COXA << MODEL_LIMIT_SHIFT);
-		set_error_location(p_paw);
 		set_error_model_type();
 		set_sequence(p_paw);
 	}
@@ -186,4 +172,9 @@ char* Error_detection::select_paw_code(Paw &p_paw)
 bool Error_detection::is_on_error()
 {
 	return (error_code&ERROR);
+}
+
+bool Error_detection::is_on_sequence()
+{
+	return(error_code&IN_SEQ);
 }

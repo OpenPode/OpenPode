@@ -22,7 +22,7 @@ Side::Side(Side_enum side, i2cdev *i2c, Error_detection* p_error_detection, cons
 										  m_front_paw(side, position_front, p_error_detection, HALF_LENGTH, HALF_WIDTH_MIN, p_sequence_of_paws[0]),
 										  m_middle_paw(side, position_middle, p_error_detection, 0.f, HALF_WIDTH_MAX, p_sequence_of_paws[1]),
 										  m_back_paw(side, position_back, p_error_detection, -HALF_LENGTH, HALF_WIDTH_MIN, p_sequence_of_paws[2]),
-										  m_movement(nullptr)
+										  m_movement(nullptr), m_error_detection(p_error_detection)
 {
 	if(m_side == side_left)
 	{
@@ -38,9 +38,40 @@ Side::Side(Side_enum side, i2cdev *i2c, Error_detection* p_error_detection, cons
 
 void Side::prepare_update()
 {
-	m_front_paw.prepare_to_move(m_movement->determine_paw_position(m_front_paw));
-	m_middle_paw.prepare_to_move(m_movement->determine_paw_position(m_middle_paw));
-	m_back_paw.prepare_to_move(m_movement->determine_paw_position(m_back_paw));
+	prepare_one_paw(m_front_paw);
+	prepare_one_paw(m_middle_paw);
+	prepare_one_paw(m_back_paw);
+}
+
+void Side::prepare_one_paw(Paw &paw)
+{
+#ifdef ERROR_ACTION
+	char* error_code;
+	int nb_of_test = 0;
+	do
+	{
+#endif
+
+		paw.prepare_to_move(m_movement->determine_paw_position(paw));
+
+#ifdef ERROR_ACTION
+		error_code = m_error_detection->select_paw_code(paw);
+		if((*error_code) & IN_SEQUENCE)
+		{
+			nb_of_test++;
+			m_movement->set_nb_of_solve(nb_of_test);
+		}
+	}
+	while(((*error_code) & IN_SEQUENCE) && (nb_of_test <= 3));
+
+	if((*error_code) & IN_SEQUENCE)
+	{
+		m_movement->reset_nb_of_solve();
+		paw.prepare_to_move(m_movement->determine_paw_position(paw));
+	}
+	else if(nb_of_test != 0)
+		m_movement->reset_nb_of_solve();
+#endif
 }
 
 int Side::update()
