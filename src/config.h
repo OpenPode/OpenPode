@@ -11,7 +11,7 @@
 #include <string>
 
 //#define CALIBRATION
-//#define ERROR_ACTION
+#define ERROR_ACTION
 #define HEAD
 
 /**********************************************************************************
@@ -53,5 +53,12 @@ constexpr float NO_MOVEMENT_STEP_DIST = 4.f;
 //utilities
 constexpr bool SEQUENCE_FINISH 		= true;
 constexpr bool SEQUENCE_IN_PROGRESS = false;
+
+//PCA9685 addr
+constexpr char PCA9685_BASE_ADDR 	= 0x40;
+constexpr char PCA9685_LEFT		 	= 0x02;
+constexpr char PCA9685_RIGHT		= 0x01;
+constexpr char PCA9685_LEFT_ADDR 	= PCA9685_BASE_ADDR | PCA9685_LEFT;
+constexpr char PCA9685_RIGHT_ADDR 	= PCA9685_BASE_ADDR | PCA9685_RIGHT;
 
 #endif /* CONFIG_H_ */

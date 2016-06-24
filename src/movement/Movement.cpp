@@ -15,7 +15,7 @@ Movement::Movement(Movement_type type, Movement_direction direction, float dista
 	m_angle(angle), m_paw_spreading(50), m_paw_spreading_step(NO_MOVEMENT_STEP_DIST),
 	in_correction(false)
 #ifdef ERROR_ACTION
-	,nb_of_solve(0)
+	,nb_of_solves(0)
 #endif
 {
 	m_step_distance.step_distance_x = 0.f;
@@ -42,37 +42,37 @@ float Movement::get_up_paw(float final_height, Paw &paw, float p_step_distance)
 	if(m_current_step_number <= (m_step_number / 2))
 	{
 #ifdef ERROR_ACTION
-		if(nb_of_solve == 0)
+		if(nb_of_solves == 0)
 		{
 #endif
-			if(paw.m_current_coords.z <= MAX_HEIGHT_GET_UP)
-				z = paw.m_current_coords.z + p_step_distance;
+			if(paw.coords.m_current_coords.z <= MAX_HEIGHT_GET_UP)
+				z = paw.coords.m_current_coords.z + p_step_distance;
 			else
-				z = paw.m_current_coords.z;
+				z = paw.coords.m_current_coords.z;
 #ifdef ERROR_ACTION
 		}
-		else if(nb_of_solve == 1)
+		else if(nb_of_solves == 1)
 		{
-			if(final_height < paw.m_current_coords.z)
-				z = paw.m_current_coords.z;
+			if(final_height < paw.coords.m_current_coords.z)
+				z = paw.coords.m_current_coords.z;
 		}
-		else if(nb_of_solve == 2)
+		else if(nb_of_solves == 2)
 		{
-			if(final_height < paw.m_current_coords.z - p_step_distance)
-				z = paw.m_current_coords.z - p_step_distance;
+			if(final_height < paw.coords.m_current_coords.z - p_step_distance)
+				z = paw.coords.m_current_coords.z - p_step_distance;
 		}
-		else if(nb_of_solve == 3)
+		else if(nb_of_solves == 3)
 		{
-			if(final_height < paw.m_current_coords.z - 2*p_step_distance)
-				z = paw.m_current_coords.z - 2*p_step_distance;
+			if(final_height < paw.coords.m_current_coords.z - 2*p_step_distance)
+				z = paw.coords.m_current_coords.z - 2*p_step_distance;
 		}
 #endif
 	}
 	else
 	{
 		//compute step distance to get a linear movement
-		float step_distance_get_up = abs((final_height - paw.m_current_coords.z) / (m_step_number - m_current_step_number));
-		z = paw.m_current_coords.z - step_distance_get_up;
+		float step_distance_get_up = abs((final_height - paw.coords.m_current_coords.z) / (m_step_number - m_current_step_number));
+		z = paw.coords.m_current_coords.z - step_distance_get_up;
 	}
 
 	return z;
@@ -83,29 +83,29 @@ float Movement::just_get_up_paw(Paw &paw, float p_step_distance, float normal_he
 	float z;
 
 #ifdef ERROR_ACTION
-		if(nb_of_solve == 0)
+		if(nb_of_solves == 0)
 		{
 #endif
-			if(paw.m_current_coords.z <= MAX_HEIGHT_GET_UP)
-				z = paw.m_current_coords.z + p_step_distance;
+			if(paw.coords.m_current_coords.z <= MAX_HEIGHT_GET_UP)
+				z = paw.coords.m_current_coords.z + p_step_distance;
 			else
-				z = paw.m_current_coords.z;
+				z = paw.coords.m_current_coords.z;
 #ifdef ERROR_ACTION
 		}
-		else if(nb_of_solve == 1)
+		else if(nb_of_solves == 1)
 		{
-			if(normal_height < paw.m_current_coords.z)
-				z = paw.m_current_coords.z;
+			if(normal_height < paw.coords.m_current_coords.z)
+				z = paw.coords.m_current_coords.z;
 		}
-		else if(nb_of_solve == 2)
+		else if(nb_of_solves == 2)
 		{
-			if(normal_height < paw.m_current_coords.z - p_step_distance)
-				z = paw.m_current_coords.z - p_step_distance;
+			if(normal_height < paw.coords.m_current_coords.z - p_step_distance)
+				z = paw.coords.m_current_coords.z - p_step_distance;
 		}
-		else if(nb_of_solve == 3)
+		else if(nb_of_solves == 3)
 		{
-			if(normal_height < paw.m_current_coords.z - 2*p_step_distance)
-				z = paw.m_current_coords.z - 2*p_step_distance;
+			if(normal_height < paw.coords.m_current_coords.z - 2*p_step_distance)
+				z = paw.coords.m_current_coords.z - 2*p_step_distance;
 		}
 #endif
 	return z;
@@ -113,10 +113,10 @@ float Movement::just_get_up_paw(Paw &paw, float p_step_distance, float normal_he
 
 float Movement::just_get_down_paw(float final_height, Paw &paw, float p_step_distance)
 {
-	if((paw.m_current_coords.z - final_height) <= - p_step_distance)
-		return(paw.m_current_coords.z + p_step_distance);
-	else if((paw.m_current_coords.z - final_height) >= p_step_distance)
-		return(paw.m_current_coords.z - p_step_distance);
+	if((paw.coords.m_current_coords.z - final_height) <= - p_step_distance)
+		return(paw.coords.m_current_coords.z + p_step_distance);
+	else if((paw.coords.m_current_coords.z - final_height) >= p_step_distance)
+		return(paw.coords.m_current_coords.z - p_step_distance);
 	else
 		return final_height;
 }
@@ -187,11 +187,11 @@ void Movement::increase_current_step_number()
 #ifdef ERROR_ACTION
 void Movement::set_nb_of_solve(int nb)
 {
-	nb_of_solve = nb;
+	nb_of_solves = nb;
 }
 
 void Movement::reset_nb_of_solve()
 {
-	nb_of_solve = 0;
+	nb_of_solves = 0;
 }
 #endif

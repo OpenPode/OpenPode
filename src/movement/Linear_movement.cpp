@@ -19,21 +19,21 @@ Linear_movement::Linear_movement(Movement_direction direction, float distance, i
 void Linear_movement::determine_x_paws_position(Paw &paw)
 {
 	if(paw.m_active_sequence_number == m_sequence_number)
-		m_paw_position[coord_x]  = goto_position(paw.m_current_coords.x,
+		m_paw_position[coord_x]  = goto_position(paw.coords.m_current_coords.x,
 												 paw.m_x_center + m_direction * m_distance / (float)(m_number_of_sequence-1),
 												 m_step_number - m_current_step_number);
 	else
-		m_paw_position[coord_x]  = paw.m_current_coords.x  - m_direction * m_step_distance.step_distance_x;
+		m_paw_position[coord_x]  = paw.coords.m_current_coords.x  - m_direction * m_step_distance.step_distance_x;
 }
 
 void Linear_movement::determine_y_paws_position(Paw &paw)
 {
 	if(paw.m_active_sequence_number == m_sequence_number)
-		m_paw_position[coord_y]  = reproach_position(paw.m_current_coords.y,
+		m_paw_position[coord_y]  = reproach_position(paw.coords.m_current_coords.y,
 													 paw.get_side_coef() * m_paw_spreading,
 													 m_step_distance.step_distance_z);
 	else
-		m_paw_position[coord_y] = paw.m_current_coords.y;
+		m_paw_position[coord_y] = paw.coords.m_current_coords.y;
 }
 
 void Linear_movement::determine_z_paws_position(Paw &paw)

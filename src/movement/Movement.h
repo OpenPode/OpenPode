@@ -85,7 +85,7 @@ public:
 
 	bool in_correction;
 #ifdef ERROR_ACTION
-	int nb_of_solve;
+	int nb_of_solves;
 
 	void set_nb_of_solve(int nb);
 	void reset_nb_of_solve();

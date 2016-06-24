@@ -17,8 +17,8 @@ void Error_actions::action_no_movement_no_changement()
 	{
 	case cancel_incline:
 	{
-		m_new_parameters.incline_values.pitch = 0;
-		m_new_parameters.incline_values.roll = 0;
+		m_new_parameters.incline_values.pitch = 0.f;
+		m_new_parameters.incline_values.roll = 0.f;
 		m_new_parameters.center_height = m_purpose_parameters.center_height;
 		m_new_parameters.paw_spreading = m_purpose_parameters.paw_spreading;
 		m_current_step = reduce_incline;
@@ -56,33 +56,34 @@ void Error_actions::action_no_movement_no_changement()
 
 void Error_actions::action_no_movement_reduce_incline()
 {
-	if(m_on_error)
+	//look if paw in seq is impacted
+	if((find_solution == 0) && (!m_on_error))
 	{
-		if(find_solution == 0)
-		{
-			m_current_step = find_paw_spreading_stable_direction;
-			m_new_parameters = m_purpose_parameters;
-		}
-		else
-		{
-			find_solution ++;
-			m_new_parameters.incline_values.pitch = dichotomie(m_on_error, m_new_parameters.incline_values.pitch, m_purpose_parameters.incline_values.pitch);
-			m_new_parameters.incline_values.roll = dichotomie(m_on_error, m_new_parameters.incline_values.roll, m_purpose_parameters.incline_values.roll);
-		}
+		std::cout << "possibility" << std::endl;
+		dichotomie_pitch.B = 0.f;
+		dichotomie_pitch.A = m_purpose_parameters.incline_values.pitch;
+		dichotomie_roll.B = 0.f;
+		dichotomie_roll.A = m_purpose_parameters.incline_values.roll;
+		m_new_parameters.incline_values.pitch = dichotomie(m_on_error, dichotomie_pitch);
+		m_new_parameters.incline_values.roll = dichotomie(m_on_error, dichotomie_roll);
+		find_solution ++;
+	}
+	else if((find_solution == 0) && (m_on_error))
+	{
+		m_current_step = find_paw_spreading_stable_direction;
+		m_new_parameters = m_purpose_parameters;
+		std::cout << "on error" << std::endl;
+	}
+	else if((find_solution >= 10) && (!m_on_error))
+	{
+		set_end_of_solving();
+		std::cout << "cool" <<std::endl;
 	}
 	else
 	{
-		if(find_solution == 0)
-			m_new_parameters = m_purpose_parameters;
-
-		if(find_solution > 10)
-			set_end_of_solving();
-		else
-		{
-			find_solution ++;
-			m_new_parameters.incline_values.pitch = dichotomie(m_on_error, m_new_parameters.incline_values.pitch, m_purpose_parameters.incline_values.pitch);
-			m_new_parameters.incline_values.roll = dichotomie(m_on_error, m_new_parameters.incline_values.roll, m_purpose_parameters.incline_values.roll);
-		}
+		m_new_parameters.incline_values.pitch = dichotomie(m_on_error, dichotomie_pitch);
+		m_new_parameters.incline_values.roll = dichotomie(m_on_error, dichotomie_roll);
+		find_solution ++;
 	}
 }
 

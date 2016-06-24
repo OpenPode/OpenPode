@@ -25,6 +25,13 @@ struct sticks_values_t
 	}
 };
 
+struct Dichotomie_t
+{
+	float A;
+	float B;
+	float C;
+};
+
 struct parameters_t
 {
 	sticks_values_t incline_values;
@@ -85,6 +92,8 @@ protected:
 
 	float paw_speading_direction;
 	float height_direction;
+	Dichotomie_t dichotomie_pitch;
+	Dichotomie_t dichotomie_roll;
 
 	//no_movement
 	void action_no_movement_no_changement();
@@ -99,7 +108,7 @@ protected:
 	void set_end_of_solving();
 
 	//solving algo
-	float dichotomie(bool condition, float last_new, float purpose);
+	float dichotomie(bool condition, Dichotomie_t dicho);
 	void find_direction(int &cpt, float &direction, float &new_parameters, int step = DEFAULT_STEP);
 
 	void no_action();

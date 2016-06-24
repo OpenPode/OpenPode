@@ -17,7 +17,7 @@ void No_movement::determine_x_paws_position(Paw &paw)
 {
 	//remember try to go to the position: reproach_position(present, futur, step_dist);
 	if(paw.m_active_sequence_number == m_sequence_number)
-		m_paw_position[coord_x] = reproach_position(paw.m_current_coords.x, paw.m_x_center, NO_MOVEMENT_STEP_DIST);
+		m_paw_position[coord_x] = reproach_position(paw.coords.m_current_coords.x, paw.m_x_center, NO_MOVEMENT_STEP_DIST);
 	else
 		m_paw_position[coord_x]  = paw.get_last_position().x;
 }
@@ -26,7 +26,7 @@ void No_movement::determine_y_paws_position(Paw &paw)
 {
 	//remember try to go to the position: reproach_position(present, futur, step_dist);
 	if((paw.m_active_sequence_number == m_sequence_number) || in_correction)
-		m_paw_position[coord_y]  = reproach_position(paw.m_current_coords.y, paw.get_side_coef() * m_paw_spreading, m_paw_spreading_step);
+		m_paw_position[coord_y]  = reproach_position(paw.coords.m_current_coords.y, paw.get_side_coef() * m_paw_spreading, m_paw_spreading_step);
 	else
 		m_paw_position[coord_y] = paw.get_last_position().y;
 }
@@ -54,7 +54,7 @@ bool No_movement::test_for_good_position_z(Paw &paw)
 							   m_incline_coef.B*(paw.get_side_coef()*(m_paw_spreading + paw.m_position_on_hexapode.y_offset)) +
 							   m_incline_coef.C;
 
-	return(z_theoretic_value == (paw.m_current_coords.z));
+	return(z_theoretic_value == (paw.coords.m_current_coords.z));
 }
 
 bool No_movement::test_for_good_position_xy(Paw &paw)
@@ -62,8 +62,8 @@ bool No_movement::test_for_good_position_xy(Paw &paw)
 	//test if one or more paw is not at the correct x,y or z position
 	if(paw.m_active_sequence_number == m_sequence_number)
 	{
-		if( (paw.m_current_coords.y  != paw.get_side_coef() * m_paw_spreading) or
-			(paw.m_current_coords.x != paw.m_x_center))
+		if( (paw.coords.m_current_coords.y  != paw.get_side_coef() * m_paw_spreading) or
+			(paw.coords.m_current_coords.x != paw.m_x_center))
 			return 0;
 	}
 	return 1;

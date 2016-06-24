@@ -19,6 +19,21 @@ struct Position_on_hexapode
 	float y_offset;
 };
 
+struct Paw_coords
+{
+	Coords m_prepare_coords;
+	Coords m_current_coords;
+	Coords m_last_coords;
+};
+
+/*struct Servos_of_paw
+{
+	Servo m_coxa;
+	Servo m_femur;
+	Servo m_tibia;
+	int servos_time_table[3];
+};*/
+
 class Error_detection;
 
 class Paw : public Paw_math_model
@@ -41,14 +56,13 @@ public:
 	Paw_position_enum m_position;
 	int m_side_coef;
 
+	//Servos_of_paw m_servos;
 	Servo m_coxa;
 	Servo m_femur;
 	Servo m_tibia;
 	int servos_time_table[3];
 
-	Coords m_prepare_coords;
-	Coords m_current_coords;
-	Coords m_last_coords;
+	Paw_coords coords;
 	Angles m_servo_angles;
 
 	float m_x_center;

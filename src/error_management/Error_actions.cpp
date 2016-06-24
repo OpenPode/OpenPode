@@ -105,12 +105,15 @@ void Error_actions::set_end_of_solving()
 	height_direction = 0;
 }
 
-float Error_actions::dichotomie(bool condition, float last_new, float purpose)
+float Error_actions::dichotomie(bool condition, Dichotomie_t dicho)
 {
 	if(condition)
-		return((purpose - last_new)/2.f);
+		dicho.B = dicho.C;
 	else
-		return(last_new / 2.f);
+		dicho.A = dicho.C;
+
+	dicho.C = dicho.B + (dicho.A - dicho.B)/2;
+	return dicho.C;
 }
 
 void Error_actions::find_direction(int &cpt, float &direction, float &new_parameters, int step)

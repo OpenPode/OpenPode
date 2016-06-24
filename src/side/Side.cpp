@@ -26,12 +26,12 @@ Side::Side(Side_enum side, i2cdev *i2c, Error_detection* p_error_detection, cons
 {
 	if(m_side == side_left)
 	{
-		m_module = PCA9685(i2c, 0x42);
+		m_module = PCA9685(i2c, PCA9685_LEFT_ADDR);
 		m_side_coef = +1;
 	}
 	else
 	{
-		m_module = PCA9685(i2c, 0x41);
+		m_module = PCA9685(i2c, PCA9685_RIGHT_ADDR);
 		m_side_coef = -1;
 	}
 }

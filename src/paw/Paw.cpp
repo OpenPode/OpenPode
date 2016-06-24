@@ -24,7 +24,7 @@ Paw::Paw(Side_enum side, Paw_position_enum position, Error_detection* p_error_de
 	m_error_detection(p_error_detection)
 {
 	//init paws at default position
-	m_prepare_coords = {0.f,0.f,0.f};
+	coords.m_prepare_coords = {0.f,0.f,0.f};
 	m_position_on_hexapode.x_offset = p_x_offset;
 	m_position_on_hexapode.y_offset = p_y_offset;
 
@@ -40,13 +40,13 @@ Paw::Paw(Side_enum side, Paw_position_enum position, Error_detection* p_error_de
 	else if(position == Paw_position_enum::position_back)
 		m_x_center = DEFAULT_X_CENTER_BACK;
 
-	m_current_coords = {m_x_center, m_side_coef*DEFAULT_Y, DEFAULT_Z};
-	m_last_coords = m_current_coords;
+	coords.m_current_coords = {m_x_center, m_side_coef*DEFAULT_Y, DEFAULT_Z};
+	coords.m_last_coords = coords.m_current_coords;
 }
 
 void Paw::prepare_to_move(float position[3])
 {
-	m_prepare_coords = {position[coord_x], position[coord_y], position[coord_z]};
+	coords.m_prepare_coords = {position[coord_x], position[coord_y], position[coord_z]};
 
 	m_servo_angles = compute_angles({position[coord_x], position[coord_y], position[coord_z]});
 	//use Paw_math_model to get servos angles
@@ -57,18 +57,18 @@ void Paw::prepare_to_move(float position[3])
 
 void Paw::valid_move()
 {
-	m_last_coords = m_current_coords;
-	m_current_coords = m_prepare_coords;
+	coords.m_last_coords = coords.m_current_coords;
+	coords.m_current_coords = coords.m_prepare_coords;
 }
 
 Coords Paw::get_current_position() const
 {
-	return m_current_coords;
+	return coords.m_current_coords;
 }
 
 Coords Paw::get_last_position() const
 {
-	return m_last_coords;
+	return coords.m_last_coords;
 }
 
 void Paw::determine_servos_paw_time()
