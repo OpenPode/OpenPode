@@ -6,20 +6,7 @@
  */
 
 #include "Servo.h"
-
-static const int offset_table[2][3][3] =
-{
-		{// left
-				{390, 280, 260}, // front
-				{395, 345, 240}, // middle
-				{340, 320, 350}  // back
-		},
-		{// right
-				{380, 370, 380}, // front
-				{290, 340, 355}, // middle
-				{315, 345, 305}  // back
-		}     // tib  fem  cox
-};
+#include "config.h"
 
 Servo::Servo(Side_enum side, Paw_position_enum paw_position, Servo_position_enum servo_position) :
 	m_side(side), m_paw_position(paw_position), m_position(servo_position)

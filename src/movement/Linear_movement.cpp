@@ -6,7 +6,6 @@
  */
 
 #include "movement/Linear_movement.h"
-#include "hexapode/hexapode_dimensions.h"
 #include "side/Side.h"
 #include <cmath>
 

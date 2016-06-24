@@ -9,7 +9,6 @@
 #define MOVEMENT_H_
 
 #include "Incline_coef.h"
-#include "hexapode/hexapode_dimensions.h"
 #include "config.h"
 
 class Side;

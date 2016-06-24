@@ -6,7 +6,6 @@
  */
 
 #include "paw/Paw.h"
-#include "hexapode/hexapode_dimensions.h"
 #include "config.h"
 #include "drivers/broadcom/bcm2835.h"
 #include "error_management/Error_detection.h"

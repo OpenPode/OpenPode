@@ -64,8 +64,6 @@ private:
 	void manage_led(char error_code = 0x00);
 #endif
 
-	static const int sequence_of_paws[2][3];
-
 	void init();
 	void determine_movement();
 	void set_parameters_on_movement();

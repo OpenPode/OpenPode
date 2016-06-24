@@ -59,7 +59,6 @@ void Error_actions::action_no_movement_reduce_incline()
 	//look if paw in seq is impacted
 	if((find_solution == 0) && (!m_on_error))
 	{
-		std::cout << "possibility" << std::endl;
 		dichotomie_pitch.B = 0.f;
 		dichotomie_pitch.A = m_purpose_parameters.incline_values.pitch;
 		dichotomie_roll.B = 0.f;
@@ -72,12 +71,10 @@ void Error_actions::action_no_movement_reduce_incline()
 	{
 		m_current_step = find_paw_spreading_stable_direction;
 		m_new_parameters = m_purpose_parameters;
-		std::cout << "on error" << std::endl;
 	}
 	else if((find_solution >= 10) && (!m_on_error))
 	{
 		set_end_of_solving();
-		std::cout << "cool" <<std::endl;
 	}
 	else
 	{

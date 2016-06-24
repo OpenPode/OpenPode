@@ -14,13 +14,6 @@
 #include "utility/math_utils.h"
 #include <cmath>
 
-const int Hexapode::sequence_of_paws[2][3] =
-{
-		{0		, 1		,2		}, //right
-		{2		, 1		,0		}  //left
-	   //front	, middle, back
-};
-
 Hexapode::Hexapode() : m_i2c(new i2cdev),
 					   m_left_side(side_left, m_i2c, &m_error_detection, sequence_of_paws[1]),
 					   m_right_side(side_right, m_i2c, &m_error_detection, sequence_of_paws[0]),

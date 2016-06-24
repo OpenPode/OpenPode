@@ -8,7 +8,6 @@
 
 #include "controller/Movement_controller.h"
 #include "drivers/broadcom/bcm2835.h"
-#include "hexapode/hexapode_dimensions.h"
 #include "config.h"
 #include "movement/Linear_movement.h"
 #include "movement/No_movement.h"

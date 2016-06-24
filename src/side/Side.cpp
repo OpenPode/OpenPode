@@ -7,7 +7,7 @@
 
 
 #include "side/Side.h"
-#include "hexapode/hexapode_dimensions.h"
+#include "config.h"
 #include "movement/Movement.h"
 #include <cmath>
 
