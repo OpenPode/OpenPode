@@ -58,8 +58,8 @@ private:
 	Error_detection m_error_detection;
 	Error_actions m_error_actions;
 #ifdef HEAD
-	led_controller m_led_right;
-	led_controller m_led_left;
+	Led_controller m_led_right;
+	Led_controller m_led_left;
 	int last_led;
 	void manage_led(uint8_t error_code = 0x00);
 #endif

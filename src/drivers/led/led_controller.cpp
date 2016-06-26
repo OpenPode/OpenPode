@@ -8,7 +8,7 @@
 #include "drivers/led/led_controller.h"
 #include <iostream>
 
-led_controller::led_controller(RPiGPIOPin p_red_pin, RPiGPIOPin p_green_pin, RPiGPIOPin p_blue_pin, color_t p_color) : m_blue_pin(p_blue_pin), m_red_pin(p_red_pin), m_green_pin(p_green_pin),
+Led_controller::Led_controller(RPiGPIOPin p_red_pin, RPiGPIOPin p_green_pin, RPiGPIOPin p_blue_pin, Led_color p_color) : m_blue_pin(p_blue_pin), m_red_pin(p_red_pin), m_green_pin(p_green_pin),
 														m_color_standard(p_color), m_color_debug(NONE)
 {
 	bcm2835_gpio_fsel(p_red_pin, BCM2835_GPIO_FSEL_OUTP);
@@ -18,12 +18,12 @@ led_controller::led_controller(RPiGPIOPin p_red_pin, RPiGPIOPin p_green_pin, RPi
 }
 
 
-led_controller::~led_controller()
+Led_controller::~Led_controller()
 {
 
 }
 
-void led_controller::set_debug(debug_by_color_t debug)
+void Led_controller::set_debug(Debug_by_color debug)
 {
 	switch(debug)
 	{
@@ -34,26 +34,26 @@ void led_controller::set_debug(debug_by_color_t debug)
 	break;
 	case error:
 	{
-		if(m_color_standard != color_t::RED)
-			m_color_debug = color_t::RED;
+		if(m_color_standard != Led_color::RED)
+			m_color_debug = Led_color::RED;
 		else
-			m_color_debug = color_t::MAGENTA;
+			m_color_debug = Led_color::MAGENTA;
 	}
 	break;
 	case warning:
 	{
-		if(m_color_standard != color_t::YELLOW)
-			m_color_debug = color_t::YELLOW;
+		if(m_color_standard != Led_color::YELLOW)
+			m_color_debug = Led_color::YELLOW;
 		else
-			m_color_debug = color_t::MAGENTA;
+			m_color_debug = Led_color::MAGENTA;
 	}
 	break;
 	case info:
 	{
-		if(m_color_standard != color_t::BLUE)
-			m_color_debug = color_t::BLUE;
+		if(m_color_standard != Led_color::BLUE)
+			m_color_debug = Led_color::BLUE;
 		else
-			m_color_debug = color_t::GREEN;
+			m_color_debug = Led_color::GREEN;
 	}
 	break;
 	}
@@ -61,69 +61,69 @@ void led_controller::set_debug(debug_by_color_t debug)
 	set_color(m_color_debug);
 }
 
-void led_controller::set_standard()
+void Led_controller::set_standard()
 {
 	set_color(m_color_standard);
 }
 
-void led_controller::change_color(color_t p_color)
+void Led_controller::change_color(Led_color p_color)
 {
 	set_color(p_color);
 }
 
-void led_controller::update_color(color_t p_color)
+void Led_controller::update_color(Led_color p_color)
 {
 	m_color_standard = p_color;
 	set_color(m_color_standard);
 }
 
-void led_controller::increase_color()
+void Led_controller::increase_color()
 {
 	int color = int(m_color_standard);
 	color ++;
-	m_color_standard = (color_t)color;
-	if (m_color_standard > color_t::WHITE)
+	m_color_standard = (Led_color)color;
+	if (m_color_standard > Led_color::WHITE)
 		m_color_standard = NONE;
 
 	set_color(m_color_standard);
 }
 
-led_controller led_controller::operator ++(int)
+Led_controller Led_controller::operator ++(int)
 {
 	increase_color();
 	return *this;
 }
 
-void led_controller::decrease_color()
+void Led_controller::decrease_color()
 {
 	int color = int(m_color_standard);
 	color --;
-	m_color_standard = (color_t)color;
-	if (m_color_standard < color_t::NONE)
+	m_color_standard = (Led_color)color;
+	if (m_color_standard < Led_color::NONE)
 		m_color_standard = WHITE;
 
 	set_color(m_color_standard);
 }
 
-led_controller led_controller::operator --(int)
+Led_controller Led_controller::operator --(int)
 {
 	decrease_color();
 	return *this;
 }
 
-void led_controller::set_color(color_t color)
+void Led_controller::set_color(Led_color color)
 {
-	if((int)color & (int)color_t::RED)
+	if((int)color & (int)Led_color::RED)
 		bcm2835_gpio_set(m_red_pin);
 	else
 		bcm2835_gpio_clr(m_red_pin);
 
-	if((int)color & (int)color_t::GREEN)
+	if((int)color & (int)Led_color::GREEN)
 		bcm2835_gpio_set(m_green_pin);
 	else
 		bcm2835_gpio_clr(m_green_pin);
 
-	if((int)color & (int)color_t::BLUE)
+	if((int)color & (int)Led_color::BLUE)
 		bcm2835_gpio_set(m_blue_pin);
 	else
 		bcm2835_gpio_clr(m_blue_pin);

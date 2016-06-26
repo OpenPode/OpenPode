@@ -11,7 +11,7 @@
 #include <cstdint>
 #include "drivers/broadcom/bcm2835.h"
 
-enum color_t
+enum Led_color
 {
 	NONE    = 0x00,
 	RED     = 0x01,
@@ -23,7 +23,7 @@ enum color_t
 	WHITE   = RED   | GREEN | BLUE
 };
 
-enum debug_by_color_t
+enum Debug_by_color
 {
 	ok,
 	error,
@@ -31,32 +31,32 @@ enum debug_by_color_t
 	info
 };
 
-class led_controller
+class Led_controller
 {
 public:
 
-	led_controller(RPiGPIOPin p_red_pin, RPiGPIOPin p_green_pin, RPiGPIOPin p_blue_pin, color_t p_color = NONE);
-	~led_controller();
+	Led_controller(RPiGPIOPin p_red_pin, RPiGPIOPin p_green_pin, RPiGPIOPin p_blue_pin, Led_color p_color = NONE);
+	~Led_controller();
 
-	void set_debug(debug_by_color_t debug);
+	void set_debug(Debug_by_color debug);
 	void set_standard();
-	void change_color(color_t p_color);
-	void update_color(color_t p_color);
+	void change_color(Led_color p_color);
+	void update_color(Led_color p_color);
 	void increase_color();
 	void decrease_color();
 
-	led_controller operator ++(int);
-	led_controller operator --(int);
+	Led_controller operator ++(int);
+	Led_controller operator --(int);
 
 protected:
 	RPiGPIOPin m_blue_pin;
 	RPiGPIOPin m_red_pin;
 	RPiGPIOPin m_green_pin;
 
-	color_t m_color_standard;
-	color_t m_color_debug;
+	Led_color m_color_standard;
+	Led_color m_color_debug;
 
-	void set_color(color_t color);
+	void set_color(Led_color color);
 };
 
 #endif /* LED_CONTROLLER */
