@@ -146,9 +146,9 @@ void block_until_ds4_controller_connexion()
 {
 	string mac_address = "";
 
-	cout << "Wait for DS4 controller " << ps4_controller_mac_addr << " connexion"  << endl;
+	cout << "Wait for DS4 controller " << DS4_MAC_ADDR << " connexion"  << endl;
 
-	while(mac_address != ps4_controller_mac_addr)
+	while(mac_address != DS4_MAC_ADDR)
 	{
 		try
 		{
@@ -161,7 +161,7 @@ void block_until_ds4_controller_connexion()
 		sleep(2);
 	}
 
-	cout << "The DS4 controller " << ps4_controller_mac_addr << " is connected"  << endl;
+	cout << "The DS4 controller " << DS4_MAC_ADDR << " is connected"  << endl;
 }
 
 void launch_ds4drv()

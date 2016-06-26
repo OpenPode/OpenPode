@@ -15,8 +15,8 @@
 #include <cmath>
 
 Hexapode::Hexapode() : m_i2c(new i2cdev),
-					   m_left_side(side_left, m_i2c, &m_error_detection, sequence_of_paws[1]),
-					   m_right_side(side_right, m_i2c, &m_error_detection, sequence_of_paws[0]),
+					   m_left_side(side_left, m_i2c, &m_error_detection, PAWS_SEQUENCE[1]),
+					   m_right_side(side_right, m_i2c, &m_error_detection, PAWS_SEQUENCE[0]),
 					   m_movement(nullptr), // init to no_movement
 					   m_current_sequence_number(0), m_sequence_number(0),
 					   m_current_step_number(0), m_step_number(1),

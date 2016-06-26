@@ -68,7 +68,7 @@
  *                              |
  *                              |
  */
-static const int offset_table[2][3][3] =
+static const int OFFSET_TABLE[2][3][3] =
 {
 		{// left
 				{390, 280, 260}, // front
@@ -85,7 +85,7 @@ static const int offset_table[2][3][3] =
 /*
  * Table of active sequence of each paw : first sequence number is 0. More you have sequence, slower the hexapode will be
  */
-constexpr int sequence_of_paws[2][3] =
+constexpr int PAWS_SEQUENCE[2][3] =
 {
 		{0		, 1		,2		}, //right
 		{2		, 1		,0		}  //left
@@ -95,13 +95,13 @@ constexpr int sequence_of_paws[2][3] =
 /*
  * PCA9685 module addresse : represent the addresse that you weld on the module for each side
  */
-constexpr uint8_t PCA9685_LEFT		 	= 0x02;
+constexpr uint8_t PCA9685_LEFT		= 0x02;
 constexpr uint8_t PCA9685_RIGHT		= 0x01;
 
 /*
  * PS4 Controller
  */
-constexpr auto ps4_controller_mac_addr = "1C:96:5A:D2:D2:74";
+constexpr auto DS4_MAC_ADDR = "1C:96:5A:D2:D2:74";
 
 /*
  * Represent the center of rotation of paw for coxa servo
