@@ -11,7 +11,7 @@
 #include "movement/Movement.h"
 #include <algorithm>
 
-const Channel_t Side::channel_table[3][3] =
+const Channel_t Side::CHANNEL_TABLE[3][3] =
 {
 		{channel0, channel1, channel2},
 		{channel3, channel4, channel5},
@@ -91,9 +91,9 @@ int Side::update()
 void Side::move_paw(Paw &paw)
 {
 	paw.valid_move();
-	m_module.set_off_time(channel_table[paw.m_position][position_tibia], paw.servos_time_table[position_tibia]);
-	m_module.set_off_time(channel_table[paw.m_position][position_femur], paw.servos_time_table[position_femur]);
-	m_module.set_off_time(channel_table[paw.m_position][position_coxa],  paw.servos_time_table[position_coxa]);
+	m_module.set_off_time(CHANNEL_TABLE[paw.m_position][position_tibia], paw.servos_time_table[position_tibia]);
+	m_module.set_off_time(CHANNEL_TABLE[paw.m_position][position_femur], paw.servos_time_table[position_femur]);
+	m_module.set_off_time(CHANNEL_TABLE[paw.m_position][position_coxa],  paw.servos_time_table[position_coxa]);
 }
 
 void Side::memorize_movement(Movement *mvt)

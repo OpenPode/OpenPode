@@ -62,8 +62,8 @@ private:
 	//side_coef is used to correct formula depending of the side
 	int m_side_coef;
 
-	static const Channel_t channel_table[3][3];
-	int servos_time_table[3][3];
+	static const Channel_t CHANNEL_TABLE[3][3];
+	//int m_servos_time_table[3][3]; // NOT USED
 
 	PCA9685 m_module;
 
