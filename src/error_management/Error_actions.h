@@ -32,12 +32,12 @@ struct Dichotomie_t
 	float C;
 };
 
-struct parameters_t
+struct Parameters_t
 {
 	sticks_values_t incline_values;
 	float paw_spreading;
 	float center_height;
-	bool operator==(const parameters_t &c)
+	bool operator==(const Parameters_t &c)
 	{
 		return (incline_values == c.incline_values) &&
 	           ((int)(c.paw_spreading * 1000) == (int)(paw_spreading * 1000)) &&
@@ -45,7 +45,7 @@ struct parameters_t
 	}
 };
 
-enum step_of_solution
+enum Resolution_step
 {
 	wait,
 	stop_sequence,
@@ -77,15 +77,15 @@ public :
 protected:
 
 	Movement_controller* m_movement_controller;
-	parameters_t m_precedent_parameters;
-	parameters_t m_purpose_parameters;
-	parameters_t m_new_parameters;
-	parameters_t m_saved_parameters;
+	Parameters_t m_precedent_parameters;
+	Parameters_t m_purpose_parameters;
+	Parameters_t m_new_parameters;
+	Parameters_t m_saved_parameters;
 
 	bool m_finished_to_corrected_error;
 	bool m_resolving;
 
-	step_of_solution m_current_step;
+	Resolution_step m_current_step;
 
 	bool m_on_error;
 	int find_solution;
