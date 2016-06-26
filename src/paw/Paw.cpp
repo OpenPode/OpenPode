@@ -60,14 +60,16 @@ void Paw::valid_move()
 	coords.m_current_coords = coords.m_prepare_coords;
 }
 
-Vector3f Paw::get_current_position() const
+void Paw::calibrate(int time[3])
 {
-	return coords.m_current_coords;
-}
+	Angles angles;
 
-Vector3f Paw::get_last_position() const
-{
-	return coords.m_last_coords;
+	angles.theta3 = m_servo_angles.theta3;
+	angles.theta2 = m_servo_angles.theta2;
+	angles.theta1 = m_servo_angles.theta1;
+	time[2] = static_cast<int>(- m_side_coef * (util::to_deg(angles.theta3)+90.f) * Servo::resolution + m_tibia.get_offset());
+	time[1] = static_cast<int>(  m_side_coef * (util::to_deg(angles.theta2)) * Servo::resolution      + m_femur.get_offset());
+	time[0] = static_cast<int>(-(util::to_deg(angles.theta1) - m_side_coef*90.f) * Servo::resolution  + m_coxa.get_offset());
 }
 
 void Paw::determine_servos_paw_time()

@@ -45,34 +45,34 @@ float Movement::get_up_paw(float final_height, Paw &paw, float p_step_distance)
 		if(nb_of_solves == 0)
 		{
 #endif
-			if(paw.coords.m_current_coords.z <= MAX_HEIGHT_GET_UP)
-				z = paw.coords.m_current_coords.z + p_step_distance;
+			if(paw.get_current_coords().z <= MAX_HEIGHT_GET_UP)
+				z = paw.get_current_coords().z + p_step_distance;
 			else
-				z = paw.coords.m_current_coords.z;
+				z = paw.get_current_coords().z;
 #ifdef ERROR_ACTION
 		}
 		else if(nb_of_solves == 1)
 		{
-			if(final_height < paw.coords.m_current_coords.z)
-				z = paw.coords.m_current_coords.z;
+			if(final_height < paw.get_current_coords().z)
+				z = paw.get_current_coords().z;
 		}
 		else if(nb_of_solves == 2)
 		{
-			if(final_height < paw.coords.m_current_coords.z - p_step_distance)
-				z = paw.coords.m_current_coords.z - p_step_distance;
+			if(final_height < paw.get_current_coords().z - p_step_distance)
+				z = paw.get_current_coords().z - p_step_distance;
 		}
 		else if(nb_of_solves == 3)
 		{
-			if(final_height < paw.coords.m_current_coords.z - 2*p_step_distance)
-				z = paw.coords.m_current_coords.z - 2*p_step_distance;
+			if(final_height < paw.get_current_coords().z - 2*p_step_distance)
+				z = paw.get_current_coords().z - 2*p_step_distance;
 		}
 #endif
 	}
 	else
 	{
 		//compute step distance to get a linear movement
-		float step_distance_get_up = abs((final_height - paw.coords.m_current_coords.z) / (m_step_number - m_current_step_number));
-		z = paw.coords.m_current_coords.z - step_distance_get_up;
+		float step_distance_get_up = abs((final_height - paw.get_current_coords().z) / (m_step_number - m_current_step_number));
+		z = paw.get_current_coords().z - step_distance_get_up;
 	}
 
 	return z;
@@ -86,26 +86,26 @@ float Movement::just_get_up_paw(Paw &paw, float p_step_distance, float normal_he
 		if(nb_of_solves == 0)
 		{
 #endif
-			if(paw.coords.m_current_coords.z <= MAX_HEIGHT_GET_UP)
-				z = paw.coords.m_current_coords.z + p_step_distance;
+			if(paw.get_current_coords().z <= MAX_HEIGHT_GET_UP)
+				z = paw.get_current_coords().z + p_step_distance;
 			else
-				z = paw.coords.m_current_coords.z;
+				z = paw.get_current_coords().z;
 #ifdef ERROR_ACTION
 		}
 		else if(nb_of_solves == 1)
 		{
-			if(normal_height < paw.coords.m_current_coords.z)
-				z = paw.coords.m_current_coords.z;
+			if(normal_height < paw.get_current_coords().z)
+				z = paw.get_current_coords().z;
 		}
 		else if(nb_of_solves == 2)
 		{
-			if(normal_height < paw.coords.m_current_coords.z - p_step_distance)
-				z = paw.coords.m_current_coords.z - p_step_distance;
+			if(normal_height < paw.get_current_coords().z - p_step_distance)
+				z = paw.get_current_coords().z - p_step_distance;
 		}
 		else if(nb_of_solves == 3)
 		{
-			if(normal_height < paw.coords.m_current_coords.z - 2*p_step_distance)
-				z = paw.coords.m_current_coords.z - 2*p_step_distance;
+			if(normal_height < paw.get_current_coords().z - 2*p_step_distance)
+				z = paw.get_current_coords().z - 2*p_step_distance;
 		}
 #endif
 	return z;
@@ -113,10 +113,10 @@ float Movement::just_get_up_paw(Paw &paw, float p_step_distance, float normal_he
 
 float Movement::just_get_down_paw(float final_height, Paw &paw, float p_step_distance)
 {
-	if((paw.coords.m_current_coords.z - final_height) <= - p_step_distance)
-		return(paw.coords.m_current_coords.z + p_step_distance);
-	else if((paw.coords.m_current_coords.z - final_height) >= p_step_distance)
-		return(paw.coords.m_current_coords.z - p_step_distance);
+	if((paw.get_current_coords().z - final_height) <= - p_step_distance)
+		return(paw.get_current_coords().z + p_step_distance);
+	else if((paw.get_current_coords().z - final_height) >= p_step_distance)
+		return(paw.get_current_coords().z - p_step_distance);
 	else
 		return final_height;
 }
@@ -152,8 +152,8 @@ void Movement::set_number_of_sequence(int p_nb_of_sequence)
 
 void Movement::compute_z_value_for_standard_paw(Paw &paw, Incline_coef_t p_incline_coef)
 {
-	m_paw_position[coord_z]   = p_incline_coef.A*(m_paw_position[coord_x] + paw.m_position_offset.x) +
-								p_incline_coef.B*(m_paw_position[coord_y] + paw.get_side_coef()*paw.m_position_offset.y) +
+	m_paw_position[coord_z]   = p_incline_coef.A*(m_paw_position[coord_x] + paw.get_position_offset().x) +
+								p_incline_coef.B*(m_paw_position[coord_y] + paw.get_side_coef()*paw.get_position_offset().y) +
 								p_incline_coef.C;
 }
 

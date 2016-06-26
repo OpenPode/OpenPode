@@ -91,9 +91,9 @@ int Side::update()
 void Side::move_paw(Paw &paw)
 {
 	paw.valid_move();
-	m_module.set_off_time(CHANNEL_TABLE[paw.m_position][position_tibia], paw.servos_time_table[position_tibia]);
-	m_module.set_off_time(CHANNEL_TABLE[paw.m_position][position_femur], paw.servos_time_table[position_femur]);
-	m_module.set_off_time(CHANNEL_TABLE[paw.m_position][position_coxa],  paw.servos_time_table[position_coxa]);
+	m_module.set_off_time(CHANNEL_TABLE[paw.get_position()][position_tibia], paw.get_servo_time(position_tibia));
+	m_module.set_off_time(CHANNEL_TABLE[paw.get_position()][position_femur], paw.get_servo_time(position_femur));
+	m_module.set_off_time(CHANNEL_TABLE[paw.get_position()][position_coxa],  paw.get_servo_time(position_coxa));
 }
 
 void Side::memorize_movement(Movement *mvt)

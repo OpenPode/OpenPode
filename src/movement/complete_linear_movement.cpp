@@ -17,33 +17,33 @@ complete_linear_movement::complete_linear_movement(int angle, float distance, in
 
 void complete_linear_movement::determine_x_paws_position(Paw &paw)
 {
-	if(paw.m_active_sequence_number == m_sequence_number)
-		m_paw_position[coord_x]  = goto_position( paw.coords.m_current_coords.x,
-												  paw.m_x_center + cosf(m_angle) * m_distance / (float)(m_number_of_sequence-1),
+	if(paw.get_active_sequence_number() == m_sequence_number)
+		m_paw_position[coord_x]  = goto_position( paw.get_current_coords().x,
+												  paw.get_x_center() + cosf(m_angle) * m_distance / (float)(m_number_of_sequence-1),
 												  m_step_number - m_current_step_number);
 	else
-		m_paw_position[coord_x]  = paw.coords.m_current_coords.x - cosf(m_angle) * m_step_distance.step_distance_x;
+		m_paw_position[coord_x]  = paw.get_current_coords().x - cosf(m_angle) * m_step_distance.step_distance_x;
 }
 
 void complete_linear_movement::determine_y_paws_position(Paw &paw)
 {
-	if(paw.m_active_sequence_number == m_sequence_number)
-		m_paw_position[coord_y]  = goto_position(paw.coords.m_current_coords.y,
+	if(paw.get_active_sequence_number() == m_sequence_number)
+		m_paw_position[coord_y]  = goto_position(paw.get_current_coords().y,
 												 paw.get_side_coef() * m_paw_spreading + sinf(m_angle) * m_distance / (float)(m_number_of_sequence-1),
 												 m_step_number - m_current_step_number);
 	else
-		m_paw_position[coord_y]  = paw.coords.m_current_coords.y - sinf(m_angle) * m_step_distance.step_distance_y;
+		m_paw_position[coord_y]  = paw.get_current_coords().y - sinf(m_angle) * m_step_distance.step_distance_y;
 }
 
 void complete_linear_movement::determine_z_paws_position(Paw &paw)
 {
-	float x_distance = paw.m_x_center  + cosf(m_angle) * m_distance / (float)(m_number_of_sequence-1);
+	float x_distance = paw.get_x_center()  + cosf(m_angle) * m_distance / (float)(m_number_of_sequence-1);
 	float y_distance = paw.get_side_coef() * m_paw_spreading + sinf(m_angle) * m_distance / (float)(m_number_of_sequence-1);
-	float z_theoretic_value = m_incline_coef.A*(x_distance + paw.m_position_offset.x) +
-							  m_incline_coef.B*(y_distance + paw.get_side_coef()*paw.m_position_offset.y) +
+	float z_theoretic_value = m_incline_coef.A*(x_distance + paw.get_position_offset().x) +
+							  m_incline_coef.B*(y_distance + paw.get_side_coef()*paw.get_position_offset().y) +
 							  m_incline_coef.C;
 
-	if(paw.m_active_sequence_number == m_sequence_number)
+	if(paw.get_active_sequence_number() == m_sequence_number)
 	{
 		m_paw_position[coord_z]  = get_up_paw(z_theoretic_value, paw, m_step_distance.step_distance_z);
 	}
@@ -56,9 +56,9 @@ float complete_linear_movement::determine_real_distance(Paw &paw)
 	float real_distance_x;
 
 	float direction = cosf(m_angle) / std::abs(cosf(m_angle)); //cos(m_angle) / abs(cos(m_angle)) give the sign (forward + / backward -)
-	real_distance_x = direction * (paw.get_current_position().x  - paw.m_x_center)  + std::abs(cosf(m_angle)) * m_distance / (float)(m_number_of_sequence-1);
+	real_distance_x = direction * (paw.get_current_coords().x  - paw.get_x_center())  + std::abs(cosf(m_angle)) * m_distance / (float)(m_number_of_sequence-1);
 
-	if(paw.m_active_sequence_number == m_sequence_number)
+	if(paw.get_active_sequence_number() == m_sequence_number)
 		real_distance_x = std::abs(cosf(m_angle)) * m_distance/(float)(m_number_of_sequence-1);
 
 	if(real_distance_x < 0)
@@ -66,9 +66,9 @@ float complete_linear_movement::determine_real_distance(Paw &paw)
 
 	float real_distance_y;
 	direction = sinf(m_angle) / std::abs(sinf(m_angle));// sin(m_angle) / abs(sin(m_angle)) give the sign (left + / right -)
-	real_distance_y  = direction * (paw.get_current_position().y - paw.get_side_coef()*m_paw_spreading)  + std::abs(sinf(m_angle)) * m_distance / (float)(m_number_of_sequence-1);
+	real_distance_y  = direction * (paw.get_current_coords().y - paw.get_side_coef()*m_paw_spreading)  + std::abs(sinf(m_angle)) * m_distance / (float)(m_number_of_sequence-1);
 
-	if(paw.m_active_sequence_number == m_sequence_number)
+	if(paw.get_active_sequence_number() == m_sequence_number)
 		real_distance_y = std::abs(sinf(m_angle)) * m_distance/(float)(m_number_of_sequence-1);
 
 	if(real_distance_y < 0)

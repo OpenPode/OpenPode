@@ -19,7 +19,7 @@ int Servo::get_offset() const
 	return m_offset;
 }
 
-bool Servo::is_value_in_the_range(int value)
+bool Servo::is_value_in_the_range(int value) const
 {
 	if((value <= max_ratio) and (value >= min_ratio))
 		return true;

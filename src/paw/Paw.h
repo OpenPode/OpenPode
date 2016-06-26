@@ -45,12 +45,28 @@ public:
 	void prepare_to_move(float position[3]);
 	void valid_move();
 
-	Vector3f get_current_position() const;
-	Vector3f get_last_position() const;
+	Paw_position_enum get_position() const { return m_position; }
+	Side_enum get_side() const { return m_side; }
+
+	Vector2f get_position_offset() const { return m_position_offset; }
+	Vector3f get_current_coords() const { return coords.m_current_coords; }
+	Vector3f get_last_position() const { return coords.m_last_coords; }
+
+	float get_x_center() const { return m_x_center; }
+
+	int get_servo_time(Servo_position_enum servo_position) const { return servos_time_table[servo_position]; }
 	int get_active_sequence_number() const {return m_active_sequence_number; }
 	int get_side_coef() const { return m_side_coef; }
 
-public:
+	Angles get_servo_angle() const { return m_servo_angles; }
+
+	const Servo& get_tibia() const { return m_tibia; }
+	const Servo& get_femur() const { return m_femur; }
+	const Servo& get_coxa () const { return m_coxa;  }
+
+	void calibrate(int time[3]);
+
+private:
 
 	Side_enum m_side;
 	Paw_position_enum m_position;

@@ -47,7 +47,7 @@ public:
 	static constexpr float resolution = float(max_ratio-min_ratio)/excursion_deg;
 
 	int get_offset() const;
-	bool is_value_in_the_range(int value);
+	bool is_value_in_the_range(int value) const;
 
 public:
 
