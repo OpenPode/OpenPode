@@ -70,8 +70,6 @@ private:
 	bool must_do_error_action();
 	void standard_action();
 	void error_action();
-	void calibrate_one_paw(Paw &paw, int time[3]);
-
 };
 
 #endif /* HEXAPODE_H_ */
