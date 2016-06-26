@@ -9,7 +9,7 @@
 #include "side/Side.h"
 #include "config.h"
 #include "movement/Movement.h"
-#include <cmath>
+#include <algorithm>
 
 const Channel_t Side::channel_table[3][3] =
 {
@@ -114,7 +114,5 @@ int Side::get_max_sequence_number()
 	int seq_middle = m_middle_paw.get_active_sequence_number();
 	int seq_back = m_back_paw.get_active_sequence_number();
 
-	seq_middle = max(seq_front, seq_middle);
-	seq_back = max(seq_middle, seq_back);
-	return(seq_back);
+	return std::max({seq_front, seq_middle, seq_back});
 }
