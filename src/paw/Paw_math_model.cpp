@@ -20,7 +20,7 @@ Paw_math_model::Paw_math_model(Side_enum side)
 		r4 = TIBIA_ORIGIN_OFFSET;
 }
 
-Angles Paw_math_model::compute_angles(Coords coords)
+Angles Paw_math_model::compute_angles(Vector3f coords)
 {
 	Angles result;
 

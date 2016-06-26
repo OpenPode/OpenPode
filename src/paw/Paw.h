@@ -10,20 +10,20 @@
 
 #include "paw/Paw_math_model.h"
 #include "servo/Servo.h"
-
+#include "utility/Vector.h"
 #include "drivers/pca9685/PCA9685.h"
 
-struct Position_on_hexapode
+/*struct Position_on_hexapode // deprecated, use Vector2f instead
 {
 	float x_offset;
 	float y_offset;
-};
+};*/
 
 struct Paw_coords
 {
-	Coords m_prepare_coords;
-	Coords m_current_coords;
-	Coords m_last_coords;
+	Vector3f m_prepare_coords;
+	Vector3f m_current_coords;
+	Vector3f m_last_coords;
 };
 
 /*struct Servos_of_paw
@@ -45,8 +45,8 @@ public:
 	void prepare_to_move(float position[3]);
 	void valid_move();
 
-	Coords get_current_position() const;
-	Coords get_last_position() const;
+	Vector3f get_current_position() const;
+	Vector3f get_last_position() const;
 	int get_active_sequence_number() const {return m_active_sequence_number; }
 	int get_side_coef() const { return m_side_coef; }
 
@@ -66,7 +66,7 @@ public:
 	Angles m_servo_angles;
 
 	float m_x_center;
-	Position_on_hexapode m_position_on_hexapode;
+	Vector2f m_position_offset;
 	int m_active_sequence_number;
 
 	Error_detection* m_error_detection;

@@ -24,8 +24,8 @@ Paw::Paw(Side_enum side, Paw_position_enum position, Error_detection* p_error_de
 {
 	//init paws at default position
 	coords.m_prepare_coords = {0.f,0.f,0.f};
-	m_position_on_hexapode.x_offset = p_x_offset;
-	m_position_on_hexapode.y_offset = p_y_offset;
+	m_position_offset.x = p_x_offset;
+	m_position_offset.y = p_y_offset;
 
 	if(side == Side_enum::side_left)
 		m_side_coef = +1;
@@ -60,12 +60,12 @@ void Paw::valid_move()
 	coords.m_current_coords = coords.m_prepare_coords;
 }
 
-Coords Paw::get_current_position() const
+Vector3f Paw::get_current_position() const
 {
 	return coords.m_current_coords;
 }
 
-Coords Paw::get_last_position() const
+Vector3f Paw::get_last_position() const
 {
 	return coords.m_last_coords;
 }

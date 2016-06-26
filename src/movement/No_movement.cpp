@@ -50,8 +50,8 @@ void No_movement::determine_z_paws_position_not_get_up(Paw &paw)
 bool No_movement::test_for_good_position_z(Paw &paw)
 {
 	//test if one or more paw is not at the correct x,y or z position
-	double z_theoretic_value = m_incline_coef.A*(paw.m_x_center + paw.m_position_on_hexapode.x_offset) +
-							   m_incline_coef.B*(paw.get_side_coef()*(m_paw_spreading + paw.m_position_on_hexapode.y_offset)) +
+	double z_theoretic_value = m_incline_coef.A*(paw.m_x_center + paw.m_position_offset.x) +
+							   m_incline_coef.B*(paw.get_side_coef()*(m_paw_spreading + paw.m_position_offset.y)) +
 							   m_incline_coef.C;
 
 	return(z_theoretic_value == (paw.coords.m_current_coords.z));

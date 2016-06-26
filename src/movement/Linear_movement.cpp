@@ -39,8 +39,8 @@ void Linear_movement::determine_z_paws_position(Paw &paw)
 {
 	float x_distance  = paw.m_x_center + m_direction * m_distance / (float)(m_number_of_sequence-1);
 	float y_distance = paw.get_side_coef() * m_paw_spreading;
-	float z_theoretic_value = m_incline_coef.A*(x_distance + paw.m_position_on_hexapode.x_offset) +
-							  m_incline_coef.B*(y_distance + paw.get_side_coef()*paw.m_position_on_hexapode.y_offset) +
+	float z_theoretic_value = m_incline_coef.A*(x_distance + paw.m_position_offset.x) +
+							  m_incline_coef.B*(y_distance + paw.get_side_coef()*paw.m_position_offset.y) +
 							  m_incline_coef.C;
 
 	if(paw.m_active_sequence_number == m_sequence_number)

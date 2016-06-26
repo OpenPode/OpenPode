@@ -17,9 +17,9 @@ class Movement;
 
 struct Paws_position
 {
-	Coords front_paw;
-	Coords middle_paw;
-	Coords back_paw;
+	Vector3f front_paw;
+	Vector3f middle_paw;
+	Vector3f back_paw;
 };
 
 class Side

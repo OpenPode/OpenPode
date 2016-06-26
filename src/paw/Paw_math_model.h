@@ -9,13 +9,14 @@
 #define PAW_MATH_MODEL_H_
 
 #include "servo/Servo.h"
+#include "utility/Vector.h"
 
-struct Coords
+/*struct Coords // deprecated, use Vector3f instead
 {
 	float x;
 	float y;
 	float z;
-};
+};*/
 
 struct Angles
 {
@@ -32,7 +33,7 @@ public:
 
 protected:
 
-	Angles compute_angles(Coords coords);
+	Angles compute_angles(Vector3f coords);
 
 	float r4;
 	float a2;
