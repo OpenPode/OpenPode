@@ -14,7 +14,8 @@ Contacts
 * Guillaume Sarthou (3ème année INSA Toulouse), guillaum324bis@hotmail.fr
 * Julien Combattelli  (3ème année INSA Toulouse), julien.combattelli@hotmail.com
 
-changements importants :
+Changements importants
+------------------
 -mise en place du controlleur de mouvement (movement_controller)
 -mise en place de l'inclinaison 2D : tangage(pitch) et roulis(roll)
 	-calcul des coeficients
@@ -25,6 +26,15 @@ changements importants :
 	-dans paw
 	-dans side
 	
+Compilation
+------------------
+Pour compiler les sources, vous pouvez les télécharger puis les compiler directement sur votre Raspberry.
+Nous vous conseillons cependant de les cross-compiler puis de transférer l'executable sur la RPi.
+
+Nous utilisons l'IDE Eclipse combiné aux cross-compilateurs suivant :
+* Windows : http://gnutoolchains.com/raspberry/
+* Linux   : https://github.com/raspberrypi/tools/tree/master/arm-bcm2708/arm-rpi-4.9.3-linux-gnueabihf
+
 Bugs connus
 ------------------
 * S'il vous est impossible de connecter la manette à la raspberry, tapez la commande suivante :
