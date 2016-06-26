@@ -220,7 +220,7 @@ int Hexapode::update()
 }
 
 #ifdef HEAD
-void Hexapode::manage_led(char error_code)
+void Hexapode::manage_led(uint8_t error_code)
 {
 	int led = m_controller.get_led();
 	if((led == 2) && (last_led == 0))

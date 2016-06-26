@@ -61,7 +61,7 @@ private:
 	led_controller m_led_right;
 	led_controller m_led_left;
 	int last_led;
-	void manage_led(char error_code = 0x00);
+	void manage_led(uint8_t error_code = 0x00);
 #endif
 
 	void init();

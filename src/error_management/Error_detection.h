@@ -11,33 +11,33 @@
 #include "paw/Paw.h"
 
 //mask for error_code
-constexpr char ERROR 		=0x01;
-constexpr char SIDE  		=0x06;
-constexpr char SIDE_LEFT 	=0x04;
-constexpr char SIDE_RIGHT 	=0x02;
-constexpr char ERROR_TYPE  	=0x18;
-constexpr char MECA_LIMIT	=0x08;
-constexpr char MODEL		=0x10;
-constexpr char SEQUENCE		=0x60;
-constexpr char IN_SEQ		=0x20;
-constexpr char STANDARD		=0x40;
+constexpr uint8_t ERROR 		=0x01;
+constexpr uint8_t SIDE  		=0x06;
+constexpr uint8_t SIDE_LEFT 	=0x04;
+constexpr uint8_t SIDE_RIGHT 	=0x02;
+constexpr uint8_t ERROR_TYPE  	=0x18;
+constexpr uint8_t MECA_LIMIT	=0x08;
+constexpr uint8_t MODEL		=0x10;
+constexpr uint8_t SEQUENCE		=0x60;
+constexpr uint8_t IN_SEQ		=0x20;
+constexpr uint8_t STANDARD		=0x40;
 
 //mask for error_location
-constexpr char FRONT 		=0x01;
-constexpr char MIDDLE 		=0x02;
-constexpr char BACK 		=0x04;
+constexpr uint8_t FRONT 		=0x01;
+constexpr uint8_t MIDDLE 		=0x02;
+constexpr uint8_t BACK 		=0x04;
 //shift for error_location
-constexpr char RIGHT_SHIFT	=0;
-constexpr char LEFT_SHIFT	=4;
+constexpr uint8_t RIGHT_SHIFT	=0;
+constexpr uint8_t LEFT_SHIFT	=4;
 
 //mask for error_paw_X_X
-constexpr char TIBIA 		=0x01;
-constexpr char FEMUR 		=0x02;
-constexpr char COXA  		=0x04;
-constexpr char IN_SEQUENCE	=0x08;
+constexpr uint8_t TIBIA 		=0x01;
+constexpr uint8_t FEMUR 		=0x02;
+constexpr uint8_t COXA  		=0x04;
+constexpr uint8_t IN_SEQUENCE	=0x08;
 //shift for error_paw_X_X
-constexpr char MECA_LIMIT_SHIFT   =0;
-constexpr char MODEL_LIMIT_SHIFT  =4;
+constexpr uint8_t MECA_LIMIT_SHIFT   =0;
+constexpr uint8_t MODEL_LIMIT_SHIFT  =4;
 
 
 class Error_detection
@@ -59,23 +59,23 @@ public:
 
 //protected:
 
-	char error_code;
-	char error_location;
-	char error_paw_R_F;
-	char error_paw_R_M;
-	char error_paw_R_B;
-	char error_paw_L_F;
-	char error_paw_L_M;
-	char error_paw_L_B;
+	uint8_t error_code;
+	uint8_t error_location;
+	uint8_t error_paw_R_F;
+	uint8_t error_paw_R_M;
+	uint8_t error_paw_R_B;
+	uint8_t error_paw_L_F;
+	uint8_t error_paw_L_M;
+	uint8_t error_paw_L_B;
 	int m_sequence_number;
 
 	void set_error_model_type();
 	void set_error_mecanical_type();
 	void set_sequence(Paw &p_paw);
 
-	void test_machenical_stop_limit(Paw &p_paw, char* p_error_paw);
-	void test_model_limit(Paw &p_paw, char* p_error_paw);
-	char* select_paw_code(Paw &p_paw);
+	void test_machenical_stop_limit(Paw &p_paw, uint8_t &p_error_paw);
+	void test_model_limit(Paw &p_paw, uint8_t &p_error_paw);
+	uint8_t select_paw_code(Paw &p_paw);
 
 };
 

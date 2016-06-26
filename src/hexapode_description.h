@@ -95,8 +95,8 @@ constexpr int sequence_of_paws[2][3] =
 /*
  * PCA9685 module addresse : represent the addresse that you weld on the module for each side
  */
-constexpr char PCA9685_LEFT		 	= 0x02;
-constexpr char PCA9685_RIGHT		= 0x01;
+constexpr uint8_t PCA9685_LEFT		 	= 0x02;
+constexpr uint8_t PCA9685_RIGHT		= 0x01;
 
 /*
  * PS4 Controller

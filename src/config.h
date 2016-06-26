@@ -41,8 +41,8 @@ constexpr bool SEQUENCE_FINISH 		= true;
 constexpr bool SEQUENCE_IN_PROGRESS = false;
 
 //PCA9685 addr
-constexpr char PCA9685_BASE_ADDR 	= 0x40;
-constexpr char PCA9685_LEFT_ADDR 	= PCA9685_BASE_ADDR | PCA9685_LEFT;
-constexpr char PCA9685_RIGHT_ADDR 	= PCA9685_BASE_ADDR | PCA9685_RIGHT;
+constexpr uint8_t PCA9685_BASE_ADDR 	= 0x40;
+constexpr uint8_t PCA9685_LEFT_ADDR 	= PCA9685_BASE_ADDR | PCA9685_LEFT;
+constexpr uint8_t PCA9685_RIGHT_ADDR 	= PCA9685_BASE_ADDR | PCA9685_RIGHT;
 
 #endif /* CONFIG_H_ */
