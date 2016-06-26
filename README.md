@@ -41,6 +41,8 @@ Puis redémarrez la raspberry.
 ## A faire
 - [x] Implement 2D and 3D Vector struct
 - [ ] Replace all C arrays with std::array
+- [ ] Implement circular movements
+- [ ] Translate README into English
 
 ## Changements importants
 * mise en place du controlleur de mouvement (movement_controller)
