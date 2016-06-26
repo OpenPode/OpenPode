@@ -16,57 +16,57 @@
 #define HEAD
 
 
-/*				   HEXAPODE
+/*                 HEXAPODE
  *
- * 					  X
- * 					  |
- * 					  |
- * 			   Y______Z
+ *                    X
+ *                    |
+ *                    |
+ *             Y______Z
  *
- *       LEFT 		 __		RIGHT
- *         			/  \
- *       		   /_||_\
- *     			 __________
- *   		    /		   \
- *   _____|____/			\_____|____		FRONT
- * 			  /			     \
- * 			 |	   1     2	  |
- * _____|____|	   1	 2	  |_____|____ 	MIDDLE
- * 			 |	   1	 2	  |
- *  		  \			     /
- *   _____|____\			/_____|____		BACK
- *    			\__________/
+ *       LEFT                RIGHT
+ *                  /  \
+ *                 /_||_\
  *
- *		1 : PCA9685 left module
- *		2 : PCA9685 right module
+ *              /          \
+ *   _____|____/            \_____|____     FRONT
+ *            /              \
+ *           |     1     2    |
+ * _____|____|     1     2    |_____|____   MIDDLE
+ *           |     1     2    |
+ *            \              /
+ *   _____|____\            /_____|____     BACK
+ *              \__________/
  *
- * 					  PAW
- * 					   5
- * 					  / \
+ *      1 : PCA9685 left module
+ *      2 : PCA9685 right module
+ *
+ *                    PAW
+ *                     5
+ *                    / \
  *                   /   \
  * _______________  /     \
- * |			  |/       \
- * |	  3		  /         \
- * |	  3		4 |          \
+ * |              |/       \
+ * |      3       /         \
+ * |      3     4 |          \
  * |______3_______|
- * 		  3
+ *        3
  *
- *		3 : coxa servo
- *		4 : femur servo
- *		5 : tibia servo
+ *      3 : coxa servo
+ *      4 : femur servo
+ *      5 : tibia servo
  */
 
 /*
  * Servo calibration : value of PCA9685 module to have paws on calibration position
  * _______________
- * |			  |
- * |	  3		  |
- * |	  3		4 ______________5
- * |______3_______|				|
- * 		  3						|
- * 		  						|
- * 		  						|
- * 		  						|
+ * |              |
+ * |      3       |
+ * |      3		4 ______________5
+ * |______3_______|             |
+ * 		  3	                    |
+ *                              |
+ *                              |
+ *                              |
  */
 static const int offset_table[2][3][3] =
 {
