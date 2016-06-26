@@ -39,8 +39,8 @@ bluez-test-device remove <Adresse MAC de la manette>
 Puis redémarrez la raspberry.
 
 ## A faire
-- [x] tache1
-- [ ] tache2
+- [x] Implement 2D and 3D Vector struct
+- [ ] Replace all C arrays with std::array
 
 ## Changements importants
 * mise en place du controlleur de mouvement (movement_controller)
