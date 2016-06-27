@@ -56,7 +56,6 @@ void Error_actions::action_no_movement_no_changement()
 
 void Error_actions::action_no_movement_reduce_incline()
 {
-	//look if paw in seq is impacted
 	if(((find_solution == 0) && (m_on_error)) || ((m_purpose_parameters.incline_values.pitch == 0) && (m_purpose_parameters.incline_values.roll == 0)))
 	{
 		m_current_step = find_paw_spreading_stable_direction;
@@ -66,30 +65,24 @@ void Error_actions::action_no_movement_reduce_incline()
 	{
 		dichotomie_pitch.B = 0.f;
 		dichotomie_pitch.A = m_purpose_parameters.incline_values.pitch;
+		dichotomie_pitch.C = dichotomie_pitch.B + (dichotomie_pitch.A - dichotomie_pitch.B)/2.;
 		dichotomie_roll.B = 0.f;
 		dichotomie_roll.A = m_purpose_parameters.incline_values.roll;
-		std::cout << "purpose : " << m_purpose_parameters.incline_values.pitch << " : " << m_purpose_parameters.incline_values.roll << std::endl;
-		m_new_parameters.incline_values.pitch = dichotomie(m_on_error, &dichotomie_pitch);
-		m_new_parameters.incline_values.roll = dichotomie(m_on_error, &dichotomie_roll);
-		std::cout << "first : " << m_new_parameters.incline_values.pitch << " : " << m_new_parameters.incline_values.roll << std::endl;
+		dichotomie_roll.C = dichotomie_roll.B + (dichotomie_roll.A - dichotomie_roll.B)/2.;
+		m_new_parameters.incline_values.pitch = dichotomie_pitch.C;
+		m_new_parameters.incline_values.roll = dichotomie_roll.C;
 		find_solution ++;
 	}
-	else if((find_solution >= 10) && (!m_on_error))
+	else if((find_solution >= 12) && (!m_on_error))
 	{
 		m_new_parameters.incline_values.pitch = dichotomie_pitch.C;
 		m_new_parameters.incline_values.roll = dichotomie_roll.C;
-		std::cout << "new : " << m_new_parameters.incline_values.pitch << " : " << m_new_parameters.incline_values.roll << std::endl;
 		set_end_of_solving();
 	}
 	else
 	{
 		m_new_parameters.incline_values.pitch = dichotomie(m_on_error, &dichotomie_pitch);
 		m_new_parameters.incline_values.roll = dichotomie(m_on_error, &dichotomie_roll);
-		if(m_on_error)
-			std::cout << " E -> ";
-		else
-			std::cout << " O -> ";
-		std::cout << find_solution << " : " << m_new_parameters.incline_values.pitch << " : " << m_new_parameters.incline_values.roll << std::endl;
 		find_solution ++;
 	}
 }

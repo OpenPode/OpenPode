@@ -107,8 +107,6 @@ void Error_actions::set_end_of_solving()
 
 float Error_actions::dichotomie(bool condition, Dichotomie_t* dicho)
 {
-	dicho->C = dicho->B + (dicho->A - dicho->B)/2.;
-
 	if(!condition)
 		dicho->B = dicho->C;
 	else
