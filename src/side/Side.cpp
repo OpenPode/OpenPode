@@ -46,7 +46,7 @@ void Side::prepare_update()
 void Side::prepare_one_paw(Paw &paw)
 {
 #ifdef ERROR_ACTION
-	char error_code;
+	uint8_t *error_code;
 	int nb_of_test = 0;
 	do
 	{
@@ -56,15 +56,15 @@ void Side::prepare_one_paw(Paw &paw)
 
 #ifdef ERROR_ACTION
 		error_code = m_error_detection->select_paw_code(paw);
-		if(error_code & IN_SEQUENCE)
+		if(*error_code & IN_SEQUENCE)
 		{
 			nb_of_test++;
 			m_movement->set_nb_of_solve(nb_of_test);
 		}
 	}
-	while((error_code & IN_SEQUENCE) && (nb_of_test <= 3));
+	while((*error_code & IN_SEQUENCE) && (nb_of_test <= 3));
 
-	if(error_code & IN_SEQUENCE)
+	if(*error_code & IN_SEQUENCE)
 	{
 		m_movement->reset_nb_of_solve();
 		paw.prepare_to_move(m_movement->determine_paw_position(paw));

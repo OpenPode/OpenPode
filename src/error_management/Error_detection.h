@@ -73,9 +73,9 @@ public:
 	void set_error_mecanical_type();
 	void set_sequence(Paw &p_paw);
 
-	void test_machenical_stop_limit(Paw &p_paw, uint8_t &p_error_paw);
-	void test_model_limit(Paw &p_paw, uint8_t &p_error_paw);
-	uint8_t select_paw_code(Paw &p_paw);
+	void test_machenical_stop_limit(Paw &p_paw, uint8_t *p_error_paw);
+	void test_model_limit(Paw &p_paw, uint8_t *p_error_paw);
+	uint8_t* select_paw_code(Paw &p_paw);
 
 };
 

@@ -108,7 +108,7 @@ protected:
 	void set_end_of_solving();
 
 	//solving algo
-	float dichotomie(bool condition, Dichotomie_t dicho);
+	float dichotomie(bool condition, Dichotomie_t *dicho);
 	void find_direction(int &cpt, float &direction, float &new_parameters, int step = DEFAULT_STEP);
 
 	void no_action();
