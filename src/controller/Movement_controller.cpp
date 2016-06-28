@@ -12,6 +12,7 @@
 #include "movement/Linear_movement.h"
 #include "movement/No_movement.h"
 #include "movement/complete_linear_movement.h"
+#include "movement/Circular_movement.h"
 #include <cmath>
 #include <stdlib.h>
 
@@ -25,7 +26,9 @@ Movement_controller::Movement_controller() : m_movement(nullptr), m_delegate(nul
 					   m_up_pressed(false), m_down_pressed(false),
 					   m_move_apart_pressed(false), m_tighten_pressed(false),
 					   m_turn_back_default_pressed(false), m_turn_back_default_last_state(false),
-					   m_square_pressed(false), m_circle_pressed(false)
+					   m_square_pressed(false), m_circle_pressed(false),
+					   m_change_movement_pressed(false), m_change_movement_was_pressed(false),
+					   m_movement_type(linear)
 
 {
 	m_movement = new No_movement();
@@ -80,6 +83,8 @@ void Movement_controller::get_control_values()
 	m_turn_back_default_pressed = m_PS4_controller.is_key_press(PS4_Key::KEY_OPTIONS);
 	m_square_pressed = m_PS4_controller.is_key_press(PS4_Key::KEY_SQUARE);
 	m_circle_pressed = m_PS4_controller.is_key_press(PS4_Key::KEY_CIRCLE);
+	m_change_movement_was_pressed = m_change_movement_pressed;
+	m_change_movement_pressed = m_PS4_controller.is_key_press(PS4_Key::KEY_L3);
 }
 
 int Movement_controller::get_led()
@@ -106,6 +111,7 @@ void Movement_controller::get_new_movement(int current_step_number, int step_num
 
 	get_control_values();
 	make_sticks_more_linear();
+	verify_movement_type_changement();
 
 	update_movement();
 
@@ -138,8 +144,31 @@ void Movement_controller::update_movement()
 		if(m_movement != nullptr)
 			delete m_movement;
 
-		m_movement = new complete_linear_movement(  atan2(m_movement_x_lin_value, m_movement_y_lin_value)*180/M_PI, DEFAULT_DISTANCE, step_number);
-		new_movement = true;
+		if(m_movement_type == linear)
+		{
+			float angle = atan2(m_movement_x_lin_value, m_movement_y_lin_value)*180/M_PI;
+			m_movement = new complete_linear_movement(angle, DEFAULT_DISTANCE, step_number);
+			new_movement = true;
+		}
+		else if(m_movement_type == circular)
+		{
+			float radius = (1 - std::abs(m_movement_x_lin_value))*MAX_RADIUS;
+
+			Movement_direction direction;
+			if(m_movement_x_lin_value >= 0)
+				direction = direction_front;
+			else
+				direction = direction_back;
+
+			Rotation_side_enum side;
+			if(m_movement_y_lin_value >= 0)
+				side = left_rotation;
+			else
+				side = right_rotation;
+
+			m_movement = new Circular_movement(radius, direction, side, DEFAULT_DISTANCE/4, step_number);
+			new_movement = true;
+		}
 	}
 }
 
@@ -207,6 +236,18 @@ void Movement_controller::set_new_incline(float p_pitch_stick, float p_roll_stic
 	m_incline_roll_lin_value = p_roll_stick;
 	m_incline_pitch_lin_value = p_pitch_stick;
 	update_incline();
+}
+
+void Movement_controller::verify_movement_type_changement()
+{
+	if((m_change_movement_pressed == true) && (m_change_movement_was_pressed == false))
+	{
+		if(m_movement_type == linear)
+			m_movement_type = circular;
+		else if(m_movement_type == circular)
+			m_movement_type = linear;
+	}
+
 }
 
 void Movement_controller::set_delegate(Movement_controller_delegate* p_delegate)

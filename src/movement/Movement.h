@@ -18,8 +18,7 @@ enum Movement_type
 {
 	linear,
 	complete_linear,
-	rotation_left,
-	rotation_right,
+	circular,
 	no_movement
 };
 
@@ -50,7 +49,7 @@ public:
 	void increase_current_step_number();
 
 	virtual float determine_real_distance(Paw &paw) = 0;
-	virtual void compute_variables() = 0;
+	virtual void compute_variables(Paw & paw) = 0;
 	virtual float* determine_paw_position(Paw &paw) = 0;
 	virtual bool is_sequence_finished(Paw &paw) = 0;
 

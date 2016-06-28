@@ -74,12 +74,13 @@ float No_movement::determine_real_distance(Paw &paw)
 	return 0;
 }
 
-void No_movement::compute_variables()
+void No_movement::compute_variables(Paw & paw)
 {
 }
 
 float* No_movement::determine_paw_position(Paw &paw)
 {
+	compute_variables(paw);
 	m_xy_good_position = test_for_good_position_xy(paw);
 	m_z_good_position = test_for_good_position_z(paw);
 	//get up paws only if one or more paw is not at the correct x,y or z position

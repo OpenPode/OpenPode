@@ -171,7 +171,7 @@ void Hexapode::toggle()
 	update_sequence_number();
 
 	determine_real_distance_for_movement();
-	m_movement->compute_variables();
+	//m_movement->compute_variables();
 }
 
 void Hexapode::move(Movement *mvt)
@@ -196,7 +196,7 @@ void Hexapode::move(Movement *mvt)
 	m_movement->update_current_step_number(m_current_step_number);
 
 	determine_real_distance_for_movement();
-	m_movement->compute_variables();
+	//m_movement->compute_variables();
 }
 
 void Hexapode::prepare_update()

@@ -36,6 +36,8 @@ constexpr float HEIGHT_STEP    = 0.5f;
 
 constexpr float NO_MOVEMENT_STEP_DIST = 4.f;
 
+constexpr float MAX_RADIUS = 500.f;
+
 //utilities
 constexpr bool SEQUENCE_FINISH 		= true;
 constexpr bool SEQUENCE_IN_PROGRESS = false;

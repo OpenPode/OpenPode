@@ -64,7 +64,7 @@ float Linear_movement::determine_real_distance(Paw &paw)
 	return real_distance;
 }
 
-void Linear_movement::compute_variables()
+void Linear_movement::compute_variables(Paw & paw)
 {
 	m_step_distance.step_distance_z = m_distance / (float)(m_number_of_sequence-1) / m_step_number;
 	m_step_distance.step_distance_x = m_corrected_distance / m_step_number;
@@ -72,6 +72,7 @@ void Linear_movement::compute_variables()
 
 float* Linear_movement::determine_paw_position(Paw &paw)
 {
+	compute_variables(paw);
 	determine_x_paws_position(paw);
 	determine_y_paws_position(paw);
 	determine_z_paws_position(paw);

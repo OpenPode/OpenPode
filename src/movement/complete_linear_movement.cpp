@@ -10,7 +10,7 @@
 #include "utility/math_utils.h"
 #include <cmath>
 
-complete_linear_movement::complete_linear_movement(int angle, float distance, int step_number) :
+complete_linear_movement::complete_linear_movement(float angle, float distance, int step_number) :
 	Movement(complete_linear, direction_front, distance, util::to_rad(angle), step_number)
 {
 }
@@ -89,13 +89,14 @@ float complete_linear_movement::determine_real_distance(Paw &paw)
 
 float* complete_linear_movement::determine_paw_position(Paw &paw)
 {
+	compute_variables(paw);
 	determine_x_paws_position(paw);
 	determine_y_paws_position(paw);
 	determine_z_paws_position(paw);
 	return m_paw_position;
 }
 
-void complete_linear_movement::compute_variables()
+void complete_linear_movement::compute_variables(Paw & paw)
 {
 	if(m_current_step_number <= m_step_number)
 	{

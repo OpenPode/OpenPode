@@ -10,6 +10,7 @@
 
 #include "controller/PS4Controller.h"
 #include "movement/Incline_coef.h"
+#include "movement/Movement.h"
 
 class Movement;
 
@@ -92,12 +93,17 @@ private:
 	bool m_square_pressed;
 	bool m_circle_pressed;
 
+	bool m_change_movement_pressed;
+	bool m_change_movement_was_pressed;
+	Movement_type m_movement_type;
+
 	void get_control_values();
 
 	void update_movement();
 	void update_paw_spreading();
 	void update_center_height();
 	void update_incline();
+	void verify_movement_type_changement();
 
 	PS4Controller m_PS4_controller;
 };
