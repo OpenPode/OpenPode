@@ -77,9 +77,9 @@ void Circular_movement::compute_variables(Paw & paw)
 
 			//internal_radius
 			radius = m_angle;
-			if(m_rotation_side == right_rotation)
+			if(m_rotation_side == left_rotation)
 				radius = -radius;
-			float y = radius - (paw.get_current_coords().y + paw.get_side_coef()*paw.get_position_offset().y);
+			float y = radius - (paw.get_side_coef()*(m_paw_spreading + paw.get_position_offset().y));
 			float x = paw.get_current_coords().x + paw.get_position_offset().x;
 			m_internal_radius  = sqrtf(x*x + y*y);
 
@@ -98,10 +98,10 @@ void Circular_movement::compute_variables(Paw & paw)
 
 			//angle between radius and internal_radius
 			float m_reference_angle = atan2f(x,y);
-
+			//m_reference_angle = paw.get_side_coef()*m_reference_angle;
 			//landmark changement
-			m_step_distance.step_distance_x = delta_y*sinf(m_reference_angle) + delta_x*cosf(m_reference_angle);
-			m_step_distance.step_distance_y = delta_y*cosf(m_reference_angle) - delta_x*sinf(m_reference_angle);
+			m_step_distance.step_distance_y = delta_x*sinf(m_reference_angle) + delta_y*cosf(m_reference_angle);
+			m_step_distance.step_distance_x = delta_x*cosf(m_reference_angle) - delta_y*sinf(m_reference_angle);
 			m_step_distance.step_distance_z = NO_MOVEMENT_STEP_DIST;
 		}
 		else

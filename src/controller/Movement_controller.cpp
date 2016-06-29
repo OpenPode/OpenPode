@@ -137,36 +137,41 @@ void Movement_controller::update_movement()
 	}
 	else if(((m_current_step_number <= 1) && (m_movement->m_type == no_movement)) || (m_movement->m_type != no_movement))
 	{
-		int step_number = abs((int)(MAX_STEP_NUMBER - sqrtf(m_movement_y_lin_value*m_movement_y_lin_value + m_movement_x_lin_value*m_movement_x_lin_value)*MAX_STEP_NUMBER + MIN_STEP_NUMBER));
-		if(step_number < 12)
-			step_number = 12;
-
 		if(m_movement != nullptr)
 			delete m_movement;
 
 		if(m_movement_type == linear)
 		{
+			int step_number = abs((int)(MAX_STEP_NUMBER - sqrtf(m_movement_y_lin_value*m_movement_y_lin_value + m_movement_x_lin_value*m_movement_x_lin_value)*MAX_STEP_NUMBER + MIN_STEP_NUMBER));
+			if(step_number < 12)
+				step_number = 12;
+
 			float angle = atan2(m_movement_x_lin_value, m_movement_y_lin_value)*180/M_PI;
 			m_movement = new complete_linear_movement(angle, DEFAULT_DISTANCE, step_number);
 			new_movement = true;
 		}
 		else if(m_movement_type == circular)
 		{
+			int step_number = abs((int)(MAX_STEP_NUMBER/4.f - std::abs(m_movement_y_lin_value)*MAX_STEP_NUMBER/4.f + MIN_STEP_NUMBER));
+			if(step_number < 12)
+				step_number = 12;
+			std::cout << m_movement_y_lin_value << " => " << step_number << std::endl;
+
 			float radius = (1 - std::abs(m_movement_x_lin_value))*MAX_RADIUS;
 
 			Movement_direction direction;
-			if(m_movement_x_lin_value >= 0)
+			if(m_movement_y_lin_value >= 0)
 				direction = direction_front;
 			else
 				direction = direction_back;
 
 			Rotation_side_enum side;
-			if(m_movement_y_lin_value >= 0)
+			if(m_movement_x_lin_value >= 0)
 				side = left_rotation;
 			else
 				side = right_rotation;
 
-			m_movement = new Circular_movement(radius, direction, side, DEFAULT_DISTANCE/4, step_number);
+			m_movement = new Circular_movement(radius, direction, side, DEFAULT_DISTANCE/4., step_number);
 			new_movement = true;
 		}
 	}
