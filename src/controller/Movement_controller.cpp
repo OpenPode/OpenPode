@@ -155,7 +155,6 @@ void Movement_controller::update_movement()
 			int step_number = abs((int)(MAX_STEP_NUMBER/4.f - std::abs(m_movement_y_lin_value)*MAX_STEP_NUMBER/4.f + MIN_STEP_NUMBER));
 			if(step_number < 12)
 				step_number = 12;
-			std::cout << m_movement_y_lin_value << " => " << step_number << std::endl;
 
 			float radius = (1 - std::abs(m_movement_x_lin_value))*MAX_RADIUS;
 

@@ -108,7 +108,10 @@ void Error_actions::set_end_of_solving()
 float Error_actions::dichotomie(bool condition, Dichotomie_t* dicho)
 {
 	if(!condition)
+	{
 		dicho->B = dicho->C;
+		dicho->last_avaible = dicho->C;
+	}
 	else
 		dicho->A = dicho->C;
 

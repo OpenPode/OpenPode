@@ -30,6 +30,7 @@ struct Dichotomie_t
 	float A;
 	float B;
 	float C;
+	float last_avaible;
 };
 
 struct Parameters_t

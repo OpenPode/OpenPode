@@ -66,12 +66,20 @@ void Error_actions::action_no_movement_reduce_incline()
 		dichotomie_pitch.B = 0.f;
 		dichotomie_pitch.A = m_purpose_parameters.incline_values.pitch;
 		dichotomie_pitch.C = dichotomie_pitch.B + (dichotomie_pitch.A - dichotomie_pitch.B)/2.;
+		dichotomie_pitch.last_avaible = 0.f;
 		dichotomie_roll.B = 0.f;
 		dichotomie_roll.A = m_purpose_parameters.incline_values.roll;
 		dichotomie_roll.C = dichotomie_roll.B + (dichotomie_roll.A - dichotomie_roll.B)/2.;
+		dichotomie_roll.last_avaible = 0.f;
 		m_new_parameters.incline_values.pitch = dichotomie_pitch.C;
 		m_new_parameters.incline_values.roll = dichotomie_roll.C;
 		find_solution ++;
+	}
+	else if(find_solution > 1000) //security for round error
+	{
+		m_new_parameters.incline_values.pitch = dichotomie_pitch.last_avaible;
+		m_new_parameters.incline_values.roll = dichotomie_roll.last_avaible;
+		set_end_of_solving();
 	}
 	else if((find_solution >= 12) && (!m_on_error))
 	{

@@ -27,7 +27,8 @@ Hexapode::Hexapode() : m_i2c(new i2cdev),
 					   last_led(0)
 #endif
 {
-	bcm2835_gpio_clr(7);
+	bcm2835_gpio_fsel(RPI_BPLUS_GPIO_J8_07, BCM2835_GPIO_FSEL_OUTP);
+	bcm2835_gpio_clr(RPI_BPLUS_GPIO_J8_07);
 }
 
 Hexapode::~Hexapode()
