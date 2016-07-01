@@ -50,7 +50,4 @@ Release/
 # CDT-specific
 .cproject
 
-# STL modeling files
-*.stl
-*.STL
 .settings/org.eclipse.cdt.core.prefs
