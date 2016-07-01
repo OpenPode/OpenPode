@@ -1,5 +1,5 @@
 # Open-pode
-Open Pode est un projet de conception d'un hexapode entièrement open source dont la partie mécanique est imprimable en 
+Open Pode est un projet de conception d'un hexapode entièrement open source dont la partie mécanique est imprimable en
 3D.
 
 ## Vidéos
@@ -10,7 +10,7 @@ Quelques vidéos de l'avancement du projet sont disponibles sur notre [chaîne Y
 * Julien Combattelli  (3ème année INSA Toulouse)
 
 ## Contacts
-Vous pouvez nous contacter à l'adresse suivante : open-pode@gmail.com
+Vous pouvez nous contacter à l'adresse suivante : open.pode@gmail.com
 
 ## Compilation
 Pour compiler les sources, vous pouvez les télécharger puis les compiler directement sur votre Raspberry.
@@ -26,7 +26,7 @@ Tapez la commande suivante :
 ```
 cat ~/.cache/ds4drv.log
 ```
-Si ce fichier contient le message suivant : 
+Si ce fichier contient le message suivant :
 ```
 [info][bluetooth] Scanning for devices
 [info][bluetooth] Found device <Adresse MAC de la manette>
@@ -41,8 +41,9 @@ Puis redémarrez la raspberry.
 ## A faire
 - [x] Implement 2D and 3D Vector struct
 - [ ] Replace all C arrays with std::array
-- [ ] Implement circular movements
+- [x] Implement circular movements
 - [ ] Translate README into English
+- [ ] Optimise movements
 
 ## Changements importants
 * mise en place du controlleur de mouvement (movement_controller)
@@ -54,3 +55,5 @@ Puis redémarrez la raspberry.
   * dans servo
   * dans paw
   * dans side
+* prise en compte des mouvements de rotation
+  * apassage du mode linéaire au mode rotationnel par appuie sur L3
