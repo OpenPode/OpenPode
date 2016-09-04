@@ -6,17 +6,17 @@ Open Pode est un projet de conception d'un hexapode entièrement open source don
 Quelques vidéos de l'avancement du projet sont disponibles sur notre [chaîne Youtube](https://www.youtube.com/channel/UCUNnqteGSC3-gRxhA2PmjtQ).
 
 ## Participants
-* Guillaume Sarthou (3ème année INSA Toulouse)
-* Julien Combattelli  (3ème année INSA Toulouse)
+* Guillaume Sarthou (4ème année INSA Toulouse)
+* Julien Combattelli (4ème année INSA Toulouse)
 
 ## Contacts
 Vous pouvez nous contacter à l'adresse suivante : open.pode@gmail.com
 
 ## Compilation
 Pour compiler les sources, vous pouvez les télécharger puis les compiler directement sur votre Raspberry.
-Nous vous conseillons cependant de les cross-compiler puis de transférer l'executable sur la RPi.
+Nous vous conseillons cependant de les compiler sur un ordinateur puis de transférer l'executable sur la RPi.
 
-Nous utilisons l'IDE Eclipse combiné aux cross-compilateurs suivant :
+Nous utilisons l'IDE Eclipse combiné aux cross-compilateurs suivants :
 * Windows : [Windows toolchain for RPi](http://gnutoolchains.com/raspberry/)
 * Linux   : [Official toolchain for RPi](https://github.com/raspberrypi/tools/tree/master/arm-bcm2708/arm-rpi-4.9.3-linux-gnueabihf)
 
