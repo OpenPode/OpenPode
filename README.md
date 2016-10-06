@@ -12,9 +12,12 @@ Quelques vidéos de l'avancement du projet sont disponibles sur notre [chaîne Y
 ## Contacts
 Vous pouvez nous contacter à l'adresse suivante : open.pode@gmail.com
 
+## Matériel utilisé
+Open Pode embarque une carte Raspberry Pi 2 avec le système d'exploitation Raspbian. Le contrôle est pour l'instant effectué avec une manette Dualshock 4 (de Playstation 4).
+
 ## Compilation
-Pour compiler les sources, vous pouvez les télécharger puis les compiler directement sur votre Raspberry.
-Nous vous conseillons cependant de les compiler sur un ordinateur puis de transférer l'executable sur la RPi.
+Pour compiler les sources, vous pouvez les télécharger puis les compiler directement sur votre Raspberry Pi (RPi).
+Nous vous conseillons cependant de les compiler sur un ordinateur puis de transférer l'executable sur la RPi via ssh.
 
 Nous utilisons l'IDE Eclipse combiné aux cross-compilateurs suivants :
 * Windows : [Windows toolchain for RPi](http://gnutoolchains.com/raspberry/)
@@ -22,7 +25,7 @@ Nous utilisons l'IDE Eclipse combiné aux cross-compilateurs suivants :
 
 ## Bugs connus
 #### Impossible de connecter la manette
-Tapez la commande suivante :
+Connectez vous sur la RPi et dans un terminal saisissez la commande suivante :
 ```
 cat ~/.cache/ds4drv.log
 ```
@@ -36,7 +39,7 @@ Tapez la commande suivante :
 ```
 bluez-test-device remove <Adresse MAC de la manette>
 ```
-Puis redémarrez la raspberry.
+Puis redémarrez la Raspberry Pi.
 
 ## A faire
 - [x] Implement 2D and 3D Vector struct
