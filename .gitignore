@@ -37,7 +37,7 @@ Debug/
 Release/
 
 # Eclipse Core
-.project
+*.project
 
 # Eclipse setting files
 *.settings/
@@ -48,6 +48,6 @@ Release/
 !/.gitignore
 
 # CDT-specific
-.cproject
+*.cproject
 
 .settings/org.eclipse.cdt.core.prefs
