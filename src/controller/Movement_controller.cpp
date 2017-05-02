@@ -16,245 +16,88 @@
 #include <cmath>
 #include <stdlib.h>
 
-Movement_controller::Movement_controller() : m_movement(nullptr), m_delegate(nullptr),
-					   m_paw_spreading(DEFAULT_PAW_SPREADING), m_center_height(DEFAULT_HEIGHT),
-					   m_current_step_number(0), m_step_number(0), new_movement(false),
-					   m_movement_x_value(0), m_movement_y_value(0),
-					   m_incline_pitch_value(0), m_incline_roll_value(0),
-					   m_movement_x_lin_value(0), m_movement_y_lin_value(0.f),
-					   m_incline_pitch_lin_value(0.f), m_incline_roll_lin_value(0.f),
-					   m_up_pressed(false), m_down_pressed(false),
-					   m_move_apart_pressed(false), m_tighten_pressed(false),
-					   m_turn_back_default_pressed(false), m_turn_back_default_last_state(false),
-					   m_square_pressed(false), m_circle_pressed(false),
-					   m_change_movement_pressed(false), m_change_movement_was_pressed(false),
-					   m_movement_type(linear)
+#define MOVEMENT_DATA 	0x01
+	#define DIR_FRONT	0x01
+	#define DIR_BACK	0x02
+	#define DIR_LEFT	0x03
+	#define DIR_RIGHT	0x04
+	#define SPEED 0.5
+#define SPREADING_DATA 	0x02
+#define INCLINE_DATA 	0x03
+
+Movement_controller::Movement_controller()
 
 {
-	m_movement = new No_movement();
 }
 
 Movement_controller::~Movement_controller()
 {
-	delete m_movement;
 }
 
-float Movement_controller::make_more_linear(int stick_value) //out between [-1 ; 1]
-{
-	if(stick_value > 0)
-	{
-		stick_value -= m_PS4_controller.stick_offset;
-		if(stick_value < 0)
-			stick_value = 0;
-	}
-	else if(stick_value < 0)
-	{
-		stick_value += m_PS4_controller.stick_offset;
-		if(stick_value > 0)
-			stick_value = 0;
-	}
-	return (stick_value/(m_PS4_controller.max_stick_value - m_PS4_controller.stick_offset));
-}
 
-void Movement_controller::make_sticks_more_linear()
-{
-	m_movement_x_lin_value = make_more_linear(m_movement_x_value);
-	m_movement_y_lin_value = make_more_linear(m_movement_y_value);
-	m_incline_pitch_lin_value = make_more_linear(m_incline_pitch_value);
-	m_incline_roll_lin_value = make_more_linear(m_incline_roll_value);
-}
 
 void Movement_controller::run_controller()
 {
-	m_PS4_controller.process_input();
+	//data_input = ble
 }
 
 void Movement_controller::get_control_values()
 {
-	m_movement_x_value = m_PS4_controller.get_js_left_x();
-	m_movement_y_value = m_PS4_controller.get_js_left_y();
-	m_incline_pitch_value = m_PS4_controller.get_js_right_y();
-	m_incline_roll_value = m_PS4_controller.get_js_right_x();
-	m_up_pressed = m_PS4_controller.is_key_press(PS4_Key::KEY_R2);
-	m_down_pressed = m_PS4_controller.is_key_press(PS4_Key::KEY_R1);
-	m_move_apart_pressed = m_PS4_controller.is_key_press(PS4_Key::KEY_L2);
-	m_tighten_pressed = m_PS4_controller.is_key_press(PS4_Key::KEY_L1);
-	m_turn_back_default_last_state = m_turn_back_default_pressed;
-	m_turn_back_default_pressed = m_PS4_controller.is_key_press(PS4_Key::KEY_OPTIONS);
-	m_square_pressed = m_PS4_controller.is_key_press(PS4_Key::KEY_SQUARE);
-	m_circle_pressed = m_PS4_controller.is_key_press(PS4_Key::KEY_CIRCLE);
-	m_change_movement_was_pressed = m_change_movement_pressed;
-	m_change_movement_pressed = m_PS4_controller.is_key_press(PS4_Key::KEY_L3);
-}
-
-int Movement_controller::get_led()
-{
-	if((m_square_pressed) && (not m_circle_pressed))
-		return 2;
-	else if((m_circle_pressed) && (not m_square_pressed))
-		return 1;
-	else
-		return 0;
-}
-
-bool Movement_controller::is_a_new_movement()
-{
-	return new_movement;
-}
-
-void Movement_controller::get_new_movement(int current_step_number, int step_number)
-{
-	new_movement = false;
-
-	m_current_step_number = current_step_number;
-	m_step_number = step_number;
-
-	get_control_values();
-	make_sticks_more_linear();
-	verify_movement_type_changement();
-
-	update_movement();
-
-	update_paw_spreading();
-
-	update_center_height();
-
-	if((m_turn_back_default_pressed == true) and (m_turn_back_default_last_state == false) and (m_movement->m_type == no_movement))
-		go_back_to_default_position();
-
-	update_incline();
-}
-
-void Movement_controller::update_movement()
-{
-	if((m_movement_x_lin_value == 0.f) and (m_movement_y_lin_value == 0.f))
+	switch(data_input[0])
 	{
-		if(m_movement != nullptr)
-			delete m_movement;
-
-		m_movement = new No_movement();
-		new_movement = true;
-	}
-	else if(((m_current_step_number <= 1) && (m_movement->m_type == no_movement)) || (m_movement->m_type != no_movement))
-	{
-		if(m_movement != nullptr)
-			delete m_movement;
-
-		if(m_movement_type == linear)
+	case MOVEMENT_DATA:
+		switch(data_input[1])
 		{
-			int step_number = abs((int)(MAX_STEP_NUMBER - sqrtf(m_movement_y_lin_value*m_movement_y_lin_value + m_movement_x_lin_value*m_movement_x_lin_value)*MAX_STEP_NUMBER + MIN_STEP_NUMBER));
-			if(step_number < 12)
-				step_number = 12;
-
-			float angle = atan2(m_movement_x_lin_value, m_movement_y_lin_value)*180/M_PI;
-			m_movement = new complete_linear_movement(angle, DEFAULT_DISTANCE, step_number);
-			new_movement = true;
+		case DIR_FRONT:
+			m_movement_x_lin_value = SPEED;
+			m_movement_y_lin_value = 0;
+			break;
+		case DIR_BACK:
+			m_movement_x_lin_value = -SPEED;
+			m_movement_y_lin_value = 0;
+			break;
+		case DIR_LEFT:
+			m_movement_x_lin_value = 0;
+			m_movement_y_lin_value = SPEED;
+			break;
+		case DIR_RIGHT:
+			m_movement_x_lin_value = 0;
+			m_movement_y_lin_value = -SPEED;
+			break;
+		default:
+			m_movement_x_lin_value = 0;
+			m_movement_y_lin_value = 0;
 		}
-		else if(m_movement_type == circular)
-		{
-			int step_number = abs((int)(MAX_STEP_NUMBER/4.f - std::abs(m_movement_y_lin_value)*MAX_STEP_NUMBER/4.f + MIN_STEP_NUMBER));
-			if(step_number < 12)
-				step_number = 12;
-
-			float radius = (1 - std::abs(m_movement_x_lin_value))*MAX_RADIUS;
-
-			Movement_direction direction;
-			if(m_movement_y_lin_value >= 0)
-				direction = direction_front;
-			else
-				direction = direction_back;
-
-			Rotation_side_enum side;
-			if(m_movement_x_lin_value >= 0)
-				side = left_rotation;
-			else
-				side = right_rotation;
-
-			m_movement = new Circular_movement(radius, direction, side, DEFAULT_DISTANCE/4., step_number);
-			new_movement = true;
-		}
+		break;
+	case SPREADING_DATA:
+		update_paw_spreading(); //data_input[1]
+		update_center_height(); // data_input[2]
+		 break;
+	case INCLINE_DATA:
+		m_incline_pitch_lin_value = ((int8_t)data_input[1])/100.;
+		m_incline_roll_lin_value = ((int8_t)data_input[2])/100.;
+		break;
+	default:
+		break;
 	}
 }
 
 void Movement_controller::update_paw_spreading()
 {
-	if(m_move_apart_pressed)
-	{
-		if(m_paw_spreading <= (TIBIA_LENGTH + FEMUR_LENGTH))
-			m_paw_spreading += SPREADING_STEP;
-	}
-	else if(m_tighten_pressed)
-	{
-		if(m_paw_spreading >= TIBIA_ORIGIN_OFFSET)
-		m_paw_spreading -= SPREADING_STEP;
-	}
+	m_paw_spreading = TIBIA_ORIGIN_OFFSET + (data_input[1]/255.f)*(TIBIA_LENGTH + FEMUR_LENGTH - TIBIA_ORIGIN_OFFSET);
+	if(m_paw_spreading > (TIBIA_LENGTH + FEMUR_LENGTH))
+		m_paw_spreading = TIBIA_LENGTH + FEMUR_LENGTH;
+	else if(m_paw_spreading < TIBIA_ORIGIN_OFFSET)
+		m_paw_spreading = TIBIA_ORIGIN_OFFSET;
 }
 
 void Movement_controller::update_center_height()
 {
-	if(m_up_pressed)
-	{
-		if(m_center_height <= 0)
-			m_center_height += HEIGHT_STEP;
-	}
-	else if(m_down_pressed)
-	{
-		if(m_center_height >= (-TIBIA_LENGTH - FEMUR_LENGTH))
-			m_center_height -= HEIGHT_STEP;
-	}
-}
+	m_center_height = (data_input[2]/255.f)*(TIBIA_LENGTH + FEMUR_LENGTH);
+	if(m_center_height > (TIBIA_LENGTH + FEMUR_LENGTH))
+		m_center_height = TIBIA_LENGTH + FEMUR_LENGTH;
+	else if(m_center_height < 0)
+		m_center_height = 0;
 
-void Movement_controller::update_incline()
-{
-	float incline_coef = std::abs(m_incline_roll_lin_value) + std::abs(m_incline_pitch_lin_value);
-	if((int)incline_coef == 0)
-		incline_coef = 1.;
-
-	m_incline_coef.A = ((m_center_height + CENTER_TO_GROUND_OFFSET) / (-HALF_LENGTH)) * m_incline_pitch_lin_value * std::abs(m_incline_pitch_lin_value) / incline_coef;
-	m_incline_coef.B = ((m_center_height + CENTER_TO_GROUND_OFFSET) / (-HALF_WIDTH_MAX)) * m_incline_roll_lin_value * std::abs(m_incline_roll_lin_value) / incline_coef;;
-	m_incline_coef.C = m_center_height;
-}
-
-void Movement_controller::go_back_to_default_position()
-{
-	m_paw_spreading = DEFAULT_PAW_SPREADING;
-	m_center_height = DEFAULT_HEIGHT;
-	if(m_delegate != nullptr)
-		m_delegate->reinit(m_incline_pitch_lin_value, m_incline_roll_lin_value, m_center_height, m_paw_spreading);
-
-
-}
-
-void Movement_controller::set_new_paw_spreading(float p_paw_spreading)
-{
-	m_paw_spreading = p_paw_spreading;
-}
-
-void Movement_controller::set_new_center_height(float p_center_height)
-{
-	m_center_height = p_center_height;
-}
-
-void Movement_controller::set_new_incline(float p_pitch_stick, float p_roll_stick)
-{
-	m_incline_roll_lin_value = p_roll_stick;
-	m_incline_pitch_lin_value = p_pitch_stick;
-	update_incline();
-}
-
-void Movement_controller::verify_movement_type_changement()
-{
-	if((m_change_movement_pressed == true) && (m_change_movement_was_pressed == false))
-	{
-		if(m_movement_type == linear)
-			m_movement_type = circular;
-		else if(m_movement_type == circular)
-			m_movement_type = linear;
-	}
-
-}
-
-void Movement_controller::set_delegate(Movement_controller_delegate* p_delegate)
-{
-	m_delegate = p_delegate;
+	m_center_height = -m_center_height;
 }
