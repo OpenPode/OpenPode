@@ -14,7 +14,8 @@
 #include "movement/complete_linear_movement.h"
 #include "movement/Circular_movement.h"
 #include <cmath>
-#include <stdlib.h>
+#include <cstdlib>
+#include <cstring>
 
 #define MOVEMENT_DATA 	0x01
 	#define DIR_FRONT	0x01
@@ -26,19 +27,33 @@
 #define INCLINE_DATA 	0x03
 
 Movement_controller::Movement_controller()
-
 {
+	/*
+	 * Wait for incoming connection
+	 */
+	m_listener.listen(bt::BtAddress::Any, 1);
+	int connected = 0;
+	while(connected < 1)
+	{
+		 if(m_listener.accept(m_client) == bt::Status::Done)
+		 {
+			 connected++;
+			 std::cout << "New connection received from " << m_client.getRemoteAddress().toString() << std::endl;
+		 }
+	}
 }
 
 Movement_controller::~Movement_controller()
 {
+
 }
-
-
 
 void Movement_controller::run_controller()
 {
-	//data_input = ble
+	bt::Packet packet;
+	m_client.receive(packet);
+
+	memcpy(data_input, packet.payload(), sizeof(packet.payloadSize()));
 }
 
 void Movement_controller::get_control_values()

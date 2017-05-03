@@ -12,6 +12,9 @@
 #include "movement/Incline_coef.h"
 #include "movement/Movement.h"
 #include "controller/Movement_controller_base.h"
+#include "Bluetooth/RfcommListener.h"
+#include "Bluetooth/RfcommSocket.h"
+#include <array>
 
 class Movement;
 
@@ -27,11 +30,13 @@ public:
 private:
 	uint8_t data_input[10];
 
+	bt::RfcommListener m_listener;
+	bt::RfcommSocket m_client;
+
 	void get_control_values();
 
 	void update_paw_spreading();
 	void update_center_height();
-	void update_incline();
 };
 
 #endif /* CONTROLLER_MOVEMENT_CONTROLLER_H_ */
