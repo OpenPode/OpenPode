@@ -28,12 +28,23 @@ int main()
 	cout << "Hello Blues Brothers" << endl;
 
 #ifndef CALIBRATION
-	launch_ds4drv();
+	//launch_ds4drv();
 
-	block_until_ds4_controller_connexion();
+	//block_until_ds4_controller_connexion();
 #endif
 
 	cout << "Doris is now running" << endl;
+
+	/*PS4Controller ctrl;
+
+	std::cout << std::endl << "Executing \"ps -a\"" << std::endl;
+
+	while(1)
+	{
+		ctrl.process_input();
+		std::cout << std::boolalpha;
+		//std::cout << "circle : " << ctrl.is_key_press(PS4_Key::KEY_CIRCLE) << std::endl;
+	}*/
 
 	Hexapode doris;
 
