@@ -50,10 +50,10 @@ Movement_controller::~Movement_controller()
 
 void Movement_controller::run_controller()
 {
-	bt::Packet packet;
-	m_client.receive(packet);
-
-	memcpy(data_input, packet.payload(), sizeof(packet.payloadSize()));
+	size_t recv = 0;
+	std::cout << "a "<< std::endl;
+	m_client.receive(data_input, sizeof(data_input), recv);
+	std::cout << "recv bytes = " << recv << std::endl;
 }
 
 void Movement_controller::get_control_values()
