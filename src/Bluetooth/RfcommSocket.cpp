@@ -14,10 +14,10 @@
 namespace bt
 {
 
-RfcommSocket::RfcommSocket() :
+RfcommSocket::RfcommSocket(bool blocking) :
 		BtSocket(Type::Rfcomm)
 {
-
+	setBlocking(blocking);
 }
 
 uint8_t RfcommSocket::getLocalPort() const

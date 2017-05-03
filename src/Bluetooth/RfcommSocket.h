@@ -23,7 +23,7 @@ class RfcommSocket : public BtSocket
 {
 public:
 
-	RfcommSocket();
+	RfcommSocket(bool blocking = false);
 
     uint8_t getLocalPort() const;
 

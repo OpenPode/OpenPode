@@ -65,6 +65,8 @@ protected:
 
     void close();
 
+    void setBlocking(bool blocking);
+
     Status getErrorStatus();
 
     sockaddr_rc createAddress(const bdaddr_t& addr, uint8_t port);

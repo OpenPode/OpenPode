@@ -11,6 +11,7 @@
 
 #include "BtSocket.h"
 #include <cstring>
+#include <fcntl.h>
 
 namespace bt
 {
@@ -63,6 +64,21 @@ void BtSocket::close()
 		::close(m_socket);
 		m_socket = BtSocket::InvalidSocket;
 	}
+}
+
+void BtSocket::setBlocking(bool blocking)
+{
+    int status = fcntl(m_socket, F_GETFL);
+    if (blocking)
+    {
+        if(fcntl(m_socket, F_SETFL, status & ~O_NONBLOCK) == -1)
+        	std::cerr << "Failed to set file status flags: " << errno << std::endl;
+    }
+    else
+    {
+        if(fcntl(m_socket, F_SETFL, status | O_NONBLOCK) == -1)
+            std::cerr << "Failed to set file status flags: " << errno << std::endl;
+    }
 }
 
 Status BtSocket::getErrorStatus()
