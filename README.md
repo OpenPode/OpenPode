@@ -47,6 +47,8 @@ Puis redémarrez la Raspberry Pi.
 - [x] Implement circular movements
 - [ ] Translate README into English
 - [ ] Optimise movements
+- [ ] Use Cmake as build system
+- [ ] Design a 3D simulator for movement testing
 
 ## Changements importants
 * mise en place du controlleur de mouvement (movement_controller)
