@@ -6,8 +6,8 @@ Open Pode est un projet de conception d'un hexapode entièrement open source don
 Quelques vidéos de l'avancement du projet sont disponibles sur notre [chaîne Youtube](https://www.youtube.com/channel/UCUNnqteGSC3-gRxhA2PmjtQ).
 
 ## Participants
-* Guillaume Sarthou (4ème année INSA Toulouse)
-* Julien Combattelli (4ème année INSA Toulouse)
+* Guillaume Sarthou (5ème année INSA Toulouse)
+* Julien Combattelli (5ème année INSA Toulouse)
 
 ## Contacts
 Vous pouvez nous contacter à l'adresse suivante : open.pode@gmail.com
