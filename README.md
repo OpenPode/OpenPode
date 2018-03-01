@@ -50,6 +50,7 @@ Puis redémarrez la Raspberry Pi.
 - [ ] Use Cmake as build system
 - [ ] Design a 3D simulator for movement testing
 - [ ] Use Yocto project to generate the Linux distro
+- [ ] Use GLM for 3D math computing ?
 
 ## Changements importants
 * mise en place du controlleur de mouvement (movement_controller)
