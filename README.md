@@ -5,11 +5,11 @@ Open-pode is a project for a fully open source hexapod whose mechanical part is 
 Some videos showing the project progress are available on our [Youtube channel](https://www.youtube.com/channel/UCUNnqteGSC3-gRxhA2PmjtQ).
 
 ## Authors
-* Guillaume Sarthou (5ème année INSA Toulouse)
-* Julien Combattelli (5ème année INSA Toulouse)
+* Guillaume Sarthou (5th year at INSA school of Toulouse, France)
+* Julien Combattelli (5th year at INSA school of Toulouse, France)
 
 ## Contacts
-Vous pouvez nous contacter à l'adresse suivante : open.pode@gmail.com
+You can contact us using the following address : open.pode@gmail.com.
 
 ## Matériel utilisé
 Open Pode embarque une carte Raspberry Pi 2 avec le système d'exploitation Raspbian. Le contrôle est pour l'instant effectué avec une manette Dualshock 4 (de Playstation 4).
