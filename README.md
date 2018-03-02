@@ -41,16 +41,19 @@ bluez-test-device remove <Adresse MAC de la manette>
 ```
 Puis redémarrez la Raspberry Pi.
 
-## A faire
+## Todo
 - [x] Implement 2D and 3D Vector struct
 - [ ] Replace all C arrays with std::array
 - [x] Implement circular movements
 - [ ] Translate README into English
-- [ ] Optimise movements
 - [ ] Use Cmake as build system
 - [ ] Design a 3D simulator for movement testing
 - [ ] Use Yocto project to generate the Linux distro
+
+## Improvments
+- [ ] Optimise movements computing
 - [ ] Use GLM for 3D math computing ?
+- [ ] Parallelize the computation of the joints angles
 
 ## Changements importants
 * mise en place du controlleur de mouvement (movement_controller)
