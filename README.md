@@ -60,10 +60,10 @@ And finally reboot the RPi.
 - [x] Implement 2D and 3D Vector struct
 - [ ] Replace all C arrays with std::array
 - [x] Implement circular movements
-- [ ] Translate README into English
-- [ ] Use Cmake as build system
-- [ ] Design a 3D simulator for movement testing
-- [ ] Use Yocto project to generate the Linux distro
+- [x] Translate README into English
+- [x] Use Cmake as build system
+- [ ] Design a 3D simulator for movement testing (WIP)
+- [ ] Use Yocto project to generate the Linux distro (WIP, some tests must be done)
 
 ## Improvments
 - [ ] Optimise movements computing
