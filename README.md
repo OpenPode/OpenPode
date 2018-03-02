@@ -49,6 +49,7 @@ If this file contains the following message:
 [error][bluetooth] Unable to connect to detected device: Failed to set operational mode: [Errno 107] Transport endpoint is not connected
 ```
 Then enter the command: `bluez-test-device remove <Bluetooth address of the controller>`
+
 And finally reboot the RPi.
 
 ## Todo
