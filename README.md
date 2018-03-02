@@ -1,10 +1,10 @@
 # Open-pode
 Open-pode is a project for a fully open source hexapod whose mechanical part is 3D-printable.
 
-## Vidéos
-Quelques vidéos de l'avancement du projet sont disponibles sur notre [chaîne Youtube](https://www.youtube.com/channel/UCUNnqteGSC3-gRxhA2PmjtQ).
+## Videos
+Some videos showing the project progress are available on our [Youtube channel](https://www.youtube.com/channel/UCUNnqteGSC3-gRxhA2PmjtQ).
 
-## Participants
+## Authors
 * Guillaume Sarthou (5ème année INSA Toulouse)
 * Julien Combattelli (5ème année INSA Toulouse)
 
