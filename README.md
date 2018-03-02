@@ -36,7 +36,7 @@ If you find a bug or want to add a functionnality, feel free to create a Pull Re
 5. Push to the branch (`git push origin my-new-feature`)
 6. Create a new Pull Request
 
-For bugs and issues please use the [Github issue tracker](https://github.com/juliencombattelli/Open-pode/issues).
+To signal bugs and issues please use the [Github issue tracker](https://github.com/juliencombattelli/Open-pode/issues).
 
 ## Known bugs
 #### Unable to connect the controller
