@@ -1,6 +1,5 @@
 # Open-pode
-Open Pode est un projet de conception d'un hexapode entièrement open source dont la partie mécanique est imprimable en
-3D.
+Open-pode is a project for a fully open source hexapod whose mechanical part is 3D-printable.
 
 ## Vidéos
 Quelques vidéos de l'avancement du projet sont disponibles sur notre [chaîne Youtube](https://www.youtube.com/channel/UCUNnqteGSC3-gRxhA2PmjtQ).
