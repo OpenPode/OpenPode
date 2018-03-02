@@ -40,20 +40,14 @@ To signal bugs and issues please use the [Github issue tracker](https://github.c
 
 ## Known bugs
 #### Unable to connect the controller
-Log into the RPi and enter the following command in a terminal:
-```
-cat ~/.cache/ds4drv.log
-```
+Log into the RPi and enter the following command in a terminal: `cat ~/.cache/ds4drv.log`
 If this file contains the following message:
 ```
 [info][bluetooth] Scanning for devices
-[info][bluetooth] Found device <Adresse MAC de la manette>
+[info][bluetooth] Found device <Bluetooth address of the controller>
 [error][bluetooth] Unable to connect to detected device: Failed to set operational mode: [Errno 107] Transport endpoint is not connected
 ```
-Then enter the command:
-```
-bluez-test-device remove <Adresse MAC de la manette>
-```
+Then enter the command: `bluez-test-device remove <Bluetooth address of the controller>`
 And finally reboot the RPi.
 
 ## Todo
