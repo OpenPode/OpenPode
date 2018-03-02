@@ -26,6 +26,18 @@ Then, you just have to follow these steps:
 4. Build the project using make (`make`)
 5. Execute the open-pode executable in the build folder if your are on the RPi or scp the executable into it
 
+## Contributing
+If you find a bug or want to add a functionnality, feel free to create a Pull Request ;)
+
+1. [Fork Open-pode on Github](https://github.com/juliencombattelli/Open-pode)
+2. Create your feature branch (`git checkout -b my-new-feature`)
+3. Add the changes your want to push (`git add my-file1 my-file2 ...`)
+4. Commit your changes (`git commit -m 'Add some feature'`)
+5. Push to the branch (`git push origin my-new-feature`)
+6. Create a new Pull Request
+
+For bugs and issues please use the [Github issue tracker](https://github.com/juliencombattelli/Open-pode/issues).
+
 ## Bugs connus
 #### Impossible de connecter la manette
 Connectez vous sur la RPi et dans un terminal saisissez la commande suivante :
