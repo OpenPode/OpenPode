@@ -26,7 +26,7 @@ uint8_t RfcommSocket::getLocalPort() const
     {
         // Retrieve informations about the local end of the socket
         sockaddr_rc address;
-        size_t size = sizeof(address);
+        socklen_t size = sizeof(address);
         if (::getsockname(getHandle(), reinterpret_cast<sockaddr*>(&address), &size) != -1)
             return address.rc_channel;
     }
@@ -41,7 +41,7 @@ BtAddress RfcommSocket::getRemoteAddress() const
 	{
 		// Retrieve informations about the remote end of the socket
 		sockaddr_rc address;
-		size_t size = sizeof(address);
+		socklen_t size = sizeof(address);
 		if (::getpeername(getHandle(), reinterpret_cast<sockaddr*>(&address), &size) != -1)
 			return BtAddress(address.rc_bdaddr);
 	}
@@ -56,7 +56,7 @@ uint8_t RfcommSocket::getRemotePort() const
     {
         // Retrieve informations about the remote end of the socket
         sockaddr_rc address;
-        size_t size = sizeof(address);
+        socklen_t size = sizeof(address);
         if (::getpeername(getHandle(), reinterpret_cast<sockaddr*>(&address), &size) != -1)
         {
             return address.rc_channel;

@@ -27,7 +27,7 @@ uint8_t RfcommListener::getLocalPort() const
     {
         // Retrieve informations about the local end of the socket
         sockaddr_in address;
-        size_t size = sizeof(address);
+        socklen_t size = sizeof(address);
         if (getsockname(getHandle(), reinterpret_cast<sockaddr*>(&address), &size) != -1)
         {
             return ntohs(address.sin_port);
@@ -76,7 +76,7 @@ Status RfcommListener::accept(RfcommSocket& socket)
 
     // Accept a new connection
     sockaddr_rc address;
-    size_t length = sizeof(address);
+    socklen_t length = sizeof(address);
     int remote = ::accept(getHandle(), reinterpret_cast<sockaddr*>(&address), &length);
 
     // Check for errors
