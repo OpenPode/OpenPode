@@ -41,6 +41,7 @@ To signal bugs and issues please use the [Github issue tracker](https://github.c
 ## Known bugs
 #### Unable to connect the controller
 Log into the RPi and enter the following command in a terminal: `cat ~/.cache/ds4drv.log`
+
 If this file contains the following message:
 ```
 [info][bluetooth] Scanning for devices
