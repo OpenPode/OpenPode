@@ -38,23 +38,23 @@ If you find a bug or want to add a functionnality, feel free to create a Pull Re
 
 For bugs and issues please use the [Github issue tracker](https://github.com/juliencombattelli/Open-pode/issues).
 
-## Bugs connus
-#### Impossible de connecter la manette
-Connectez vous sur la RPi et dans un terminal saisissez la commande suivante :
+## Known bugs
+#### Unable to connect the controller
+Log into the RPi and enter the following command in a terminal:
 ```
 cat ~/.cache/ds4drv.log
 ```
-Si ce fichier contient le message suivant :
+If this file contains the following message:
 ```
 [info][bluetooth] Scanning for devices
 [info][bluetooth] Found device <Adresse MAC de la manette>
 [error][bluetooth] Unable to connect to detected device: Failed to set operational mode: [Errno 107] Transport endpoint is not connected
 ```
-Tapez la commande suivante :
+Then enter the command:
 ```
 bluez-test-device remove <Adresse MAC de la manette>
 ```
-Puis redémarrez la Raspberry Pi.
+And finally reboot the RPi.
 
 ## Todo
 - [x] Implement 2D and 3D Vector struct
