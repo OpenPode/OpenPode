@@ -20,7 +20,7 @@ We support cmake build system to build OpenPode sources. You can either build Op
 * Linux   : [Official toolchain for RPi](https://github.com/raspberrypi/tools/tree/master/arm-bcm2708/arm-rpi-4.9.3-linux-gnueabihf)
 
 Then, you just have to follow these steps:
-1. Clone the [Github repository](https://github.com/juliencombattelli/OpenPode) (`git clone https://github.com/juliencombattelli/OpenPode`)
+1. Clone the [Github repository](https://github.com/OpenPode/OpenPode) (`git clone https://github.com/OpenPode/OpenPode`)
 2. Go into the folder and create a build folder (`cd OpenPode && mkdir build && cd build`)
 3. Execute cmake to configure the build system (`cmake ..`)
 4. Build the project using make (`make`)
@@ -29,14 +29,14 @@ Then, you just have to follow these steps:
 ## Contributing
 If you find a bug or want to add a functionnality, feel free to create a Pull Request ;)
 
-1. [Fork OpenPode on Github](https://github.com/juliencombattelli/OpenPode)
+1. [Fork OpenPode on Github](https://github.com/OpenPode/OpenPode)
 2. Create your feature branch (`git checkout -b my-new-feature`)
 3. Add the changes your want to push (`git add my-file1 my-file2 ...`)
 4. Commit your changes (`git commit -m 'Add some feature'`)
 5. Push to the branch (`git push origin my-new-feature`)
 6. Create a new Pull Request
 
-To signal bugs and issues please use the [Github issue tracker](https://github.com/juliencombattelli/OpenPode/issues).
+To signal bugs and issues please use the [Github issue tracker](https://github.com/OpenPode/OpenPode/issues).
 
 ## Known bugs
 #### Unable to connect the controller
@@ -61,7 +61,7 @@ And finally reboot the RPi.
 - [ ] Design a 3D simulator for movement testing (WIP)
 - [ ] Use Yocto project to generate the Linux distro (WIP, some tests must be done)
 
-## Improvments
+## Improvements
 - [ ] Optimise movements computing
 - [ ] Use GLM for 3D math computing ?
 - [ ] Parallelize the computation of the joints angles
